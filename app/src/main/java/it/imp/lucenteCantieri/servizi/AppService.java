@@ -104,7 +104,7 @@ public class AppService implements  SettingsChangeListener {
         return ret;
     }
 
-    public List<AttivitaElenco> getElencoAttivita(Long idLivello1 , Long idLivello2, Long idLivello3,
+    public List<AttivitaElenco> getElencoAttivita(Date dt, Long idLivello1 , Long idLivello2, Long idLivello3,
                                                   Long idLivello4, Long idLivello5, Long idLivello6){
         List<AttivitaElenco> ret = new ArrayList<>();
         ret.add(new AttivitaElenco(20L, "Bagno Primo Piano", "Pulizia"));
