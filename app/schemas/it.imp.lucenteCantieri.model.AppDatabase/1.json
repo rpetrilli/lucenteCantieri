@@ -1,0 +1,224 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "2ed5078f895307400338d728e0e2e758",
+    "entities": [
+      {
+        "tableName": "clienti_gerachia",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_cliente_geranchia` INTEGER, `id_livello_1` INTEGER, `id_livello_2` INTEGER, `id_livello_3` INTEGER, `id_livello_4` INTEGER, `id_livello_5` INTEGER, `id_livello_6` INTEGER, `estenzione` REAL, `ubicazione` TEXT, `desc_livello` TEXT, `ordinamento` INTEGER, PRIMARY KEY(`id_cliente_geranchia`))",
+        "fields": [
+          {
+            "fieldPath": "idClienteGerachia",
+            "columnName": "id_cliente_geranchia",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idLivello1",
+            "columnName": "id_livello_1",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idLivello2",
+            "columnName": "id_livello_2",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idLivello3",
+            "columnName": "id_livello_3",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idLivello4",
+            "columnName": "id_livello_4",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idLivello5",
+            "columnName": "id_livello_5",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idLivello6",
+            "columnName": "id_livello_6",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "estenzione",
+            "columnName": "estenzione",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ubicazione",
+            "columnName": "ubicazione",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "descLivello",
+            "columnName": "desc_livello",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ordinamento",
+            "columnName": "ordinamento",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_cliente_geranchia"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "clienti_valori_livello",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_cliente_livello` INTEGER, `desc_voce_livello` TEXT, `cod_voce_livello` TEXT, `livello` INTEGER, `ordinamento` INTEGER, PRIMARY KEY(`id_cliente_livello`))",
+        "fields": [
+          {
+            "fieldPath": "idClienteLivello",
+            "columnName": "id_cliente_livello",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "descVoceLivello",
+            "columnName": "desc_voce_livello",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "codVoceLivello",
+            "columnName": "cod_voce_livello",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "livello",
+            "columnName": "livello",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ordinamento",
+            "columnName": "ordinamento",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_cliente_livello"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "task_cantiere",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_task_cantiere` INTEGER PRIMARY KEY AUTOINCREMENT, `id_cliente_geranchia` INTEGER, `descrizione` TEXT, `note` TEXT, `stato` TEXT, `id_tipo_servizio` TEXT, `id_attivita_soggetto` INTEGER, `data_prestazione` INTEGER, `eseguita` INTEGER, `id_contratto_oggetto` INTEGER, `id_contratto` INTEGER, `id_ticket` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "idTaskCantiere",
+            "columnName": "id_task_cantiere",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idClienteGeranchia",
+            "columnName": "id_cliente_geranchia",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "descrizione",
+            "columnName": "descrizione",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "stato",
+            "columnName": "stato",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idTipoServizio",
+            "columnName": "id_tipo_servizio",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idAttivitaSoggetto",
+            "columnName": "id_attivita_soggetto",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dataPrestazione",
+            "columnName": "data_prestazione",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eseguita",
+            "columnName": "eseguita",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idContrattoOggetto",
+            "columnName": "id_contratto_oggetto",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idContratto",
+            "columnName": "id_contratto",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idTicket",
+            "columnName": "id_ticket",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_task_cantiere"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ed5078f895307400338d728e0e2e758')"
+    ]
+  }
+}

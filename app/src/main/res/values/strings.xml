@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">La lucente cantieri</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Gestione Cantiere</string>
+    <string name="nav_header_subtitle">Non impostatto</string>
+    <string name="nav_header_desc">Struttura</string>
+
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <string name="action_associa">Associa</string>
+    <string name="action_get_struttura">Leggi Struttura</string>
+    <string name="action_sync">Sincronizza</string>
+
+
+    <string name="ok">OK</string>
+    <string name="no_camera_permission">Non Hai i permessi per usare la fotocamera</string>
+    <string name="low_storage_error">Le dipendenze non possono essere scaricate a causa di mancanza di risorse</string>
+    <string name="no_codice_letto">Nessun codice letto</string>
+    <string name="leggi_barcode">Leggi barcode</string>
+    <string name="operazione_annullata">Operazione annullata</string>
+    <string name="msg_attendere_prego">Attendere prego</string>
+    <string name="errore">Errore</string>
+</resources>

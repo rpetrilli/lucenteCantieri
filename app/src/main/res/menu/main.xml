@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_sync"
+        android:orderInCategory="50"
+        android:title="@string/action_sync"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_get_struttura"
+        android:orderInCategory="50"
+        android:title="@string/action_get_struttura"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_associa"
+        android:orderInCategory="70"
+        android:title="@string/action_associa"
+        app:showAsAction="never" />
+</menu>
