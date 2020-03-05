@@ -19,6 +19,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -29,22 +30,24 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import butterknife.ButterKnife;
 import it.imp.lucenteCantieri.servizi.Settings;
 import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
-import it.imp.lucenteCantieri.ui.calendar.CalendarActivity;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
 
-    private static final int RC_BARCODE_CAPTURE = 9001;
-    private static final int RC_CALENDAR = 9002;
+
 
     private AppBarConfiguration mAppBarConfiguration;
 
     TextView navTitleText;
     TextView navSubtitleText;
-    NavController navController;
+    Calendar calendar ;
+    DatePickerDialog datePickerDialog ;
+    int Year, Month, Day ;
 
 
 
@@ -55,27 +58,24 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        calendar = Calendar.getInstance();
+
+        Year = calendar.get(Calendar.YEAR) ;
+        Month = calendar.get(Calendar.MONTH);
+        Day = calendar.get(Calendar.DAY_OF_MONTH);
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-                startActivityForResult(intent, RC_CALENDAR);
+
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
-                .setDrawerLayout(drawer)
-                .build();
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
 
 
         View navigationHeader = navigationView.getHeaderView(0);
@@ -84,28 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         ButterKnife.bind(this);
-
-        inizializzaView();
     }
 
-    private void inizializzaView() {
-        try {
-            Settings settings= Settings.getInstance();
-            settings.read(this.getApplicationContext());
-
-            scriviImpostazioni(settings);
-
-        } catch (Exception e) {
-            Log.i(this.getLocalClassName(), e.getMessage());
-        }
-
-    }
-
-    private void scriviImpostazioni(Settings settings) {
-        navTitleText.setText(settings.denominazione);
-        navSubtitleText.setText(settings.descSquadra);
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,25 +95,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
             case R.id.action_sync:
                 return true;
             case R.id.action_associa:
-                Intent intent = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
-                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
-                intent.putExtra(BarcodeCaptureActivity.UseFlash, true);
-                intent.putExtra(BarcodeCaptureActivity.AutoSelect, true);
 
-                startActivityForResult(intent, RC_BARCODE_CAPTURE);
 
                 return true;
             case R.id.action_get_struttura:
@@ -146,34 +114,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        try {
-            switch (requestCode) {
-                case RC_BARCODE_CAPTURE:
-                    if (resultCode == CommonStatusCodes.SUCCESS && intent != null) {
 
-                        Barcode bc = intent.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            Settings.getInstance().save(getApplicationContext(), bc.displayValue);
-                        }
 
-                        scriviImpostazioni(Settings.getInstance());
+    @Override
+    public void onDateSet(DatePickerDialog view, int Year, int Month, int Day) {
 
-                    } else {
-                        Toast.makeText(getApplicationContext(), R.string.operazione_annullata, Toast.LENGTH_SHORT);
-                    }
+        String date = "Data : " + Day + "-" + Month + "-" + Year;
 
-                    return;
-                case RC_CALENDAR:
-
-                    return;
-                default:
-                    super.onActivityResult(requestCode, resultCode, intent);
-            }
-        } catch (Exception ex){
-            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT);
-        }
-
+        Toast.makeText(MainActivity.this, date, Toast.LENGTH_LONG).show();
     }
 
 }
