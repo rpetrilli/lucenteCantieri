@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -92,4 +94,28 @@ public class AppService implements  SettingsChangeListener {
         taskCantienreDao.deleteAll();
         taskCantienreDao.insertAll(tasks);
     }
+
+
+    public List<NodoAlbero> getAlberoDrawer()throws IOException{
+        List<NodoAlbero> ret = new ArrayList<>();
+        ret.add(new NodoAlbero(1, "Fab 1", 38L, null, null, null, null, null, null));
+        ret.add(new NodoAlbero(2, "UFFICI", 38L, 40L, null, null, null, null, null));
+        ret.add(new NodoAlbero(2, "BAGNO", 38L, 41L, null, null, null, null, null));
+        return ret;
+    }
+
+    public List<AttivitaElenco> getElencoAttivita(Long idLivello1 , Long idLivello2, Long idLivello3,
+                                                  Long idLivello4, Long idLivello5, Long idLivello6){
+        List<AttivitaElenco> ret = new ArrayList<>();
+        ret.add(new AttivitaElenco(20L, "Bagno Primo Piano", "Pulizia"));
+        ret.add(new AttivitaElenco(21L, "Ufficio Direttore", "Svuatamento Cestino"));
+        return ret;
+    }
+
+
+    public List<String> descrizioniFiltro(Long idLivello1 , Long idLivello2, Long idLivello3,
+                                          Long idLivello4, Long idLivello5, Long idLivello6){
+        return Arrays.asList("Fab 1", "BAGNO");
+    }
+
 }
