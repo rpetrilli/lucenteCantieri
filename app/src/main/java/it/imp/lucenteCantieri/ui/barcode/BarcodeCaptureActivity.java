@@ -113,7 +113,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
         if (!autoSelect) {
 
-            Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
+            Snackbar.make(mGraphicOverlay, "Clicca per scattare. Pinch/Stretch per lo zoom",
                     Snackbar.LENGTH_LONG)
                     .show();
         }
@@ -125,7 +125,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
      * sending the request.
      */
     private void requestCameraPermission() {
-        Log.w(TAG, "Camera permission is not granted. Requesting permission");
+        Log.w(TAG, "Errore permessi fotocamera. Controlla nelle impostazioni");
 
         final String[] permissions = new String[]{Manifest.permission.CAMERA};
 

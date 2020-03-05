@@ -18,6 +18,12 @@
     <string name="action_get_struttura">Leggi Struttura</string>
     <string name="action_sync">Sincronizza</string>
 
+    <string name="next">Avanti</string>
+    <string name="intro">Lucente Cantieri</string>
+    <string name="start">Associa dispositivo</string>
+    <string name="intro_text">I tuoi luoghi a portata di mano</string>
+    <string name="start_text">Scarica le informazioni per iniziare</string>
+    <string name="get_started">Scannerrizza QR</string>
 
     <string name="ok">OK</string>
     <string name="no_camera_permission">Non Hai i permessi per usare la fotocamera</string>
@@ -27,4 +33,7 @@
     <string name="operazione_annullata">Operazione annullata</string>
     <string name="msg_attendere_prego">Attendere prego</string>
     <string name="errore">Errore</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
