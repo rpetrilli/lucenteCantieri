@@ -9,6 +9,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -100,8 +101,10 @@ public class AppService implements  SettingsChangeListener {
         cal.add(Calendar.MONTH, 1);
         Date fine = cal.getTime();
 
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
         List<TaskCantiereEntity> tasks = mBackOfficeService
-                .leggiPianoDiLavoro(settings.idClienteSquadra, settings.passwd, inizio, fine)
+                .leggiPianoDiLavoro(settings.idClienteSquadra, settings.passwd, df.format(inizio), df.format(fine))
                 .execute().body();
 
         TaskCantiereDao taskCantienreDao = mDb.taskCantiereDao();
@@ -167,8 +170,7 @@ public class AppService implements  SettingsChangeListener {
     }
 
 
-    public List<AttivitaElenco> toggleNodo(Date dt, Long idLivello1 , Long idLivello2, Long idLivello3,
-                                           Long idLivello4, Long idLivello5, Long idLivello6){
+    public List<AttivitaElenco> leggiTaskCantiere(Date dt, NodoAlbero nodoAlbero){
 
         if (gerarchia == null){
             ClienteGerarchiaDao clienteGerachiaDao = mDb.clienteGerarchiaDao();
@@ -183,12 +185,12 @@ public class AppService implements  SettingsChangeListener {
         Map<Long, ClienteGerarchiaEntity> mGerarchia = new HashMap<>();
 
         for(ClienteGerarchiaEntity nodo: gerarchia){
-            boolean skip = (idLivello1 > 0 && idLivello1!= nodo.idLivello1)
-                    || (idLivello2 > 0 && idLivello1!= nodo.idLivello2)
-                    || (idLivello3 > 0 && idLivello1!= nodo.idLivello3)
-                    || (idLivello4 > 0 && idLivello1!= nodo.idLivello4)
-                    || (idLivello5 > 0 && idLivello1!= nodo.idLivello5)
-                    || (idLivello6 > 0 && idLivello1!= nodo.idLivello6);
+            boolean skip = (nodoAlbero.idLivello1 !=null && nodoAlbero.idLivello1!= nodo.idLivello1)
+                    || (nodoAlbero.idLivello2 !=null && nodoAlbero.idLivello2!= nodo.idLivello2)
+                    || (nodoAlbero.idLivello3 !=null && nodoAlbero.idLivello3!= nodo.idLivello3)
+                    || (nodoAlbero.idLivello4 !=null && nodoAlbero.idLivello4!= nodo.idLivello4)
+                    || (nodoAlbero.idLivello5 !=null && nodoAlbero.idLivello5!= nodo.idLivello5)
+                    || (nodoAlbero.idLivello6 !=null && nodoAlbero.idLivello6!= nodo.idLivello6);
             if (skip)
                 continue;
 
@@ -217,16 +219,9 @@ public class AppService implements  SettingsChangeListener {
 
     /**
      * Legge se ci sono le descrizioni dei singoli livello
-     * @param idLivello1
-     * @param idLivello2
-     * @param idLivello3
-     * @param idLivello4
-     * @param idLivello5
-     * @param idLivello6
      * @return
      */
-    public List<String> descrizioniFiltro(Long idLivello1 , Long idLivello2, Long idLivello3,
-                                          Long idLivello4, Long idLivello5, Long idLivello6){
+    public List<String> descrizioniFiltro(NodoAlbero nodoAlbero){
         if (valori == null){
             ClienteLivelliDao clienteDao = mDb.clienteLivelloDao();
             valori = clienteDao.getAll();
@@ -235,28 +230,28 @@ public class AppService implements  SettingsChangeListener {
 
         Map<Long, String> mDesc = new HashMap<Long, String>();
         for(ClienteValoreLivelloEntity val: valori){
-            if ((idLivello1 !=null && val.idClienteLivello == idLivello1)
-                || (idLivello2 !=null && val.idClienteLivello == idLivello2)
-                    || (idLivello3 !=null && val.idClienteLivello == idLivello3)
-                    || (idLivello4 !=null && val.idClienteLivello == idLivello4)
-                    || (idLivello5 !=null && val.idClienteLivello == idLivello5)
-                    || (idLivello6 !=null && val.idClienteLivello == idLivello6))
+            if ((nodoAlbero.idLivello1 !=null && val.idClienteLivello == nodoAlbero.idLivello1)
+                || (nodoAlbero.idLivello2 !=null && val.idClienteLivello == nodoAlbero.idLivello2)
+                    || (nodoAlbero.idLivello3 !=null && val.idClienteLivello == nodoAlbero.idLivello3)
+                    || (nodoAlbero.idLivello4 !=null && val.idClienteLivello == nodoAlbero.idLivello4)
+                    || (nodoAlbero.idLivello5 !=null && val.idClienteLivello == nodoAlbero.idLivello5)
+                    || (nodoAlbero.idLivello6 !=null && val.idClienteLivello == nodoAlbero.idLivello6))
             {
                 mDesc.put(val.idClienteLivello, val.descVoceLivello);
             }
         }
-        if (idLivello1 > 0)
-            ret.add(mDesc.get(idLivello1));
-        if (idLivello2 > 0)
-            ret.add(mDesc.get(idLivello2));
-        if (idLivello3 > 0)
-            ret.add(mDesc.get(idLivello3));
-        if (idLivello4 > 0)
-            ret.add(mDesc.get(idLivello4));
-        if (idLivello5 > 0)
-            ret.add(mDesc.get(idLivello5));
-        if (idLivello6 > 0)
-            ret.add(mDesc.get(idLivello6));
+        if (nodoAlbero.idLivello1 !=null )
+            ret.add(mDesc.get(nodoAlbero.idLivello1));
+        if (nodoAlbero.idLivello2 != null)
+            ret.add(mDesc.get(nodoAlbero.idLivello2));
+        if (nodoAlbero.idLivello3 !=null)
+            ret.add(mDesc.get(nodoAlbero.idLivello3));
+        if (nodoAlbero.idLivello4 !=null)
+            ret.add(mDesc.get(nodoAlbero.idLivello4));
+        if (nodoAlbero.idLivello5 !=null)
+            ret.add(mDesc.get(nodoAlbero.idLivello5));
+        if (nodoAlbero.idLivello6 !=null)
+            ret.add(mDesc.get(nodoAlbero.idLivello6));
 
         return ret;
 //        return Arrays.asList("Fab 1", "BAGNO");

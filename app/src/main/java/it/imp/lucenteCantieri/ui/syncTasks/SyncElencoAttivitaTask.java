@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
+import it.imp.lucenteCantieri.MainActivity;
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.servizi.AppService;
 
@@ -39,19 +40,11 @@ public class SyncElencoAttivitaTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String errorMessage) {
-        if (StringUtils.isNotEmpty(errorMessage)){
-            AlertDialog.Builder dialog=new AlertDialog.Builder(mContext);
-            dialog.setMessage(errorMessage);
-            dialog.setTitle(R.string.errore);
-            dialog.setPositiveButton("YES",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            mProgress.dismiss();
-                        }
-                    });
-        } else {
-            mProgress.dismiss();
+        mProgress.dismiss();
+        if (StringUtils.isNotEmpty(errorMessage)) {
+            if (mContext instanceof MainActivity) {
+                ((MainActivity) mContext).showErrorMessage(errorMessage);
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 package it.imp.lucenteCantieri.servizi;
 
-class AttivitaElenco {
+public class AttivitaElenco {
     public AttivitaElenco(Long idTaskCantiere, String descLivello, String descrizione) {
         this.idTaskCantiere = idTaskCantiere;
         this.descLivello = descLivello;

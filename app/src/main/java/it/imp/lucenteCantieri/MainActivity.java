@@ -1,5 +1,6 @@
 package it.imp.lucenteCantieri;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,10 +42,13 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import it.imp.lucenteCantieri.adapter.MenuLevelAdapter;
+import it.imp.lucenteCantieri.adapter.TaskCantiereAdapter;
 import it.imp.lucenteCantieri.servizi.AppService;
+import it.imp.lucenteCantieri.servizi.AttivitaElenco;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
 import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
+import it.imp.lucenteCantieri.ui.syncTasks.SyncElencoAttivitaTask;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
 
 public class MainActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     TextView date;
     TextView dayName;
     RecyclerView levelRecycleView;
+    RecyclerView taskRecyclerView;
+    DrawerLayout drawer;
 
     //utils
     private static final int RC_BARCODE_CAPTURE = 9001;
@@ -62,7 +69,10 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     DatePickerDialog datePickerDialog ;
     int Year, Month, Day ;
     private MenuLevelAdapter levelNameAdapter;
+    private TaskCantiereAdapter taskCantiereAdapter;
     private List<NodoAlbero> levelNameList;
+    private List<AttivitaElenco> attivitaElencoList;
+    private Date mSelectedDate = new Date();
 
 
 
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         getSupportActionBar().setHomeButtonEnabled(true);
 
         //drawer
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         AppBarConfiguration mAppBarConfiguration = new AppBarConfiguration.Builder()
                 .setDrawerLayout(drawer)
@@ -127,14 +137,8 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         refreshDrawer();
 
         //calendar init
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, new Date().getYear());
-        calendar.set(Calendar.DAY_OF_YEAR, new Date().getDay());
-        String days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-
-        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
-
-        this.dayName.setText(days[dayIndex - 1]);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+        this.dayName.setText(df.format(mSelectedDate));
 
         //observables
         fab.setOnClickListener(new View.OnClickListener() {
@@ -205,6 +209,51 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     }
 
+
+    public void leggiTaskAttivita(NodoAlbero item) {
+        //close drawer
+        this.drawer.closeDrawer(Gravity.LEFT);
+        //INIT RECYCLER VIEW
+        this.taskRecyclerView = findViewById(R.id.taskListView);
+
+
+        AsyncTask<Void, Void, List<AttivitaElenco>> task = new AsyncTask<Void, Void, List<AttivitaElenco>>(){
+
+            @Override
+            protected List<AttivitaElenco> doInBackground(Void... mainActivities) {
+                AppService appService = AppService.getInstance(MainActivity.this);
+                try {
+                    return appService.leggiTaskCantiere(mSelectedDate, item);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            @Override
+            protected void onPostExecute(List<AttivitaElenco> elenco) {
+                if (elenco == null){
+                    //TODO: avviso
+                    return;
+                }
+
+                //Set levelNameAdapter for listview
+                if (elenco.size() > 0) {
+                    taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco);
+                    taskRecyclerView.setAdapter(taskCantiereAdapter);
+                }
+
+                taskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
+
+                AppService appService = AppService.getInstance(MainActivity.this);
+                appService.descrizioniFiltro(item);
+            }
+        };
+
+        task.execute();
+
+
+    }
+
     private void initDrawerText() {
         try {
             Settings settings= Settings.getInstance();
@@ -241,7 +290,9 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         int id = item.getItemId();
         switch (id){
             case R.id.action_sync:
+                (new SyncElencoAttivitaTask(MainActivity.this)).execute(new String[]{""});
                 return true;
+
             case R.id.action_associa:
                 Intent intent = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
                 intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
@@ -267,17 +318,13 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     @Override
     public void onDateSet(DatePickerDialog view, int Year, int Month, int Day) {
-
-        this.date.setText(Day + "/" + Month + "/" + Year);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, Year);
-        calendar.set(Calendar.DAY_OF_YEAR, Day);
-        String days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-
-        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
-
-        this.dayName.setText(days[dayIndex - 1]);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, datePickerDialog.getSelectedDay().getYear());
+        cal.set(Calendar.MONTH, datePickerDialog.getSelectedDay().getMonth());
+        cal.set(Calendar.DAY_OF_MONTH, datePickerDialog.getSelectedDay().getDay());
+        mSelectedDate = cal.getTime();
+        this.dayName.setText(df.format(mSelectedDate));
     }
 
 
@@ -304,5 +351,13 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         }
 
     }
+
+    public void showErrorMessage(String errorMessage){
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setMessage(errorMessage);
+        dialog.setTitle(R.string.errore);
+        dialog.setCancelable(true);
+    }
+
 
 }

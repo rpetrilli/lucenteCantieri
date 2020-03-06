@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import it.imp.lucenteCantieri.MainActivity;
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.servizi.AppService;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
@@ -47,7 +48,16 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
         NodoAlbero item = mLevelList.get(position);
 
         holder.levelName.setText(item.getDescrizione());
-        holder.levelName.setPadding(INDENT * (item.livello- 1), 8, 0, 8);
+        holder.levelName.setPadding(INDENT * (item.livello- 1), 10, 0, 10);
+        holder.levelName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mContext instanceof  MainActivity){
+                    ((MainActivity) mContext).leggiTaskAttivita(item);
+                }
+
+            }
+        });
 
         holder.arrow.setImageDrawable(mContext.getResources().getDrawable(item.figliVisibili?R.drawable.ic_arrow_down:R.drawable.ic_arrow_up));
 

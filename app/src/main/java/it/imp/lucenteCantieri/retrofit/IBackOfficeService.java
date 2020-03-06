@@ -15,5 +15,5 @@ public interface IBackOfficeService {
 
     @GET("/api/mobile/leggiPianoDiLavoro/{idClienteSquadra}/{passwd}")
     Call<List<TaskCantiereEntity>> leggiPianoDiLavoro(@Path("idClienteSquadra") long idClienteSquadra, @Path("passwd") String passwd,
-        @Query("inizio") Date inizio, @Query("fine") Date fine);
+        @Query("inizio") String inizio, @Query("fine") String fine);
 }
