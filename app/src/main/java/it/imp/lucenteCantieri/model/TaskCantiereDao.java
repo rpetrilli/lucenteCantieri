@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -32,5 +33,8 @@ public interface TaskCantiereDao {
 
     @Query("SELECT COUNT(*) FROM task_cantiere")
     int getCount();
+
+    @Query("SELECT * FROM task_cantiere WHERE data_prestazione = :dt")
+    List<TaskCantiereEntity> getByDate(Date dt);
 
 }

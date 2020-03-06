@@ -66,4 +66,5 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     implementation 'org.apache.commons:commons-lang3:3.0'
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
 }

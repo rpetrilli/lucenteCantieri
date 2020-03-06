@@ -29,7 +29,7 @@ public interface ClienteGerarchiaDao {
     ClienteGerarchiaEntity getNoteById(int id);
 
     @Query("SELECT * FROM clienti_gerachia ORDER BY ordinamento DESC")
-    LiveData<List<ClienteGerarchiaEntity>> getAll();
+    List<ClienteGerarchiaEntity> getAll();
 
     @Query("SELECT COUNT(*) FROM clienti_gerachia")
     int getCount();

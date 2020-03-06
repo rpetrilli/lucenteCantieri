@@ -30,7 +30,7 @@ public interface ClienteLivelliDao {
     ClienteValoreLivelloEntity getById(int id);
 
     @Query("SELECT * FROM clienti_valori_livello ORDER BY ordinamento DESC")
-    LiveData<List<ClienteValoreLivelloEntity>> getAll();
+    List<ClienteValoreLivelloEntity> getAll();
 
     @Query("SELECT COUNT(*) FROM clienti_valori_livello")
     int getCount();

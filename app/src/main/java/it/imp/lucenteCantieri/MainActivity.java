@@ -2,6 +2,7 @@ package it.imp.lucenteCantieri;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -43,7 +44,6 @@ import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
 import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
-import it.imp.lucenteCantieri.ui.welcome.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
 
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         initDrawerText();
 
         //recycle view init
-        initRecycleView();
+        refreshDrawer();
 
         //calendar init
         Calendar calendar = Calendar.getInstance();
@@ -169,21 +169,39 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     }
 
-    private void initRecycleView() {
-        levelRecycleView = (RecyclerView)findViewById(R.id.levelListView);
+    private void refreshDrawer() {
 
-        //Get level name list
-        AppService appService = new AppService(this);
-        levelNameList.addAll(appService.getAlberoDrawer());
 
-        //Init levelNameAdapter
-        levelNameAdapter = new MenuLevelAdapter(this, levelNameList);
-        //Set levelNameAdapter for listview
-        if (levelNameList.size() > 0) {
-            levelRecycleView.setAdapter(levelNameAdapter);
-        }
+        AsyncTask<MainActivity, Void, MainActivity> task = new AsyncTask<MainActivity, Void, MainActivity>(){
 
-        levelRecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+            @Override
+            protected MainActivity doInBackground(MainActivity... mainActivities) {
+                AppService appService = new AppService(MainActivity.this);
+                try {
+                    levelNameList.addAll(appService.getAlberoDrawer());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return mainActivities[0];
+            }
+            @Override
+            protected void onPostExecute(MainActivity mainActivity) {
+                levelRecycleView =  mainActivity.findViewById(R.id.levelListView);
+                levelNameAdapter = new MenuLevelAdapter(MainActivity.this, levelNameList);
+                //Set levelNameAdapter for listview
+                if (levelNameList.size() > 0) {
+                    levelRecycleView.setAdapter(levelNameAdapter);
+                }
+
+                levelRecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+
+            }
+
+        };
+
+        task.execute(this);
+
+
 
     }
 
