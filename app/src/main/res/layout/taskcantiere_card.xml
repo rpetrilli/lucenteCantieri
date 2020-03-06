@@ -36,7 +36,6 @@
                     android:layout_height="wrap_content"
                     android:text="Fabbricato 1"
                     android:textSize="18sp"
-                    android:padding="6dp"
                     android:textColor="#222"/>
 
                 <TextView
@@ -44,8 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Fabbricato 1"
-                    android:textSize="16sp"
-                    android:padding="6dp"/>
+                    android:textSize="16sp" />
 
 
             </LinearLayout>

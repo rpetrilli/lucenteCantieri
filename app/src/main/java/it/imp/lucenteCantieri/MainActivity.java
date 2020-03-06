@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         SimpleDateFormat df = new SimpleDateFormat("dd/MM");
         title = toolbar.findViewById(R.id.title);
         nfc = toolbar.findViewById(R.id.nfc);
-        title.setText(df.format(mSelectedDate) + "Fab1 > Bagni");
+        title.setText(df.format(mSelectedDate) + "  Fab1 > Bagni");
         nfc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,7 +186,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
             }
         });
 
-        leggiTaskAttivita(null);
     }
 
     private void refreshDrawer() {
@@ -231,9 +230,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         //INIT RECYCLER VIEW
         this.taskRecyclerView = findViewById(R.id.taskListView);
 
-        //AppService appService = AppService.getInstance(MainActivity.this);
-        //appService.descrizioniFiltro(item);
-
         AsyncTask<Void, Void, List<AttivitaElenco>> task = new AsyncTask<Void, Void, List<AttivitaElenco>>(){
 
             @Override
@@ -268,6 +264,8 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
         task.execute();
 
+        //AppService appService = AppService.getInstance(MainActivity.this);
+        //appService.descrizioniFiltro(item);
 
     }
 

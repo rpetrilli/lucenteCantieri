@@ -44,6 +44,9 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
         //set text view
         AttivitaElenco item = mAttivitaList.get(position);
 
+        holder.taskTitle.setText(item.descLivello);
+        holder.taskDescription.setText(item.descrizione);
+
 
     }
 

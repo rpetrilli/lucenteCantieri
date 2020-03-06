@@ -50,6 +50,7 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
 
         holder.levelName.setText(item.getDescrizione());
         holder.levelName.setPadding(INDENT * (item.livello- 1), 16, 0, 16);
+        holder.place.setPadding(INDENT * (item.livello- 1), 8, 0, 8);
         holder.divider.setPadding(INDENT * (item.livello- 1), 16, 0, 16);
         holder.levelName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +63,7 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
         });
 
         holder.arrow.setImageDrawable(mContext.getResources().getDrawable(item.figliVisibili?R.drawable.ic_arrow_down:R.drawable.ic_arrow_up));
-        holder.place.setImageDrawable(mContext.getResources().getDrawable(item.figliVisibili?R.drawable.ic_hotel_black_24dp:R.drawable.ic_place_black_24dp));
-
+        holder.place.setImageDrawable(mContext.getResources().getDrawable(item.livello == 1?R.drawable.ic_place_black_24dp:R.drawable.ic_hotel_black_24dp));
         holder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
