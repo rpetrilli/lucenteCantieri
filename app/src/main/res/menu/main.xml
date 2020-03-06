@@ -8,11 +8,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_get_struttura"
-        android:orderInCategory="50"
-        android:title="@string/action_get_struttura"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_associa"
         android:orderInCategory="70"
         android:title="@string/action_associa"
