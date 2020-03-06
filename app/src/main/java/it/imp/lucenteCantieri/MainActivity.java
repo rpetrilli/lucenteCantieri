@@ -223,7 +223,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         int id = item.getItemId();
         switch (id){
             case R.id.action_sync:
-                (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
                 return true;
             case R.id.action_associa:
                 Intent intent = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
@@ -232,6 +231,11 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
                 intent.putExtra(BarcodeCaptureActivity.AutoSelect, true);
 
                 startActivityForResult(intent, RC_BARCODE_CAPTURE);
+
+                return true;
+
+            case R.id.action_get_struttura:
+                (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
 
                 return true;
 
