@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.converters.LongConverter;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -130,12 +129,12 @@ public class AppService implements  SettingsChangeListener {
         BeanUtilsBean beanUtils = new BeanUtilsBean();
 
         int nrLivelli = 0;
+        for(ClienteValoreLivelloEntity  v: valori)
+            if(v.livello > nrLivelli)
+                nrLivelli = v.livello;
         List<Long> filtri = new ArrayList<>();
         leggiLivello(albero, nrLivelli, 1, filtri, beanUtils);
 
-        albero.add(new NodoAlbero(1, "Fab 1", 38L, null, null, null, null, null, null));
-        albero.add(new NodoAlbero(2, "UFFICI", 38L, 40L, null, null, null, null, null));
-        albero.add(new NodoAlbero(2, "BAGNO", 38L, 41L, null, null, null, null, null));
 
         return albero;
     }
@@ -247,13 +246,13 @@ public class AppService implements  SettingsChangeListener {
             boolean skip = false;
             for(int i = 1 ; i <= livello -1 ; i ++){
                 //legge il valore del livello i
-                long value = geLongtValue(nodo, "livello" + i);
-                skip |=  filtri.get(i -1) == value;
+                Long value = getLongValue(nodo, i);
+                skip |=  value!= null && filtri.get(i -1) == value;
             }
             if (skip)   continue;
             //Fine FIltri
 
-            long value = geLongtValue(nodo, "livello" + livello);
+            Long value = getLongValue(nodo, livello);
             keys.add(value);
         }
 
@@ -263,9 +262,9 @@ public class AppService implements  SettingsChangeListener {
                 //Aggiunta livello
                 NodoAlbero daAggiungere = new NodoAlbero(livello, valore.descVoceLivello);
                 for(int i = 1 ; i <= livello -1 ; i ++){
-                    beanUtils.setProperty(daAggiungere, "livello" + i, filtri.get(i -1));
+                    setLongValue(daAggiungere, i, filtri.get(i -1));
                 }
-                beanUtils.setProperty(daAggiungere, "livello" + livello, valore.idClienteLivello);
+                setLongValue(daAggiungere, livello, valore.idClienteLivello);
                 albero.add(daAggiungere);
 
                 //Per il figlio anche il valore corrente fa da filtro
@@ -281,12 +280,48 @@ public class AppService implements  SettingsChangeListener {
 
     }
 
-    private long geLongtValue(Object nodo, String nome) {
-        long value = -1;
-        try{
-            value = Long.parseLong(BeanUtilsBean.getInstance().getProperty(nodo, nome));
-        } catch (Exception ex){}
-        return value;
+    private Long getLongValue(ClienteGerarchiaEntity nodo, int idx) {
+        switch (idx){
+            case 1:
+                return nodo.idLivello1;
+            case 2:
+                return nodo.idLivello2;
+            case 3:
+                return nodo.idLivello3;
+            case 4:
+                return nodo.idLivello4;
+            case 5:
+                return nodo.idLivello5;
+            case 6:
+                return nodo.idLivello6;
+            default:
+                return null;
+        }
+    }
+
+    private void setLongValue(NodoAlbero nodo, int idx, Long value){
+        switch (idx){
+            case 1:
+                nodo.idLivello1 = value;
+                break;
+            case 2:
+                nodo.idLivello2 = value;
+                break;
+            case 3:
+                nodo.idLivello3 = value;
+                break;
+            case 4:
+                nodo.idLivello4 = value;
+                break;
+            case 5:
+                nodo.idLivello5 = value;
+                break;
+            case 6:
+                nodo.idLivello6 = value;
+                break;
+            default:
+
+        }
     }
 
 
