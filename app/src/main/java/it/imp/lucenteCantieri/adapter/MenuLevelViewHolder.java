@@ -1,6 +1,7 @@
 package it.imp.lucenteCantieri.adapter;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -8,13 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import it.imp.lucenteCantieri.R;
 
-public class MenuLevelViewHolder extends RecyclerView.ViewHolder {
+class MenuLevelViewHolder extends RecyclerView.ViewHolder {
 
-public TextView levelName;
+TextView levelName;
+LinearLayout level;
 
-    public MenuLevelViewHolder(@NonNull View v) {
-            super(v);
+    MenuLevelViewHolder(@NonNull View v) {
+        super(v);
 
+        level = (LinearLayout) v.findViewById(R.id.level);
         levelName = (TextView) v.findViewById(R.id.levelName);
     }
 }

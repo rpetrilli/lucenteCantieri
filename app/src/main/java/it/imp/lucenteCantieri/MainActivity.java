@@ -26,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
@@ -171,9 +172,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     private void refreshDrawer() {
 
-        levelRecycleView =  findViewById(R.id.levelListView);
-
-
         AsyncTask<Void, Void, List<NodoAlbero>> task = new AsyncTask<Void, Void, List<NodoAlbero>>(){
 
             @Override
@@ -196,7 +194,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
                     levelRecycleView.setAdapter(levelNameAdapter);
                 }
 
-                levelRecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        levelRecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
 
             }
         };

@@ -4,16 +4,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
 
-public class MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
+public class
+MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
 
     private Context mContext;
     private List<NodoAlbero> mLevelList;
@@ -39,7 +43,21 @@ public class MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MenuLevelViewHolder holder, final int position) {
         //set text view
-        holder.levelName.setText(mLevelList.get(position).getDescrizione());
+        StringBuilder nameBuilder = new StringBuilder();
+        for(int i=0; i<mLevelList.get(position).livello; i++){
+            nameBuilder.append("  ");
+        }
+
+        nameBuilder.append(mLevelList.get(position).getDescrizione());
+
+        holder.levelName.setText(nameBuilder);
+
+        holder.level.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext,"Nome: " + mLevelList.get(position).getDescrizione() + " Livello: " + mLevelList.get(position).livello,Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
