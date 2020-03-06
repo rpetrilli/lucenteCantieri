@@ -19,6 +19,6 @@ public class SliderPagerAdapter extends FragmentPagerAdapter {
     // size is hardcoded
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 }

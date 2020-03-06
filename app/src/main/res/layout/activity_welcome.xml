@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.welcome.WelcomeActivity"
-    >
+    tools:context=".ui.welcome.WelcomeActivity">
+
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pagerIntroSlider"
         android:layout_width="0dp"
@@ -15,8 +16,9 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        />
+        app:layout_constraintVertical_bias="1.0" />
+
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
@@ -28,7 +30,8 @@
         app:tabBackground="@drawable/slider_dot_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"
-        />
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="0dp"
@@ -38,6 +41,6 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

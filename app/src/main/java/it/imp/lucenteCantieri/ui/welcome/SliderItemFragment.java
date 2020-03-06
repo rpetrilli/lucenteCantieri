@@ -21,12 +21,12 @@ public class SliderItemFragment extends Fragment {
     // prepare all title ids arrays
     @StringRes
     private static final int[] PAGE_TITLES =
-            new int[] { R.string.intro, R.string.start };
+            new int[] { R.string.intro};
     // prepare all subtitle ids arrays
     @StringRes
     private static final int[] PAGE_TEXT =
             new int[] {
-                    R.string.intro_text, R.string.start_text
+                    R.string.intro_text,
             };
     // prepare all subtitle images arrays
     @StringRes
@@ -37,7 +37,7 @@ public class SliderItemFragment extends Fragment {
     // prepare all background images arrays
     @StringRes
     private static final int[] BG_IMAGE = new int[] {
-            R.drawable.ic_bg_red, R.drawable.ic_bg_red
+            R.drawable.ic_bg_red
     };
     private int position;
     public SliderItemFragment() {

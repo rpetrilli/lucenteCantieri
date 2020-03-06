@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,6 +17,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -28,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import it.imp.lucenteCantieri.servizi.Settings;
@@ -38,12 +42,15 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     private AppBarConfiguration mAppBarConfiguration;
     private ActionBarDrawerToggle mDrawerToggle;
     NavController navController;
+    MaterialSpinner spinner;
 
     TextView navTitleText;
     TextView navSubtitleText;
     Calendar calendar ;
     DatePickerDialog datePickerDialog ;
     int Year, Month, Day ;
+    TextView date;
+    TextView dayName;
 
 
 
@@ -55,10 +62,14 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         setSupportActionBar(toolbar);
 
         calendar = Calendar.getInstance();
+        date = findViewById(R.id.date);
+        dayName = findViewById(R.id.dayName);
 
         Year = calendar.get(Calendar.YEAR) ;
         Month = calendar.get(Calendar.MONTH);
         Day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        initView();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -112,16 +123,40 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
         mDrawerToggle.syncState();
 
+        spinner = drawer.findViewById(R.id.spinner);
+        spinner.setItems("Fabbricato 1","Uffici", "Bagni");
+        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+            }
+        });
+
         View navigationHeader = navigationView.getHeaderView(0);
-        navTitleText = navigationHeader.findViewById(R.id.navTitleText);
-        navSubtitleText = navigationHeader.findViewById(R.id.navSubtitleText);
+        //navTitleText = navigationHeader.findViewById(R.id.navTitleText);
+        // navSubtitleText = navigationHeader.findViewById(R.id.navSubtitleText);
 
 
         ButterKnife.bind(this);
 
-        initDrawerText();
+        drawer.openDrawer(Gravity.LEFT);
+
+
     }
 
+    void initView(){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, new Date().getYear());
+        calendar.set(Calendar.DAY_OF_YEAR, new Date().getDay());
+        String days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+
+        this.dayName.setText(days[dayIndex - 1]);
+
+        initDrawerText();
+    }
 
     private void initDrawerText() {
         try {
@@ -171,9 +206,16 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     @Override
     public void onDateSet(DatePickerDialog view, int Year, int Month, int Day) {
 
-        String date = "Data : " + Day + "-" + Month + "-" + Year;
+        this.date.setText(Day + "/" + Month + "/" + Year);
 
-        Toast.makeText(MainActivity.this, date, Toast.LENGTH_LONG).show();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, Year);
+        calendar.set(Calendar.DAY_OF_YEAR, Day);
+        String days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+
+        this.dayName.setText(days[dayIndex - 1]);
     }
 
 }

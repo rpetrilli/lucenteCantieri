@@ -20,22 +20,24 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="2">
 
             <TextView
+                android:id="@+id/dayName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 android:text="Today"
-                android:textSize="48sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 android:text="06/03/2020"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -52,9 +54,8 @@
                 android:layout_margin="6dp"
                 android:text="Fab2"
                 android:padding="10dp"
-                android:textSize="18sp"
-                android:background="@drawable/rounded_text"
-                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textColor="#222"
                 android:gravity="center" />
 
             <TextView
@@ -63,9 +64,8 @@
                 android:layout_margin="6dp"
                 android:text="Fab2"
                 android:padding="10dp"
-                android:textSize="18sp"
-                android:background="@drawable/rounded_text_red"
-                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textColor="#222"
                 android:gravity="center" />
 
             <TextView
@@ -74,9 +74,8 @@
                 android:layout_margin="6dp"
                 android:text="Fab3"
                 android:padding="10dp"
-                android:textSize="18sp"
-                android:background="@drawable/rounded_text_purple"
-                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textColor="#222"
                 android:gravity="center"/>
 
         </LinearLayout>
@@ -88,6 +87,138 @@
             android:background="#222"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="#BDBDBD">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:background="@color/colorPrimaryDark"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.8"
+                    android:layout_margin="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bagno"
+                        android:layout_centerInParent="true"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:textColor="@color/white"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="#BDBDBD">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:background="@color/mdtp_red"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.8"
+                    android:layout_margin="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bagno"
+                        android:layout_centerInParent="true"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:textColor="@color/white"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="#BDBDBD">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:background="@android:color/holo_purple"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.8"
+                    android:layout_margin="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bagno"
+                        android:layout_centerInParent="true"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:textColor="@color/white"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
 
 
 </LinearLayout>
