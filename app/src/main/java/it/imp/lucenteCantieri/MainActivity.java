@@ -171,22 +171,25 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     private void refreshDrawer() {
 
+        levelRecycleView =  findViewById(R.id.levelListView);
 
-        AsyncTask<MainActivity, Void, MainActivity> task = new AsyncTask<MainActivity, Void, MainActivity>(){
+
+        AsyncTask<Void, Void, List<NodoAlbero>> task = new AsyncTask<Void, Void, List<NodoAlbero>>(){
 
             @Override
-            protected MainActivity doInBackground(MainActivity... mainActivities) {
+            protected List<NodoAlbero> doInBackground(Void... mainActivities) {
                 AppService appService = new AppService(MainActivity.this);
                 try {
-                    levelNameList.addAll(appService.getAlberoDrawer());
+                    return appService.getAlberoDrawer();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return null;
                 }
-                return mainActivities[0];
             }
             @Override
-            protected void onPostExecute(MainActivity mainActivity) {
-                levelRecycleView =  mainActivity.findViewById(R.id.levelListView);
+            protected void onPostExecute(List<NodoAlbero> elenco) {
+                levelNameList.addAll(elenco);
+
                 levelNameAdapter = new MenuLevelAdapter(MainActivity.this, levelNameList);
                 //Set levelNameAdapter for listview
                 if (levelNameList.size() > 0) {
@@ -196,10 +199,9 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
                 levelRecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
             }
-
         };
 
-        task.execute(this);
+        task.execute();
 
 
 
