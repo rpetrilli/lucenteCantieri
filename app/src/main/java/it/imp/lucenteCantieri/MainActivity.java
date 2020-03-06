@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
             @Override
             protected List<NodoAlbero> doInBackground(Void... mainActivities) {
-                AppService appService = new AppService(MainActivity.this);
+                AppService appService = AppService.getInstance(MainActivity.this);
                 try {
                     return appService.getAlberoDrawer();
                 } catch (Exception e) {

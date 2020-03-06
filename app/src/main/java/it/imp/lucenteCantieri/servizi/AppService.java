@@ -53,7 +53,7 @@ public class AppService implements  SettingsChangeListener {
 
     List<NodoAlbero> mAlbero = null;
 
-    public AppService(Context context) {
+    private AppService(Context context) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(settings.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -148,13 +148,27 @@ public class AppService implements  SettingsChangeListener {
     }
 
 
-    public List<NodoAlbero> getElencoAttivita(NodoAlbero item){
+    public List<NodoAlbero> toggleNodo(NodoAlbero item){
+
+        int idx = this.mAlbero.indexOf(item);
+        this.mAlbero.get(idx).figliVisibili = !this.mAlbero.get(idx).figliVisibili;
+
+        if (item.hasChildren){
+            for(int i = idx + 1; i < this.mAlbero.size(); i++){
+                if (this.mAlbero.get(i).livello <= item.livello){
+                    break;
+                }
+                this.mAlbero.get(i).show = this.mAlbero.get(idx).figliVisibili;
+            }
+        }
+
+
         return this.mAlbero;
     }
 
 
-    public List<AttivitaElenco> getElencoAttivita(Date dt, Long idLivello1 , Long idLivello2, Long idLivello3,
-                                                  Long idLivello4, Long idLivello5, Long idLivello6){
+    public List<AttivitaElenco> toggleNodo(Date dt, Long idLivello1 , Long idLivello2, Long idLivello3,
+                                           Long idLivello4, Long idLivello5, Long idLivello6){
 
         if (gerarchia == null){
             ClienteGerarchiaDao clienteGerachiaDao = mDb.clienteGerarchiaDao();
@@ -248,11 +262,11 @@ public class AppService implements  SettingsChangeListener {
 //        return Arrays.asList("Fab 1", "BAGNO");
     }
 
-    private void leggiLivello(List<NodoAlbero> albero,
+    private boolean leggiLivello(List<NodoAlbero> albero,
                               int nrLivelli, int livello,
                               List<Long> filtri, BeanUtilsBean beanUtils) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         if (livello > nrLivelli)
-            return;
+            return false;
 
         //Dopo il for key contiene i valori del livallo da inserire
         Set<Long> keys = new HashSet<>();
@@ -272,6 +286,7 @@ public class AppService implements  SettingsChangeListener {
         }
 
         //Scorre tutti i valori e prende solo quelli da aggiungere
+        boolean hasFigli = false;
         for(ClienteValoreLivelloEntity valore: valori){
             if (keys.contains(valore.idClienteLivello)){
                 //Aggiunta livello
@@ -286,11 +301,11 @@ public class AppService implements  SettingsChangeListener {
                 List<Long> filtriFiglio = new ArrayList<>();
                 filtriFiglio.addAll(filtri);
                 filtriFiglio.add(valore.idClienteLivello);
-
-                leggiLivello(albero, nrLivelli, livello + 1, filtriFiglio, beanUtils);
+                hasFigli = true;
+                daAggiungere.hasChildren = leggiLivello(albero, nrLivelli, livello + 1, filtriFiglio, beanUtils);
             }
         }
-
+        return hasFigli;
 
 
     }

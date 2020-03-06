@@ -12,6 +12,7 @@ public class NodoAlbero {
     public Long idLivello6;
     public boolean show = false;
     public boolean hasChildren = false;
+    public boolean figliVisibili = false;
 
     public NodoAlbero(int livello, String descrizione) {
         this.livello = livello;
@@ -137,5 +138,13 @@ public class NodoAlbero {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isFigliVisibili() {
+        return figliVisibili;
+    }
+
+    public void setFigliVisibili(boolean figliVisibili) {
+        this.figliVisibili = figliVisibili;
     }
 }

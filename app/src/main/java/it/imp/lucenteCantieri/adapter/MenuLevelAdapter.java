@@ -4,23 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.List;
 
 import it.imp.lucenteCantieri.R;
+import it.imp.lucenteCantieri.servizi.AppService;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
 
 public class
 MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
 
+    private static final int INDENT = 50;
     private Context mContext;
     private List<NodoAlbero> mLevelList;
+
 
 
     public MenuLevelAdapter(Context mContext, List<NodoAlbero> mLevelList) {
@@ -43,30 +44,33 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MenuLevelViewHolder holder, final int position) {
         //set text view
-        StringBuilder nameBuilder = new StringBuilder();
-        for(int i=0; i<mLevelList.get(position).livello; i++){
-            nameBuilder.append("  ");
-        }
+        NodoAlbero item = mLevelList.get(position);
 
-        nameBuilder.append(mLevelList.get(position).getDescrizione());
+        holder.levelName.setText(item.getDescrizione());
+        holder.levelName.setPadding(INDENT * (item.livello- 1), 8, 0, 8);
 
-        holder.levelName.setText(nameBuilder);
+        holder.arrow.setImageDrawable(mContext.getResources().getDrawable(item.figliVisibili?R.drawable.ic_arrow_down:R.drawable.ic_arrow_up));
 
-        holder.level.setOnClickListener(new View.OnClickListener() {
+        holder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"Nome: " + mLevelList.get(position).getDescrizione() + " Livello: " + mLevelList.get(position).livello,Toast.LENGTH_LONG).show();
+                AppService.getInstance(mContext).toggleNodo(item);
+                notifyDataSetChanged();
             }
         });
 
         //child visibility
-        if(!mLevelList.get(position).show){
+        if(!item.show){
             holder.level.setVisibility(View.INVISIBLE);
+            holder.level.getLayoutParams().height = 0;
+        }else{
+            holder.level.setVisibility(View.VISIBLE);
+            holder.level.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
-        if(mLevelList.get(position).hasChildren){
-            holder.arrow.setVisibility(View.INVISIBLE);
-        }
+
+        holder.arrow.setVisibility(item.hasChildren?View.VISIBLE:View.INVISIBLE);
+
     }
 
     @Override
