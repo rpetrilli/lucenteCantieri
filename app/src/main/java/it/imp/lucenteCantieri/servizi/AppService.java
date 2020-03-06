@@ -39,7 +39,7 @@ public class AppService implements  SettingsChangeListener {
     Settings settings = Settings.getInstance();
     private AppDatabase mDb;
 
-    private AppService(Context context) {
+    public AppService(Context context) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(settings.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -96,7 +96,7 @@ public class AppService implements  SettingsChangeListener {
     }
 
 
-    public List<NodoAlbero> getAlberoDrawer()throws IOException{
+    public List<NodoAlbero> getAlberoDrawer(){
         List<NodoAlbero> ret = new ArrayList<>();
         ret.add(new NodoAlbero(1, "Fab 1", 38L, null, null, null, null, null, null));
         ret.add(new NodoAlbero(2, "UFFICI", 38L, 40L, null, null, null, null, null));

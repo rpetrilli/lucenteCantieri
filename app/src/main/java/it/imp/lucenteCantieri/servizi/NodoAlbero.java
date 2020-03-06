@@ -1,6 +1,6 @@
 package it.imp.lucenteCantieri.servizi;
 
-class NodoAlbero {
+public class NodoAlbero {
     public int livello = 0;
     public String descrizione ="";
     public Long idLivello1;

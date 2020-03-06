@@ -31,11 +31,11 @@
 
             <include layout="@layout/nav_header_main"/>
 
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/spinner"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/levelListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#222"/>
+                android:padding="8dp"/>
 
 
         </LinearLayout>
