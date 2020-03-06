@@ -133,7 +133,7 @@ public class AppService implements  SettingsChangeListener {
         int nrLivelli = 0;
         for(ClienteValoreLivelloEntity  v: valori)
             if(v.livello > nrLivelli)
-                nrLivelli = v.livello;
+        nrLivelli = v.livello;
         List<Long> filtri = new ArrayList<>();
         leggiLivello(albero, nrLivelli, 1, filtri, beanUtils);
 

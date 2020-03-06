@@ -203,8 +203,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
         task.execute();
 
-
-
     }
 
     private void initDrawerText() {

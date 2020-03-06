@@ -58,6 +58,15 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
                 Toast.makeText(mContext,"Nome: " + mLevelList.get(position).getDescrizione() + " Livello: " + mLevelList.get(position).livello,Toast.LENGTH_LONG).show();
             }
         });
+
+        //child visibility
+        if(!mLevelList.get(position).show){
+            holder.level.setVisibility(View.INVISIBLE);
+        }
+
+        if(mLevelList.get(position).hasChildren){
+            holder.arrow.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

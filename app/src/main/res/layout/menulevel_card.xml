@@ -3,14 +3,24 @@
     android:id="@+id/level"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:weightSum="3"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/levelName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="2.7"
         android:text="Fabbricato 1"
         android:textSize="18sp"
         android:padding="6dp"/>
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:src="@drawable/arrow_down"/>
 
 </LinearLayout>
