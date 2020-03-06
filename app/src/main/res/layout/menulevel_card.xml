@@ -5,22 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="3"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:layout_marginTop="16dp">
 
-    <TextView
-        android:id="@+id/levelName"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2.7"
-        android:text="Fabbricato 1"
-        android:textSize="18sp"
-        android:padding="6dp"/>
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/arrow"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.3"
-        android:src="@drawable/ic_arrow_down"/>
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:src="@drawable/ic_arrow_down"/>
+
+        <ImageView
+            android:id="@+id/place"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:src="@drawable/ic_place_black_24dp"/>
+
+        <TextView
+            android:id="@+id/levelName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.7"
+            android:text="Fabbricato 1"
+            android:textSize="18sp"
+            android:padding="6dp"
+            android:layout_marginLeft="8dp"
+            android:textColor="#222"/>
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#222"/>
 
 </LinearLayout>

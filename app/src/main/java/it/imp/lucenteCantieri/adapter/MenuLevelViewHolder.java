@@ -15,6 +15,8 @@ class MenuLevelViewHolder extends RecyclerView.ViewHolder {
 
 TextView levelName;
 ImageView arrow;
+ImageView place;
+View divider;
 LinearLayout level;
 
     MenuLevelViewHolder(@NonNull View v) {
@@ -22,6 +24,8 @@ LinearLayout level;
 
         level = (LinearLayout) v.findViewById(R.id.level);
         arrow = (ImageView) v.findViewById(R.id.arrow);
+        place = (ImageView) v.findViewById(R.id.place);
         levelName = (TextView) v.findViewById(R.id.levelName);
+        divider = (View) v.findViewById(R.id.divider);
     }
 }

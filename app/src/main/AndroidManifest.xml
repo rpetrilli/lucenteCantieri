@@ -18,27 +18,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".ui.welcome.WelcomeActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.nfc.NFCSync"></activity>
+        <activity
+            android:name=".ui.welcome.WelcomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.barcode.BarcodeCaptureActivity"
             android:label="QR code Scanner"
-            android:screenOrientation="portrait"/>
-
-
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

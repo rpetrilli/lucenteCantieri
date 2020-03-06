@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,7 +49,8 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
         NodoAlbero item = mLevelList.get(position);
 
         holder.levelName.setText(item.getDescrizione());
-        holder.levelName.setPadding(INDENT * (item.livello- 1), 10, 0, 10);
+        holder.levelName.setPadding(INDENT * (item.livello- 1), 16, 0, 16);
+        holder.divider.setPadding(INDENT * (item.livello- 1), 16, 0, 16);
         holder.levelName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +62,7 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
         });
 
         holder.arrow.setImageDrawable(mContext.getResources().getDrawable(item.figliVisibili?R.drawable.ic_arrow_down:R.drawable.ic_arrow_up));
+        holder.place.setImageDrawable(mContext.getResources().getDrawable(item.figliVisibili?R.drawable.ic_hotel_black_24dp:R.drawable.ic_place_black_24dp));
 
         holder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,9 +76,13 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
         if(!item.show){
             holder.level.setVisibility(View.INVISIBLE);
             holder.level.getLayoutParams().height = 0;
+            holder.divider.setVisibility(View.INVISIBLE);
+            holder.divider.getLayoutParams().height = 0;
         }else{
             holder.level.setVisibility(View.VISIBLE);
             holder.level.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            holder.divider.setVisibility(View.VISIBLE);
+            holder.divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         }
 
 

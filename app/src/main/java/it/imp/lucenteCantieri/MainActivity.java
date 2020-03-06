@@ -26,11 +26,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ import it.imp.lucenteCantieri.servizi.AttivitaElenco;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
 import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
+import it.imp.lucenteCantieri.ui.nfc.NFCSync;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncElencoAttivitaTask;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
 
@@ -58,10 +61,12 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     TextView navTitleText;
     TextView navSubtitleText;
     TextView date;
-    TextView dayName;
+    TextView title;
+    ImageView nfc;
     RecyclerView levelRecycleView;
     RecyclerView taskRecyclerView;
     DrawerLayout drawer;
+    Toolbar toolbar;
 
     //utils
     private static final int RC_BARCODE_CAPTURE = 9001;
@@ -80,7 +85,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -103,13 +108,13 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         levelNameList = new ArrayList<NodoAlbero>();
 
         date = findViewById(R.id.date);
-        dayName = findViewById(R.id.dayName);
         FloatingActionButton fab = findViewById(R.id.fab);
 
 
         //hamburger menu
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
 
         //drawer
         drawer = findViewById(R.id.drawer_layout);
@@ -128,17 +133,26 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
         mDrawerToggle.syncState();
 
+        refreshDrawer();
+
         //drawer title
         navTitleText = drawer.findViewById(R.id.navTitleText);
         navSubtitleText = drawer.findViewById(R.id.navSubtitleText);
         initDrawerText();
 
-        //recycle view init
-        refreshDrawer();
-
         //calendar init
         SimpleDateFormat df = new SimpleDateFormat("dd/MM");
-        this.dayName.setText(df.format(mSelectedDate));
+        title = toolbar.findViewById(R.id.title);
+        nfc = toolbar.findViewById(R.id.nfc);
+        title.setText(df.format(mSelectedDate) + "Fab1 > Bagni");
+        nfc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nfc = new Intent(MainActivity.this, NFCSync.class);
+                nfc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(nfc);
+            }
+        });
 
         //observables
         fab.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +186,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
             }
         });
 
+        leggiTaskAttivita(null);
     }
 
     private void refreshDrawer() {
@@ -216,6 +231,8 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         //INIT RECYCLER VIEW
         this.taskRecyclerView = findViewById(R.id.taskListView);
 
+        //AppService appService = AppService.getInstance(MainActivity.this);
+        //appService.descrizioniFiltro(item);
 
         AsyncTask<Void, Void, List<AttivitaElenco>> task = new AsyncTask<Void, Void, List<AttivitaElenco>>(){
 
@@ -232,7 +249,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
             @Override
             protected void onPostExecute(List<AttivitaElenco> elenco) {
                 if (elenco == null){
-                    //TODO: avviso
+                    showErrorMessage("Nessuna attività pianificata per questa data");
                     return;
                 }
 
@@ -324,7 +341,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         cal.set(Calendar.MONTH, datePickerDialog.getSelectedDay().getMonth());
         cal.set(Calendar.DAY_OF_MONTH, datePickerDialog.getSelectedDay().getDay());
         mSelectedDate = cal.getTime();
-        this.dayName.setText(df.format(mSelectedDate));
     }
 
 
