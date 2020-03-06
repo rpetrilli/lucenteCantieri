@@ -1,8 +1,12 @@
 package it.imp.lucenteCantieri;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.util.Log;
@@ -37,7 +41,9 @@ import it.imp.lucenteCantieri.adapter.MenuLevelAdapter;
 import it.imp.lucenteCantieri.servizi.AppService;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
+import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
+import it.imp.lucenteCantieri.ui.welcome.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
 
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     RecyclerView levelRecycleView;
 
     //utils
+    private static final int RC_BARCODE_CAPTURE = 9001;
     Calendar calendar ;
     DatePickerDialog datePickerDialog ;
     int Year, Month, Day ;
@@ -219,7 +226,12 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
                 (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
                 return true;
             case R.id.action_associa:
+                Intent intent = new Intent(MainActivity.this, BarcodeCaptureActivity.class);
+                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                intent.putExtra(BarcodeCaptureActivity.UseFlash, true);
+                intent.putExtra(BarcodeCaptureActivity.AutoSelect, true);
 
+                startActivityForResult(intent, RC_BARCODE_CAPTURE);
 
                 return true;
 
@@ -243,6 +255,31 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
 
         this.dayName.setText(days[dayIndex - 1]);
+    }
+
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        try {
+            if (requestCode == RC_BARCODE_CAPTURE) {
+                if (resultCode == CommonStatusCodes.SUCCESS && intent != null) {
+
+                    Barcode bc = intent.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Settings.getInstance().save(getApplicationContext(), bc.displayValue);
+                    }
+
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.operazione_annullata, Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                super.onActivityResult(requestCode, resultCode, intent);
+            }
+        } catch (Exception ex){
+            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }
