@@ -172,6 +172,8 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     private void refreshDrawer() {
 
+        levelRecycleView = findViewById(R.id.levelListView);
+
         AsyncTask<Void, Void, List<NodoAlbero>> task = new AsyncTask<Void, Void, List<NodoAlbero>>(){
 
             @Override

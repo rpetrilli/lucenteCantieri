@@ -1,7 +1,7 @@
 package it.imp.lucenteCantieri.servizi;
 
 public class NodoAlbero {
-
+    public int id;
     public int livello = 0;
     public String descrizione ="";
     public Long idLivello1;
@@ -10,6 +10,8 @@ public class NodoAlbero {
     public Long idLivello4;
     public Long idLivello5;
     public Long idLivello6;
+    public boolean show = false;
+    public boolean hasChildren = false;
 
     public NodoAlbero(int livello, String descrizione) {
         this.livello = livello;
@@ -111,5 +113,29 @@ public class NodoAlbero {
 
     public void setIdClienteGerachia(Long idClienteGerachia) {
         this.idClienteGerachia = idClienteGerachia;
+    }
+
+    public boolean isShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    public boolean isHasChildren() {
+        return hasChildren;
+    }
+
+    public void setHasChildren(boolean hasChildren) {
+        this.hasChildren = hasChildren;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

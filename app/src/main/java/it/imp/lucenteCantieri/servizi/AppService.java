@@ -51,6 +51,8 @@ public class AppService implements  SettingsChangeListener {
     List<ClienteGerarchiaEntity> gerarchia = null;
     List<ClienteValoreLivelloEntity> valori = null;
 
+    List<NodoAlbero> mAlbero = null;
+
     public AppService(Context context) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(settings.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -135,8 +137,19 @@ public class AppService implements  SettingsChangeListener {
         List<Long> filtri = new ArrayList<>();
         leggiLivello(albero, nrLivelli, 1, filtri, beanUtils);
 
-
+        this.mAlbero = albero;
+        int idx = 0;
+        for(NodoAlbero item: albero){
+            item.id = idx++;
+            item.show = item.livello == 1;
+            item.hasChildren = item.livello == 1;
+        }
         return albero;
+    }
+
+
+    public List<NodoAlbero> getElencoAttivita(NodoAlbero item){
+        return this.mAlbero;
     }
 
 
@@ -183,8 +196,10 @@ public class AppService implements  SettingsChangeListener {
         }
 //        ret.add(new AttivitaElenco(20L, "Bagno Primo Piano", "Pulizia"));
 //        ret.add(new AttivitaElenco(21L, "Ufficio Direttore", "Svuatamento Cestino"));
+
         return ret;
     }
+
 
     /**
      * Legge se ci sono le descrizioni dei singoli livello
