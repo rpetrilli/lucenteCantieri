@@ -236,6 +236,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
             case R.id.action_get_struttura:
                 (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
+                levelNameAdapter.notifyDataSetChanged();
 
                 return true;
 
