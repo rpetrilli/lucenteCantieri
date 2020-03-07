@@ -221,12 +221,12 @@ public class AppService implements  SettingsChangeListener {
      * Legge se ci sono le descrizioni dei singoli livello
      * @return
      */
-    public List<String> descrizioniFiltro(NodoAlbero nodoAlbero){
+    public ArrayList<String> descrizioniFiltro(NodoAlbero nodoAlbero){
         if (valori == null){
             ClienteLivelliDao clienteDao = mDb.clienteLivelloDao();
             valori = clienteDao.getAll();
         }
-        List<String> ret = new ArrayList<>();
+        ArrayList<String> ret = new ArrayList<>();
 
         Map<Long, String> mDesc = new HashMap<Long, String>();
         for(ClienteValoreLivelloEntity val: valori){

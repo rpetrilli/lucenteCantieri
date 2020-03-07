@@ -69,13 +69,15 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     Toolbar toolbar;
 
     //utils
-    private static final int RC_BARCODE_CAPTURE = 9001;
+    static final int RC_BARCODE_CAPTURE = 9001;
     Calendar calendar ;
     DatePickerDialog datePickerDialog ;
     int Year, Month, Day ;
-    private MenuLevelAdapter levelNameAdapter;
-    private TaskCantiereAdapter taskCantiereAdapter;
-    private Date mSelectedDate = new Date();
+    MenuLevelAdapter levelNameAdapter;
+    TaskCantiereAdapter taskCantiereAdapter;
+    Date mSelectedDate = new Date();
+    ArrayList<String> mFilterSelected;
+
 
 
 
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         //toolbar
         title = toolbar.findViewById(R.id.title);
         nfc = toolbar.findViewById(R.id.nfc);
-        title.setText("Task");
+        title.setText("Tasks");
 
         //recycler view
         levelRecycleView = findViewById(R.id.levelListView);
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         Year = calendar.get(Calendar.YEAR) ;
         Month = calendar.get(Calendar.MONTH);
         Day = calendar.get(Calendar.DAY_OF_MONTH);
+        mFilterSelected = new ArrayList<>();
 
         //calendar init
         SimpleDateFormat df = new SimpleDateFormat("dd/MM");
@@ -141,6 +144,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
             @Override
             public void onClick(View view) {
                 Intent nfc = new Intent(MainActivity.this, NFCSync.class);
+                nfc.putStringArrayListExtra("places", mFilterSelected);
                 nfc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(nfc);
             }
@@ -153,7 +157,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
                 datePickerDialog = DatePickerDialog.newInstance(MainActivity.this, Year, Month, Day);
                 datePickerDialog.setThemeDark(false);
                 datePickerDialog.showYearPickerFirst(false);
-                datePickerDialog.setTitle("Date Picker");
+                datePickerDialog.setTitle("Seleziona data tasks");
 
 
                 datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -258,7 +262,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
                 //get places level filters
                 AppService appService = AppService.getInstance(MainActivity.this);
-                appService.descrizioniFiltro(item);
+                mFilterSelected = appService.descrizioniFiltro(item);
             }
         };
 
@@ -331,7 +335,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
 
     /*
-        set calendar data method
+        set calendar date method
      */
 
     @Override
