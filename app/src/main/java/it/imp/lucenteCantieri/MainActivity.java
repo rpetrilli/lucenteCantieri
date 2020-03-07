@@ -1,5 +1,6 @@
 package it.imp.lucenteCantieri;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -79,8 +80,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     ArrayList<String> mFilterSelected;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +125,10 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         Month = calendar.get(Calendar.MONTH);
         Day = calendar.get(Calendar.DAY_OF_MONTH);
         mFilterSelected = new ArrayList<>();
+
+        //TODO remove
+        mFilterSelected.add("Fab 1");
+        mFilterSelected.add("Bagno");
 
         //calendar init
         SimpleDateFormat df = new SimpleDateFormat("dd/MM");
