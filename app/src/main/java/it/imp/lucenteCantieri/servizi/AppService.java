@@ -54,7 +54,7 @@ public class AppService implements  SettingsChangeListener {
 
     List<NodoAlbero> mAlbero = null;
 
-    private AppService(Context context) {
+    public AppService(Context context) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(settings.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

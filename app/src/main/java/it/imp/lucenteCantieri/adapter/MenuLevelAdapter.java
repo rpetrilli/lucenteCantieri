@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -56,7 +55,7 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
             @Override
             public void onClick(View view) {
                 if (mContext instanceof  MainActivity){
-                    ((MainActivity) mContext).leggiTaskAttivita(item);
+                    ((MainActivity) mContext).readTasks(item);
                 }
 
             }

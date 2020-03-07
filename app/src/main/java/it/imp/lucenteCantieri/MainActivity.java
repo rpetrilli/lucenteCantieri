@@ -75,8 +75,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     int Year, Month, Day ;
     private MenuLevelAdapter levelNameAdapter;
     private TaskCantiereAdapter taskCantiereAdapter;
-    private List<NodoAlbero> levelNameList;
-    private List<AttivitaElenco> attivitaElencoList;
     private Date mSelectedDate = new Date();
 
 
@@ -85,66 +83,60 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
 
         initView();
 
-
         ButterKnife.bind(this);
-
 
     }
 
     void initView(){
         //init UI
-        calendar = Calendar.getInstance();
-        Year = calendar.get(Calendar.YEAR) ;
-        Month = calendar.get(Calendar.MONTH);
-        Day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        //init tools
-        levelNameList = new ArrayList<NodoAlbero>();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         date = findViewById(R.id.date);
         FloatingActionButton fab = findViewById(R.id.fab);
-
-
-        //hamburger menu
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-
-        //drawer
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        AppBarConfiguration mAppBarConfiguration = new AppBarConfiguration.Builder()
-                .setDrawerLayout(drawer)
-                .build();
-
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawer,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
-
-
-        mDrawerToggle.syncState();
-
-        refreshDrawer();
-
         //drawer title
         navTitleText = drawer.findViewById(R.id.navTitleText);
         navSubtitleText = drawer.findViewById(R.id.navSubtitleText);
         initDrawerText();
 
-        //calendar init
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+        //toolbar
         title = toolbar.findViewById(R.id.title);
         nfc = toolbar.findViewById(R.id.nfc);
-        title.setText(df.format(mSelectedDate) + "  Fab1 > Bagni");
+        title.setText("Task");
+
+        //recycler view
+        levelRecycleView = findViewById(R.id.levelListView);
+        taskRecyclerView = findViewById(R.id.taskListView);
+
+        //init tools
+        calendar = Calendar.getInstance();
+        Year = calendar.get(Calendar.YEAR) ;
+        Month = calendar.get(Calendar.MONTH);
+        Day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        //calendar init
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+        date.setText(df.format(mSelectedDate));
+
+        //hamburger menu
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle.syncState();
+
+        refreshDrawer();
+
+        //observables
         nfc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,16 +180,18 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     }
 
+    /*
+        refresh left drawer with places tree
+     */
     private void refreshDrawer() {
-
-        levelRecycleView = findViewById(R.id.levelListView);
 
         AsyncTask<Void, Void, List<NodoAlbero>> task = new AsyncTask<Void, Void, List<NodoAlbero>>(){
 
             @Override
             protected List<NodoAlbero> doInBackground(Void... mainActivities) {
-                AppService appService = AppService.getInstance(MainActivity.this);
+                //get places tree from App Services
                 try {
+                    AppService appService = AppService.getInstance(MainActivity.this);
                     return appService.getAlberoDrawer();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -206,36 +200,41 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
             }
             @Override
             protected void onPostExecute(List<NodoAlbero> elenco) {
-                levelNameList.addAll(elenco);
+                if (elenco == null){
+                    showErrorMessage("Errore di sincronizzazione dei luoghi");
+                    return;
+                }
 
-                levelNameAdapter = new MenuLevelAdapter(MainActivity.this, levelNameList);
+                //set adapter for places list view
+                levelNameAdapter = new MenuLevelAdapter(MainActivity.this, elenco);
                 //Set levelNameAdapter for listview
-                if (levelNameList.size() > 0) {
+                if (elenco.size() > 0) {
                     levelRecycleView.setAdapter(levelNameAdapter);
                 }
 
-        levelRecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
+                levelRecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
 
             }
         };
 
         task.execute();
-
     }
 
+    /*
+        load task from DB and Api
+     */
 
-    public void leggiTaskAttivita(NodoAlbero item) {
+    public void readTasks(NodoAlbero item) {
         //close drawer
         this.drawer.closeDrawer(Gravity.LEFT);
-        //INIT RECYCLER VIEW
-        this.taskRecyclerView = findViewById(R.id.taskListView);
 
         AsyncTask<Void, Void, List<AttivitaElenco>> task = new AsyncTask<Void, Void, List<AttivitaElenco>>(){
 
             @Override
             protected List<AttivitaElenco> doInBackground(Void... mainActivities) {
-                AppService appService = AppService.getInstance(MainActivity.this);
+                //get tasks from App Services
                 try {
+                    AppService appService = AppService.getInstance(MainActivity.this);
                     return appService.leggiTaskCantiere(mSelectedDate, item);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -249,7 +248,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
                     return;
                 }
 
-                //Set levelNameAdapter for listview
+                //Set taskCantiereAdapter for listview
                 if (elenco.size() > 0) {
                     taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco);
                     taskRecyclerView.setAdapter(taskCantiereAdapter);
@@ -257,24 +256,25 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
                 taskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
 
+                //get places level filters
                 AppService appService = AppService.getInstance(MainActivity.this);
                 appService.descrizioniFiltro(item);
             }
         };
 
         task.execute();
-
-        //AppService appService = AppService.getInstance(MainActivity.this);
-        //appService.descrizioniFiltro(item);
-
     }
 
+    /*
+        init drawer header text
+     */
     private void initDrawerText() {
         try {
             Settings settings= Settings.getInstance();
             settings.read(this.getApplicationContext());
 
-            writeSettings(settings);
+            navTitleText.setText(settings.denominazione);
+            navSubtitleText.setText(settings.descSquadra);
 
         } catch (Exception e) {
             Log.i(this.getLocalClassName(), e.getMessage());
@@ -282,12 +282,9 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     }
 
-    private void writeSettings(Settings settings) {
-
-        navTitleText.setText(settings.denominazione);
-        navSubtitleText.setText(settings.descSquadra);
-
-    }
+    /*
+        create option menu
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -296,6 +293,9 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         return true;
     }
 
+    /*
+        on option item selected method
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -330,10 +330,12 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     }
 
 
+    /*
+        set calendar data method
+     */
 
     @Override
     public void onDateSet(DatePickerDialog view, int Year, int Month, int Day) {
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, datePickerDialog.getSelectedDay().getYear());
         cal.set(Calendar.MONTH, datePickerDialog.getSelectedDay().getMonth());
@@ -342,6 +344,9 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     }
 
 
+    /*
+        google camera callback
+     */
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         try {
@@ -366,11 +371,15 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     }
 
+    /*
+        public method to show error message
+     */
     public void showErrorMessage(String errorMessage){
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
         dialog.setMessage(errorMessage);
         dialog.setTitle(R.string.errore);
         dialog.setCancelable(true);
+        dialog.show();
     }
 
 
