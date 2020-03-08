@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     TextView navTitleText;
     TextView navSubtitleText;
     TextView date;
+    TextView places;
     TextView title;
     ImageView nfc;
     RecyclerView levelRecycleView;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         setSupportActionBar(toolbar);
 
         date = findViewById(R.id.date);
+        places = findViewById(R.id.places);
         FloatingActionButton fab = findViewById(R.id.fab);
         drawer = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -266,10 +268,24 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
                 //get places level filters
                 AppService appService = AppService.getInstance(MainActivity.this);
                 mFilterSelected = appService.descrizioniFiltro(item);
+                initPlaces();
             }
         };
 
         task.execute();
+    }
+
+    private void initPlaces() {
+        if(mFilterSelected.size() > 0){
+            StringBuilder places = new StringBuilder();
+
+            for (String place: mFilterSelected){
+                places.append(place).append(" > ");
+            }
+
+            //clean last arrow
+            this.places.setText(places.substring(0,places.length()-3));
+        }
     }
 
     /*

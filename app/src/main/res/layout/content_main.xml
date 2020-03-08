@@ -79,9 +79,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="Fab1 > Bagno"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:text="Nessun luogo selezionato"
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
