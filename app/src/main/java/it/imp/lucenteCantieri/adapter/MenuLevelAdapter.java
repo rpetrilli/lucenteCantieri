@@ -74,9 +74,9 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
         //child visibility
         if(!item.show){
             holder.level.setVisibility(View.INVISIBLE);
-            holder.level.getLayoutParams().height = 0;
+            holder.level.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
             holder.divider.setVisibility(View.INVISIBLE);
-            holder.divider.getLayoutParams().height = 0;
+            holder.divider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
         }else{
             holder.level.setVisibility(View.VISIBLE);
             holder.level.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
