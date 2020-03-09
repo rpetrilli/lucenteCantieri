@@ -257,6 +257,45 @@ public class AppService implements  SettingsChangeListener {
 //        return Arrays.asList("Fab 1", "BAGNO");
     }
 
+    public UbicazioneCantiere ubicazionecantiere(NodoAlbero nodoAlbero){
+        if (valori == null){
+            ClienteLivelliDao clienteDao = mDb.clienteLivelloDao();
+            valori = clienteDao.getAll();
+        }
+        UbicazioneCantiere  ret = new UbicazioneCantiere(nodoAlbero);
+
+        Map<Long, String> mDesc = new HashMap<Long, String>();
+        for(ClienteValoreLivelloEntity val: valori){
+            if ((nodoAlbero.idLivello1 !=null && val.idClienteLivello == nodoAlbero.idLivello1)
+                    || (nodoAlbero.idLivello2 !=null && val.idClienteLivello == nodoAlbero.idLivello2)
+                    || (nodoAlbero.idLivello3 !=null && val.idClienteLivello == nodoAlbero.idLivello3)
+                    || (nodoAlbero.idLivello4 !=null && val.idClienteLivello == nodoAlbero.idLivello4)
+                    || (nodoAlbero.idLivello5 !=null && val.idClienteLivello == nodoAlbero.idLivello5)
+                    || (nodoAlbero.idLivello6 !=null && val.idClienteLivello == nodoAlbero.idLivello6))
+            {
+                mDesc.put(val.idClienteLivello, val.descVoceLivello);
+            }
+        }
+        if (nodoAlbero.idLivello1 !=null )
+            ret.descLivello1= mDesc.get(nodoAlbero.idLivello1);
+        if (nodoAlbero.idLivello2 != null)
+            ret.descLivello2= mDesc.get(nodoAlbero.idLivello2);
+        if (nodoAlbero.idLivello3 !=null)
+            ret.descLivello3= mDesc.get(nodoAlbero.idLivello3);
+        if (nodoAlbero.idLivello4 !=null)
+            ret.descLivello4= mDesc.get(nodoAlbero.idLivello4);
+        if (nodoAlbero.idLivello5 !=null)
+            ret.descLivello5= mDesc.get(nodoAlbero.idLivello5);
+        if (nodoAlbero.idLivello6 !=null)
+            ret.descLivello6= mDesc.get(nodoAlbero.idLivello6);
+
+
+        return ret;
+
+    }
+
+
+
     private boolean leggiLivello(List<NodoAlbero> albero,
                               int nrLivelli, int livello,
                               List<Long> filtri, BeanUtilsBean beanUtils) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
