@@ -62,7 +62,7 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
         });
 
         holder.arrow.setImageDrawable(mContext.getResources().getDrawable(item.figliVisibili?R.drawable.ic_arrow_down:R.drawable.ic_arrow_up));
-        holder.place.setImageDrawable(mContext.getResources().getDrawable(item.livello == 1?R.drawable.ic_place_black_24dp:R.drawable.ic_hotel_black_24dp));
+        holder.place.setImageDrawable(mContext.getResources().getDrawable(item.livello == 1?R.drawable.ic_place_black_24dp:R.drawable.ic_brightness_1_black_24dp));
         holder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,9 +74,9 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
         //child visibility
         if(!item.show){
             holder.level.setVisibility(View.INVISIBLE);
-            holder.level.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+            holder.level.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
             holder.divider.setVisibility(View.INVISIBLE);
-            holder.divider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+            holder.divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
         }else{
             holder.level.setVisibility(View.VISIBLE);
             holder.level.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

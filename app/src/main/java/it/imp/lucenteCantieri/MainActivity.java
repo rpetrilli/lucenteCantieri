@@ -128,10 +128,6 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         Day = calendar.get(Calendar.DAY_OF_MONTH);
         mFilterSelected = new ArrayList<>();
 
-        //TODO remove
-        mFilterSelected.add("Fab 1");
-        mFilterSelected.add("Bagno");
-
         //calendar init
         SimpleDateFormat df = new SimpleDateFormat("dd/MM");
         date.setText(df.format(mSelectedDate));

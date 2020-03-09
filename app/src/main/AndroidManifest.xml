@@ -18,14 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".ui.ConfirmActivity"></activity>
         <activity
             android:name=".ui.nfc.NFCSync"
-            android:screenOrientation="portrait"
-            android:label="NFC Sync">
-
-        </activity>
-
+            android:label="NFC Sync"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.welcome.WelcomeActivity"
             android:screenOrientation="portrait">
