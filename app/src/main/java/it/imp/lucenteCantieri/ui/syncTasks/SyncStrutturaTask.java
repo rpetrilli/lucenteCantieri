@@ -39,16 +39,6 @@ public class SyncStrutturaTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected void onPostExecute(String errorMessage) {
-        mProgress.dismiss();
-        if (StringUtils.isNotEmpty(errorMessage)) {
-            if (mContext instanceof MainActivity) {
-                ((MainActivity) mContext).showErrorMessage(errorMessage);
-            }
-        }
-    }
-
-    @Override
     protected String doInBackground(String... strings) {
         try {
             AppService.getInstance(mContext).downloadStruttura();
@@ -58,4 +48,16 @@ public class SyncStrutturaTask extends AsyncTask<String, Integer, String> {
             return e.getMessage();
         }
     }
+
+    @Override
+    protected void onPostExecute(String errorMessage) {
+        mProgress.dismiss();
+        if (StringUtils.isNotEmpty(errorMessage)) {
+            if (mContext instanceof MainActivity) {
+                ((MainActivity) mContext).showErrorMessage(errorMessage);
+            }
+        }
+    }
+
+
 }

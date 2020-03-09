@@ -47,6 +47,7 @@ public class TaskCantiereEntity {
 	@ColumnInfo(name="id_ticket")
 	public Long idTicket;
 
+
 	public TaskCantiereEntity(Long idTaskCantiere, Long idClienteGeranchia, String descrizione, String note, String stato, String idTipoServizio, Long idAttivitaSoggetto, Date dataPrestazione, Boolean eseguita, Long idContrattoOggetto, Long idContratto, Long idTicket) {
 		this.idTaskCantiere = idTaskCantiere;
 		this.idClienteGeranchia = idClienteGeranchia;
