@@ -1,6 +1,7 @@
 package it.imp.lucenteCantieri.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import java.util.List;
 
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.servizi.AttivitaElenco;
+import it.imp.lucenteCantieri.ui.confirmationDetails.ConfirmationDetails;
+import it.imp.lucenteCantieri.utils.Constants;
 
 public class
 TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
@@ -19,12 +22,14 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
     private static final int INDENT = 50;
     private Context mContext;
     private List<AttivitaElenco> mAttivitaList;
+    Boolean confirmation;
 
 
 
-    public TaskCantiereAdapter(Context mContext, List<AttivitaElenco> mLevelList) {
+    public TaskCantiereAdapter(Context mContext, List<AttivitaElenco> mLevelList, Boolean confirmation) {
         this.mContext = mContext;
         this.mAttivitaList = mLevelList;
+        this.confirmation = confirmation;
     }
 
 
@@ -46,6 +51,18 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
 
         holder.taskTitle.setText(item.descLivello);
         holder.taskDescription.setText(item.descrizione);
+
+        holder.taskCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(confirmation){
+                    Intent confirmationActivity = new Intent(mContext, ConfirmationDetails.class);
+                    confirmationActivity.putExtra(Constants.ID_TASK_CANTIERE, mAttivitaList.get(position).idTaskCantiere);
+                    confirmationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(confirmationActivity);
+                }
+            }
+        });
 
 
     }
