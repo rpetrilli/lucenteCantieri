@@ -34,7 +34,7 @@ public interface TaskCantiereDao {
     @Query("SELECT COUNT(*) FROM task_cantiere")
     int getCount();
 
-    @Query("SELECT * FROM task_cantiere WHERE data_prestazione = :dt")
+    @Query("SELECT * FROM task_cantiere WHERE data_prestazione = :dt and not eseguita")
     List<TaskCantiereEntity> getByDate(Date dt);
 
 }
