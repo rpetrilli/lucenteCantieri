@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 }
 
                 //Set taskCantiereAdapter for listview
-                taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco, false);
+                taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco, false, null);
                 taskRecyclerView.setAdapter(taskCantiereAdapter);
 
                 taskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
