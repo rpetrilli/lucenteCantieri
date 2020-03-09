@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.ConfirmActivity"></activity>
+        <activity android:name=".ui.confirm.ConfirmActivity"></activity>
         <activity
             android:name=".ui.nfc.NFCSync"
             android:label="NFC Sync"

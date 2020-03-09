@@ -8,16 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import it.imp.lucenteCantieri.MainActivity;
 import it.imp.lucenteCantieri.R;
-import it.imp.lucenteCantieri.adapter.MenuLevelAdapter;
 import it.imp.lucenteCantieri.adapter.UbicazioneAdapter;
-import it.imp.lucenteCantieri.ui.ConfirmActivity;
+import it.imp.lucenteCantieri.ui.confirm.ConfirmActivity;
 
 public class NFCSync extends AppCompatActivity {
 

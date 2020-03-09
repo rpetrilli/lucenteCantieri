@@ -1,8 +1,10 @@
-package it.imp.lucenteCantieri.ui;
+package it.imp.lucenteCantieri.ui.confirm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import it.imp.lucenteCantieri.R;
 
 public class ConfirmActivity extends AppCompatActivity {
 

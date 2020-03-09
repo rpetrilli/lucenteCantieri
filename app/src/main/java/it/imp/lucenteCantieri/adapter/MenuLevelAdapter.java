@@ -55,6 +55,7 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
             @Override
             public void onClick(View view) {
                 if (mContext instanceof  MainActivity){
+                    ((MainActivity) mContext).updateNodoAlbero(item);
                     ((MainActivity) mContext).readTasks(item);
                 }
 

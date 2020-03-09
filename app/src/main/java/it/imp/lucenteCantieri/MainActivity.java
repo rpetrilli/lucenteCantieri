@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     Date mSelectedDate = new Date();
     ArrayList<String> mFilterSelected;
 
+    NodoAlbero nodoAlbero;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,6 +239,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
             @Override
             protected List<AttivitaElenco> doInBackground(Void... mainActivities) {
+
                 //get tasks from App Services
                 try {
                     AppService appService = AppService.getInstance(MainActivity.this);
@@ -248,7 +251,12 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
             }
             @Override
             protected void onPostExecute(List<AttivitaElenco> elenco) {
-                if (elenco == null){
+                if(item == null){
+                    showErrorMessage("Non hai selezionato nessuna ubicazione");
+                    return;
+                }
+
+                if (elenco == null || elenco.isEmpty()){
                     showErrorMessage("Nessuna attività pianificata per questa data");
                     return;
                 }
@@ -256,6 +264,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
                 //Set taskCantiereAdapter for listview
                 if (elenco.size() > 0) {
                     taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco);
+                    Log.d("test", elenco.toString());
                     taskRecyclerView.setAdapter(taskCantiereAdapter);
                 }
 
@@ -302,6 +311,16 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     }
 
     /*
+        update current nodo
+
+     */
+
+    public void updateNodoAlbero(NodoAlbero item){
+        this.nodoAlbero = item;
+    }
+
+
+    /*
         create option menu
      */
 
@@ -324,7 +343,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         int id = item.getItemId();
         switch (id){
             case R.id.action_sync:
-                (new SyncElencoAttivitaTask(MainActivity.this)).execute(new String[]{""});
+                readTasks(nodoAlbero);
                 return true;
 
             case R.id.action_associa:
@@ -339,7 +358,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
             case R.id.action_get_struttura:
                 (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
-                levelNameAdapter.notifyDataSetChanged();
+                refreshDrawer();
 
                 return true;
 
@@ -360,6 +379,13 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         cal.set(Calendar.MONTH, datePickerDialog.getSelectedDay().getMonth());
         cal.set(Calendar.DAY_OF_MONTH, datePickerDialog.getSelectedDay().getDay());
         mSelectedDate = cal.getTime();
+
+        //refresh UI
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+        date.setText(df.format(mSelectedDate));
+
+        //download task
+        readTasks(nodoAlbero);
     }
 
 

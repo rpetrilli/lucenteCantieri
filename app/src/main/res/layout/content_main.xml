@@ -5,101 +5,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main"
+    android:weightSum="3">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:orientation="vertical"
+        android:background="@drawable/side_nav_bar"
         android:weightSum="2">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="06/04"
+            android:textAlignment="textStart"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:padding="6dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"/>
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="Data"
-                    android:drawablePadding="6dp"
-                    android:drawableStart="@drawable/ic_calendar"
-                    android:textAlignment="center"
-                    android:textColor="#222"/>
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="06/04"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Luogo"
-                        android:layout_centerInParent="true"
-                        android:drawableStart="@drawable/ic_business"
-                        android:drawablePadding="6dp"
-                        android:textAlignment="center"
-                        android:textColor="#222"/>
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/places"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="Nessun luogo selezionato"
-                android:textSize="18sp"/>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/places"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:text="Nessun luogo selezionato"
+            android:textSize="18sp"
+            android:padding="4dp"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.3dp"
-        android:background="#222"
-        android:layout_margin="8dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
+        android:layout_weight="2.5"
+        android:layout_marginTop="12dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"/>
-
-
 
 </LinearLayout>
