@@ -35,5 +35,7 @@ public interface TaskCantiereImgDao {
     @Query("SELECT COUNT(*) FROM task_cantiere_img where id_task_cantiere = :idTaskCantiere ")
     int getCount(long idTaskCantiere);
 
+    @Query("DELETE FROM task_cantiere_img")
+    int deleteAll();
 
 }

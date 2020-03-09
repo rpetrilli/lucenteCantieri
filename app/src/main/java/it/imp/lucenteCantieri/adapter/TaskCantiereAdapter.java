@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.servizi.AttivitaElenco;
-import it.imp.lucenteCantieri.ui.confirmationDetails.ConfirmationDetails;
+import it.imp.lucenteCantieri.ui.confirmationDetails.ConfirmationDetailsActivity;
 import it.imp.lucenteCantieri.utils.Constants;
 
 public class
@@ -62,7 +61,7 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
                     Gson gson = new Gson();
                     String json = gson.toJson(mAttivitaList.get(position));
 
-                    Intent confirmationActivity = new Intent(mContext, ConfirmationDetails.class);
+                    Intent confirmationActivity = new Intent(mContext, ConfirmationDetailsActivity.class);
                     confirmationActivity.putExtra(Constants.ID_TASK_CANTIERE, json);
                     confirmationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(confirmationActivity);

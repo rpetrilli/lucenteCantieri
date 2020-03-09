@@ -121,6 +121,10 @@ public class AppService implements  SettingsChangeListener {
         TaskCantiereDao taskCantienreDao = mDb.taskCantiereDao();
         taskCantienreDao.deleteAll();
         taskCantienreDao.insertAll(tasks);
+
+        TaskCantiereImgDao taskCantienreDaoImp = mDb.taskCantiereImgDao();
+        taskCantienreDaoImp.deleteAll();
+
     }
 
     /**

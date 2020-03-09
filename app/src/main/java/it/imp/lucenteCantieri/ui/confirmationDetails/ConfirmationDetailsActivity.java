@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -28,11 +29,12 @@ import java.util.List;
 import java.util.Locale;
 
 import it.imp.lucenteCantieri.R;
+import it.imp.lucenteCantieri.model.TaskCantiereImg;
 import it.imp.lucenteCantieri.servizi.AppService;
 import it.imp.lucenteCantieri.servizi.AttivitaElenco;
 import it.imp.lucenteCantieri.utils.Constants;
 
-public class ConfirmationDetails extends AppCompatActivity {
+public class ConfirmationDetailsActivity extends AppCompatActivity {
 
     //UI
     TextView date;
@@ -85,7 +87,7 @@ public class ConfirmationDetails extends AppCompatActivity {
                             // Error occurred while creating the File
                         }
                         if (photoFile != null) {
-                            Uri photoURI = FileProvider.getUriForFile(ConfirmationDetails.this,
+                            Uri photoURI = FileProvider.getUriForFile(ConfirmationDetailsActivity.this,
                                     "it.imp.lucenteCantieri.provider", photoFile);
                             pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                                     photoURI);
@@ -182,7 +184,30 @@ public class ConfirmationDetails extends AppCompatActivity {
         if (requestCode == REQUEST_CAPTURE_IMAGE) {
             Toast.makeText(this, imageFilePath, Toast.LENGTH_LONG).show();
 
-            AppService.getInstance(getApplicationContext()).salvaImmagine(mAttivitaElenco.idTaskCantiere, imageFilePath);
+            AsyncTask<Void, Void, TaskCantiereImg> task = new AsyncTask<Void, Void, TaskCantiereImg>(){
+
+                @Override
+                protected TaskCantiereImg doInBackground(Void... inp) {
+                    //get places tree from App Services
+                    try {
+                        AppService appService = AppService.getInstance(ConfirmationDetailsActivity.this);
+                        return appService.salvaImmagine(mAttivitaElenco.idTaskCantiere, imageFilePath);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+                @Override
+                protected void onPostExecute(TaskCantiereImg elenco) {
+                }
+            };
+
+            task.execute();
+
+
+
+
+
 
         }else if(resultCode == Activity.RESULT_CANCELED) {
             Toast.makeText(this, "Acquisizione immagine interrotta", Toast.LENGTH_LONG).show();
