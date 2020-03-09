@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,7 +51,6 @@ public class ConfirmationDetails extends AppCompatActivity {
     int Year, Month, Day ;
     Date mSelectedDate = new Date();
     AttivitaElenco attivitaElenco;
-    private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int REQUEST_CAPTURE_IMAGE = 100;
     String imageFilePath;
@@ -81,8 +81,24 @@ public class ConfirmationDetails extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if(pictureIntent.resolveActivity(getPackageManager()) != null){
+                        //Create a file to store the image
+                        File photoFile = null;
+                        try {
+                            photoFile = createImageFile();
+                        } catch (IOException e){
+                            // Error occurred while creating the File
+                        }
+                        if (photoFile != null) {
+                            Uri photoURI = FileProvider.getUriForFile(ConfirmationDetails.this,
+                                    "it.imp.lucenteCantieri.provider", photoFile);
+                            pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                    photoURI);
+                            startActivityForResult(pictureIntent,
+                                    REQUEST_CAPTURE_IMAGE);
+                        }
+                    }
                 }
             }
         });
@@ -188,6 +204,7 @@ public class ConfirmationDetails extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAPTURE_IMAGE) {
             Toast.makeText(this, imageFilePath, Toast.LENGTH_LONG).show();
+            Log.d("ConfirmationDetails", imageFilePath);
         }else if(resultCode == Activity.RESULT_CANCELED) {
             Toast.makeText(this, "Acquisizione immagine interrotta", Toast.LENGTH_LONG).show();
         }
