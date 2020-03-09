@@ -131,7 +131,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
             protected void onPostExecute(List<AttivitaElenco> elenco) {
 
                 //Set taskCantiereAdapter for listview
-                taskCantiereAdapter = new TaskCantiereAdapter(ConfirmationListActivity.this, elenco, true, mFiltersSelected);
+                taskCantiereAdapter = new TaskCantiereAdapter(ConfirmationListActivity.this, elenco, true);
                 taskRecyclerView.setAdapter(taskCantiereAdapter);
 
                 taskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));

@@ -26,14 +26,12 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
     private Context mContext;
     private List<AttivitaElenco> mAttivitaList;
     Boolean confirmation;
-    List<String> mFiltersSelected;
 
 
-    public TaskCantiereAdapter(Context mContext, List<AttivitaElenco> mLevelList, Boolean confirmation, List<String> mFiltersSelected) {
+    public TaskCantiereAdapter(Context mContext, List<AttivitaElenco> mLevelList, Boolean confirmation) {
         this.mContext = mContext;
         this.mAttivitaList = mLevelList;
         this.confirmation = confirmation;
-        this.mFiltersSelected = mFiltersSelected;
     }
 
 
@@ -66,7 +64,6 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
 
                     Intent confirmationActivity = new Intent(mContext, ConfirmationDetails.class);
                     confirmationActivity.putExtra(Constants.ID_TASK_CANTIERE, json);
-                    confirmationActivity.putStringArrayListExtra(Constants.PLACES, (ArrayList<String>) mFiltersSelected);
                     confirmationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(confirmationActivity);
                 }

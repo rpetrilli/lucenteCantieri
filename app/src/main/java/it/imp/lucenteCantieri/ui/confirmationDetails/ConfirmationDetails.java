@@ -8,12 +8,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,18 +27,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import it.imp.lucenteCantieri.MainActivity;
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.servizi.AppService;
 import it.imp.lucenteCantieri.servizi.AttivitaElenco;
-import it.imp.lucenteCantieri.servizi.UbicazioneCantiere;
 import it.imp.lucenteCantieri.utils.Constants;
 
 public class ConfirmationDetails extends AppCompatActivity {
 
     //UI
     TextView date;
-    TextView places;
     TextView taskTitle;
     TextView taskDescription;
     ImageView camera;
@@ -50,7 +45,7 @@ public class ConfirmationDetails extends AppCompatActivity {
     Calendar calendar ;
     int Year, Month, Day ;
     Date mSelectedDate = new Date();
-    AttivitaElenco attivitaElenco;
+    AttivitaElenco mAttivitaElenco;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int REQUEST_CAPTURE_IMAGE = 100;
     String imageFilePath;
@@ -67,7 +62,6 @@ public class ConfirmationDetails extends AppCompatActivity {
 
     private void initView() {
         date = findViewById(R.id.date);
-        places = findViewById(R.id.places);
         taskTitle = findViewById(R.id.taskTitle);
         taskDescription = findViewById(R.id.taskDescription);
         camera = findViewById(R.id.camera);
@@ -114,40 +108,23 @@ public class ConfirmationDetails extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         date.setText(df.format(mSelectedDate));
 
-        if (getIntent().getStringExtra(Constants.ID_TASK_CANTIERE) != null && getIntent().getStringExtra(Constants.PLACES) != null){
+        if (getIntent().getStringExtra(Constants.ID_TASK_CANTIERE) != null){
             String json = getIntent().getStringExtra(Constants.ID_TASK_CANTIERE);
             Gson gson = new Gson();
-            attivitaElenco = gson.fromJson(json, AttivitaElenco.class);
-
-            //get list of filters
-            mFiltersSelected = getIntent().getStringArrayListExtra(Constants.PLACES);
-
-            initPlaces();
-
-            initTask();
-
+            mAttivitaElenco = gson.fromJson(json, AttivitaElenco.class);
         }
-
+        if (getIntent().getStringExtra(Constants.PLACES) != null){
+            //TODO: .....
+        }
+        initTask();
 
     }
 
     private void initTask() {
-        taskTitle.setText(this.attivitaElenco.descLivello);
-        taskDescription.setText(this.attivitaElenco.descrizione);
+        taskTitle.setText(this.mAttivitaElenco.descLivello);
+        taskDescription.setText(this.mAttivitaElenco.descrizione);
     }
 
-    private void initPlaces() {
-        if(mFiltersSelected.size() > 0){
-            StringBuilder places = new StringBuilder();
-
-            for (String place: mFiltersSelected){
-                places.append(place).append(" > ");
-            }
-
-            //clean last arrow
-            this.places.setText(places.substring(0,places.length()-3));
-        }
-    }
 
     private File createImageFile() throws IOException {
         String timeStamp =
@@ -204,7 +181,9 @@ public class ConfirmationDetails extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAPTURE_IMAGE) {
             Toast.makeText(this, imageFilePath, Toast.LENGTH_LONG).show();
-            Log.d("ConfirmationDetails", imageFilePath);
+
+            AppService.getInstance(getApplicationContext()).salvaImmagine(mAttivitaElenco.idTaskCantiere, imageFilePath);
+
         }else if(resultCode == Activity.RESULT_CANCELED) {
             Toast.makeText(this, "Acquisizione immagine interrotta", Toast.LENGTH_LONG).show();
         }

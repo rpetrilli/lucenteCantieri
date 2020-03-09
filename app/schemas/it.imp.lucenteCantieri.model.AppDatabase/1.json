@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "23c99768ab72f6aa272b903d5407243d",
+    "identityHash": "6349a27e4af272b90687ca04223918a1",
     "entities": [
       {
         "tableName": "clienti_gerachia",
@@ -216,13 +216,13 @@
       },
       {
         "tableName": "task_cantiere_img",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_task_cantiere_img` INTEGER PRIMARY KEY AUTOINCREMENT, `id_task_cantiere` INTEGER, `nome_immagine` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_task_cantiere_img` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id_task_cantiere` INTEGER, `nome_immagine` TEXT)",
         "fields": [
           {
             "fieldPath": "idTaskCantiereImg",
             "columnName": "id_task_cantiere_img",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "idTaskCantiere",
@@ -250,7 +250,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '23c99768ab72f6aa272b903d5407243d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6349a27e4af272b90687ca04223918a1')"
     ]
   }
 }

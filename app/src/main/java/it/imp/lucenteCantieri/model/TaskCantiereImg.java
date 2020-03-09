@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 public class TaskCantiereImg {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_task_cantiere_img")
-    public Long idTaskCantiereImg;
+    public int idTaskCantiereImg;
 
     @ColumnInfo(name = "id_task_cantiere")
     public Long idTaskCantiere;
@@ -16,11 +16,11 @@ public class TaskCantiereImg {
     @ColumnInfo(name = "nome_immagine"  )
     public String nomeImmagine;
 
-    public Long getIdTaskCantiereImg() {
+    public int getIdTaskCantiereImg() {
         return idTaskCantiereImg;
     }
 
-    public void setIdTaskCantiereImg(Long idTaskCantiereImg) {
+    public void setIdTaskCantiereImg(int idTaskCantiereImg) {
         this.idTaskCantiereImg = idTaskCantiereImg;
     }
 

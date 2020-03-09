@@ -341,6 +341,17 @@ public class AppService implements  SettingsChangeListener {
     }
 
 
+    public TaskCantiereImg salvaImmagine(Long idTaskCantiere, String imageFilePath) {
+        TaskCantiereImg taskCantiereImg = new TaskCantiereImg();
+        taskCantiereImg.idTaskCantiere = idTaskCantiere;
+        taskCantiereImg.nomeImmagine = imageFilePath;
+
+        mDb.taskCantiereImgDao().insert(taskCantiereImg);
+        return taskCantiereImg;
+
+    }
+
+
 
     private boolean leggiLivello(List<NodoAlbero> albero,
                               int nrLivelli, int livello,
