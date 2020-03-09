@@ -36,4 +36,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="msg_dispositivo_non_idoneo">Dispositivo non idoneo</string>
+    <string name="NO_UBICAZIONE">Nessuna ubicazione selezionata</string>
 </resources>

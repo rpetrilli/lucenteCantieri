@@ -19,11 +19,17 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".ui.confirm.ConfirmActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.confirm.ConfirmationListActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.it.imp.lalucente" />
+            </intent-filter>
+        </activity>
 
         <activity
-            android:name=".ui.nfc.NFCSync"
+            android:name=".ui.nfc.NFCWriterActivity"
             android:label="NFC Sync"
             android:screenOrientation="portrait"></activity>
 

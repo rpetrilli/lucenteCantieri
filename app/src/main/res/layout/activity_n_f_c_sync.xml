@@ -6,43 +6,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.nfc.NFCSync">
+    tools:context=".ui.nfc.NFCWriterActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_alignParentStart="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Srittura Tag NFC"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="64dp"
+        android:layout_marginLeft="16dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ubicazione cantiere"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:padding="5dp"/>
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ubicazioniRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ubicazione cantiere"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:padding="5dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Avvicina il cellulare al Tag NFC\nper scrivere l'attuale ubicazione"
-            android:textSize="18sp"
-            android:padding="5dp"
-            android:layout_marginTop="16dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ubicazioniRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"/>
 
-        <Button
-            android:id="@+id/test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Test Lettura"
-            android:background="@color/colorPrimary"
-            android:layout_margin="32dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Avvicina il cellulare al Tag NFC\nper scrivere l'attuale ubicazione"
+                android:textSize="18sp"
+                android:padding="5dp"
+                android:layout_marginTop="16dp"/>
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Test Lettura"
+                android:background="@color/colorPrimary"
+                android:layout_margin="32dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </RelativeLayout>

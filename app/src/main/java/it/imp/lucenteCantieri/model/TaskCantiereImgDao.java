@@ -22,11 +22,14 @@ public interface TaskCantiereImgDao {
     @Query("DELETE FROM task_cantiere_img where id_task_cantiere = :idTaskCantiere")
     int deleteByTaskCantienre(long idTaskCantiere);
 
+    @Query("DELETE FROM task_cantiere_img where id_task_cantiere_img = :id")
+    int deleteById(long id);
+
     @Delete
     void deleteImaagine(TaskCantiereImg noteEntity);
 
     @Query("SELECT * FROM task_cantiere_img WHERE id_task_cantiere = :idTaskCantiere")
-    TaskCantiereImg getImgByIdTaskCantiere(int idTaskCantiere);
+    List<TaskCantiereImg> getImgByIdTaskCantiere(long idTaskCantiere);
 
 
     @Query("SELECT COUNT(*) FROM task_cantiere_img where id_task_cantiere = :idTaskCantiere ")

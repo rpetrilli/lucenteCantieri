@@ -1,6 +1,6 @@
 package it.imp.lucenteCantieri.servizi;
 
-class UbicazioneCantiere {
+public class UbicazioneCantiere {
     public Long idLivello1;
     public String descLivello1;
 

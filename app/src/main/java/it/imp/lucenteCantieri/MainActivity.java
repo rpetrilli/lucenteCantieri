@@ -1,6 +1,5 @@
 package it.imp.lucenteCantieri;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,25 +17,21 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.navigation.ui.AppBarConfiguration;
 
-import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,12 +48,14 @@ import it.imp.lucenteCantieri.servizi.AppService;
 import it.imp.lucenteCantieri.servizi.AttivitaElenco;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
+import it.imp.lucenteCantieri.servizi.UbicazioneCantiere;
 import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
-import it.imp.lucenteCantieri.ui.nfc.NFCSync;
+import it.imp.lucenteCantieri.ui.nfc.NFCWriterActivity;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncElencoAttivitaTask;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
+import it.imp.lucenteCantieri.utils.Constants;
 
-public class MainActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     //UI
     ActionBarDrawerToggle mDrawerToggle;
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     //utils
     static final int RC_BARCODE_CAPTURE = 9001;
     Calendar calendar ;
-    DatePickerDialog datePickerDialog ;
+    DatePickerDialog datePickerDialog;
     int Year, Month, Day ;
     MenuLevelAdapter levelNameAdapter;
     TaskCantiereAdapter taskCantiereAdapter;
@@ -157,10 +154,19 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         nfc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nfc = new Intent(MainActivity.this, NFCSync.class);
-                nfc.putStringArrayListExtra("places", mFilterSelected);
-                nfc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(nfc);
+                if(nodoAlbero != null) {
+                    UbicazioneCantiere ubicazione = AppService.getInstance(MainActivity.this).ubicazionecantiere(nodoAlbero);
+                    Gson gson = new Gson();
+                    String json = gson.toJson(ubicazione);
+
+                    Intent nfc = new Intent(MainActivity.this, NFCWriterActivity.class);
+                    nfc.putStringArrayListExtra(Constants.PLACES, mFilterSelected);
+                    nfc.putExtra(Constants.UBICAZIONE_CANTIERE, json);
+                    nfc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(nfc);
+                }else{
+                    showErrorMessage(getString(R.string.NO_UBICAZIONE));
+                }
             }
         });
 

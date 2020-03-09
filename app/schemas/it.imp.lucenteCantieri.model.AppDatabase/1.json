@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2ed5078f895307400338d728e0e2e758",
+    "identityHash": "23c99768ab72f6aa272b903d5407243d",
     "entities": [
       {
         "tableName": "clienti_gerachia",
@@ -213,12 +213,44 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "task_cantiere_img",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_task_cantiere_img` INTEGER PRIMARY KEY AUTOINCREMENT, `id_task_cantiere` INTEGER, `nome_immagine` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "idTaskCantiereImg",
+            "columnName": "id_task_cantiere_img",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idTaskCantiere",
+            "columnName": "id_task_cantiere",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nomeImmagine",
+            "columnName": "nome_immagine",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_task_cantiere_img"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ed5078f895307400338d728e0e2e758')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '23c99768ab72f6aa272b903d5407243d')"
     ]
   }
 }

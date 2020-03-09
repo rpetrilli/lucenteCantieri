@@ -22,11 +22,15 @@ public interface TaskCantiereDao {
     @Query("DELETE FROM task_cantiere")
     int deleteAll();
 
+    @Query("DELETE FROM task_cantiere where id_task_cantiere = :id")
+    int deleteById(long id);
+
+
     @Delete
     void deleteNote(TaskCantiereEntity noteEntity);
 
     @Query("SELECT * FROM task_cantiere WHERE id_task_cantiere = :id")
-    TaskCantiereEntity getNoteById(int id);
+    TaskCantiereEntity getNoteById(long id);
 
     @Query("SELECT * FROM task_cantiere ORDER BY data_prestazione DESC")
     LiveData<List<TaskCantiereEntity>> getAll();

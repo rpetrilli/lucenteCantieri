@@ -1,12 +1,14 @@
 package it.imp.lucenteCantieri.servizi;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
@@ -28,10 +30,17 @@ import it.imp.lucenteCantieri.model.ClienteGerarchiaEntity;
 import it.imp.lucenteCantieri.model.ClienteValoreLivelloEntity;
 import it.imp.lucenteCantieri.model.TaskCantiereDao;
 import it.imp.lucenteCantieri.model.TaskCantiereEntity;
+import it.imp.lucenteCantieri.model.TaskCantiereImg;
+import it.imp.lucenteCantieri.model.TaskCantiereImgDao;
 import it.imp.lucenteCantieri.retrofit.Cliente;
 import it.imp.lucenteCantieri.retrofit.ClienteGerarchia;
 import it.imp.lucenteCantieri.retrofit.ClienteLivello;
 import it.imp.lucenteCantieri.retrofit.IBackOfficeService;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -53,6 +62,7 @@ public class AppService implements  SettingsChangeListener {
     List<ClienteValoreLivelloEntity> valori = null;
 
     List<NodoAlbero> mAlbero = null;
+    Context mContext = null;
 
     public AppService(Context context) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(settings.baseUrl)
@@ -60,6 +70,7 @@ public class AppService implements  SettingsChangeListener {
                 .build();
         mBackOfficeService = retrofit.create(IBackOfficeService.class);
         mDb = AppDatabase.getInstance(context);
+        mContext = context;
     }
 
     @Override
@@ -257,6 +268,11 @@ public class AppService implements  SettingsChangeListener {
 //        return Arrays.asList("Fab 1", "BAGNO");
     }
 
+    public ArrayList<String> descrizioniFiltro(UbicazioneCantiere ubicazioneCantiere){
+        return descrizioniFiltro(new NodoAlbero(ubicazioneCantiere));
+    }
+
+
     public UbicazioneCantiere ubicazionecantiere(NodoAlbero nodoAlbero){
         if (valori == null){
             ClienteLivelliDao clienteDao = mDb.clienteLivelloDao();
@@ -291,6 +307,36 @@ public class AppService implements  SettingsChangeListener {
 
 
         return ret;
+
+    }
+
+
+    public void sendTaskCantiere(Long idTaskCantiere) throws IOException {
+        TaskCantiereDao daoTaskCantiere = mDb.taskCantiereDao();
+        TaskCantiereEntity task = daoTaskCantiere.getNoteById(idTaskCantiere);
+
+        task.dataPrestazione = new Date();
+        List<TaskCantiereEntity> tasksDaConfermare = new ArrayList<>();
+        tasksDaConfermare.add(task);
+
+        mBackOfficeService.confermaTasks(settings.idClienteSquadra, settings.passwd, tasksDaConfermare).execute();
+
+        TaskCantiereImgDao taskCantiereImgDao = mDb.taskCantiereImgDao();
+        List<TaskCantiereImg> immagini = taskCantiereImgDao.getImgByIdTaskCantiere(idTaskCantiere);
+        for(TaskCantiereImg img: immagini ){
+
+            File file =new File(img.nomeImmagine);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), img.nomeImmagine);
+
+            MultipartBody.Part multipartBody =MultipartBody.Part.createFormData("file",file.getName(),requestFile);
+
+            mBackOfficeService.uploadAllegato(settings.idClienteSquadra, settings.passwd, idTaskCantiere, multipartBody).execute();
+        }
+        taskCantiereImgDao.deleteByTaskCantienre(idTaskCantiere);
+
+        task.eseguita = true;
+        daoTaskCantiere.deleteById(idTaskCantiere);
+
 
     }
 
@@ -387,7 +433,6 @@ public class AppService implements  SettingsChangeListener {
 
         }
     }
-
 
 
 

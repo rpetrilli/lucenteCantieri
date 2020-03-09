@@ -14,6 +14,7 @@ public class NodoAlbero {
     public boolean hasChildren = false;
     public boolean figliVisibili = false;
 
+
     public NodoAlbero(int livello, String descrizione) {
         this.livello = livello;
         this.descrizione = descrizione;
@@ -42,6 +43,15 @@ public class NodoAlbero {
 
     public Long idClienteGerachia;
 
+    public NodoAlbero(UbicazioneCantiere ubicazioneCantiere) {
+        this.idLivello1 = ubicazioneCantiere.idLivello1;
+        this.idLivello2 = ubicazioneCantiere.idLivello2;
+        this.idLivello3 = ubicazioneCantiere.idLivello3;
+        this.idLivello4 = ubicazioneCantiere.idLivello4;
+        this.idLivello5 = ubicazioneCantiere.idLivello5;
+        this.idLivello6 = ubicazioneCantiere.idLivello6;
+
+    }
 
 
     public int getLivello() {
