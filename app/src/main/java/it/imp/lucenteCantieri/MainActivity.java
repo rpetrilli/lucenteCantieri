@@ -33,7 +33,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +73,8 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
     DrawerLayout drawer;
     Toolbar toolbar;
 
+    LinearLayout errorLayout;
+
     //utils
     static final int RC_BARCODE_CAPTURE = 9001;
     Calendar calendar ;
@@ -100,6 +105,8 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
 
     void initView(){
         //init UI
+        errorLayout = findViewById(R.id.errorLayout);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -135,7 +142,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         mFilterSelected = new ArrayList<>();
 
         //calendar init
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         date.setText(df.format(mSelectedDate));
 
         //hamburger menu
@@ -255,33 +262,51 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
             }
             @Override
             protected void onPostExecute(List<AttivitaElenco> elenco) {
-                if(item == null){
-                    showErrorMessage("Non hai selezionato nessuna ubicazione");
-                    return;
-                }
-
                 if (elenco == null || elenco.isEmpty()){
-                    showErrorMessage("Nessuna attività pianificata per questa data");
+                    showErrorText();
                     return;
+                }else{
+                    //init error layout
+                    errorLayout.setVisibility(View.INVISIBLE);
+
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+                    errorLayout.setLayoutParams(lp);
                 }
 
                 //Set taskCantiereAdapter for listview
-                if (elenco.size() > 0) {
-                    taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco);
-                    Log.d("test", elenco.toString());
-                    taskRecyclerView.setAdapter(taskCantiereAdapter);
-                }
+                taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco);
+                taskRecyclerView.setAdapter(taskCantiereAdapter);
 
                 taskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
 
-                //get places level filters
-                AppService appService = AppService.getInstance(MainActivity.this);
-                mFilterSelected = appService.descrizioniFiltro(item);
-                initPlaces();
+                //hide recycler view
+                taskRecyclerView.setVisibility(View.VISIBLE);
+
+                getFilters(item);
             }
         };
 
         task.execute();
+    }
+
+    private void showErrorText() {
+        //show error text
+        this.errorLayout.setVisibility(View.VISIBLE);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        lp.weight = 2;
+
+        this.errorLayout.setLayoutParams(lp);
+
+        //hide recycler view
+        this.taskRecyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    public void getFilters(NodoAlbero item){
+        //get places level filters
+        AppService appService = AppService.getInstance(MainActivity.this);
+        mFilterSelected = appService.descrizioniFiltro(item);
+        initPlaces();
     }
 
     private void initPlaces() {
@@ -347,7 +372,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         int id = item.getItemId();
         switch (id){
             case R.id.action_sync:
-                readTasks(nodoAlbero);
+                (new SyncElencoAttivitaTask(MainActivity.this)).execute(new String[]{""});
                 return true;
 
             case R.id.action_associa:
@@ -385,7 +410,7 @@ public class MainActivity extends AppCompatActivity  implements DatePickerDialog
         mSelectedDate = cal.getTime();
 
         //refresh UI
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         date.setText(df.format(mSelectedDate));
 
         //download task

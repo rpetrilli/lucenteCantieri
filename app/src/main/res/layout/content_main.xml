@@ -23,12 +23,13 @@
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="06/04"
+            android:text="06/03/2020"
             android:textAlignment="textStart"
             android:textSize="32sp"
             android:textStyle="bold"
             android:padding="6dp"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
             android:textColor="@color/white"/>
 
 
@@ -39,10 +40,30 @@
             android:textAlignment="textStart"
             android:text="Nessun luogo selezionato"
             android:textSize="18sp"
-            android:padding="4dp"
+            android:padding="6dp"
+            android:layout_marginStart="8dp"
             android:textColor="@color/white"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/errorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nessun task previsto\nper la data corrente"
+            android:gravity="center"
+            android:layout_marginTop="56dp"
+            android:textAlignment="center"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskListView"
