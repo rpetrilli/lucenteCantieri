@@ -159,6 +159,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                 //get places tree from App Services
                 try {
                     AppService appService = AppService.getInstance(ConfirmationDetailsActivity.this);
+                    appService.closeAttivita(mAttivitaElenco.idTaskCantiere);
                     return appService.leggiImmagini(mAttivitaElenco.idTaskCantiere);
                 } catch (Exception e) {
                     e.printStackTrace();
