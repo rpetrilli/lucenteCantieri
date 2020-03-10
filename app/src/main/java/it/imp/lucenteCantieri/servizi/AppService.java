@@ -38,6 +38,7 @@ import it.imp.lucenteCantieri.retrofit.IBackOfficeService;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -62,8 +63,13 @@ public class AppService implements  SettingsChangeListener {
     Context mContext = null;
 
     public AppService(Context context) {
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd")
+                .create();
+
         Retrofit retrofit = new Retrofit.Builder().baseUrl(settings.baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         mBackOfficeService = retrofit.create(IBackOfficeService.class);
         mDb = AppDatabase.getInstance(context);
@@ -321,7 +327,12 @@ public class AppService implements  SettingsChangeListener {
         List<TaskCantiereEntity> tasksDaConfermare = new ArrayList<>();
         tasksDaConfermare.add(task);
 
-        mBackOfficeService.confermaTasks(settings.idClienteSquadra, settings.passwd, tasksDaConfermare).execute();
+        Response<List<TaskCantiereEntity>> response = mBackOfficeService
+                .confermaTasks(settings.idClienteSquadra, settings.passwd, tasksDaConfermare)
+                .execute();
+        if (!response.isSuccessful()){
+            throw new IOException("Comunicazione con il server non possibile");
+        }
 
         TaskCantiereImgDao taskCantiereImgDao = mDb.taskCantiereImgDao();
         List<TaskCantiereImg> immagini = taskCantiereImgDao.getImgByIdTaskCantiere(idTaskCantiere);

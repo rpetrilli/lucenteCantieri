@@ -23,7 +23,7 @@ public interface IBackOfficeService {
     Call<List<TaskCantiereEntity>> leggiPianoDiLavoro(@Path("idClienteSquadra") long idClienteSquadra, @Path("passwd") String passwd,
         @Query("inizio") String inizio, @Query("fine") String fine);
 
-    @POST("/api/mobile/leggiPianoDiLavoro/{idClienteSquadra}/{passwd}")
+    @POST("/api/mobile/confermaTasks/{idClienteSquadra}/{passwd}")
     Call<List<TaskCantiereEntity>> confermaTasks(@Path("idClienteSquadra") long idClienteSquadra, @Path("passwd") String passwd,
         @Body List<TaskCantiereEntity> tasks);
 
