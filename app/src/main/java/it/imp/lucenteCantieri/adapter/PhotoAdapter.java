@@ -49,7 +49,7 @@ PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder> {
         TaskCantiereImg photo = mPhotoList.get(position);
 
         holder.imageName.setText(photo.nomeImmagine.substring(photo.nomeImmagine.length()-10, photo.nomeImmagine.length()));
-        Picasso.get().load(new File(photo.nomeImmagine)).into(holder.image);
+        Picasso.get().load(new File(photo.nomeImmagine)).fit().centerCrop().into(holder.image);
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
