@@ -57,7 +57,7 @@ MenuLevelAdapter extends RecyclerView.Adapter<MenuLevelViewHolder> {
                 if (mContext instanceof  MainActivity){
                     ((MainActivity) mContext).updateNodoAlbero(item);
                     ((MainActivity) mContext).getFilters(item);
-                    ((MainActivity) mContext).readTasks(item);
+                    ((MainActivity) mContext).readTaskDaVisualizzare(item);
                 }
 
             }

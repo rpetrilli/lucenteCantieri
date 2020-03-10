@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     TextView navTitleText;
     TextView navSubtitleText;
     TextView mTextViewDate;
-    TextView places;
+    TextView mUbicazioniText;
     TextView mTextViewTitle;
     ImageView mNfcImgView;
     RecyclerView levelRecycleView;
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     ArrayList<String> mFilterSelected;
 
     NodoAlbero nodoAlbero;
+    NodoAlbero mSelectedNodoAlbero;
 
 
     @Override
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         setSupportActionBar(toolbar);
 
         mTextViewDate = findViewById(R.id.date);
-        places = findViewById(R.id.places);
+        mUbicazioniText = findViewById(R.id.places);
         mFabChangeDate = findViewById(R.id.fab);
         mDrawer = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         mDrawerToggle.syncState();
 
-        refreshDrawer();
+
 
         //observables
         mNfcImgView.setOnClickListener(new View.OnClickListener() {
@@ -202,9 +203,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mSelectedNodoAlbero != null){
+            this.readTaskDaVisualizzare(mSelectedNodoAlbero);
+        }
+    }
+
     /*
-        refresh left drawer with places tree
-     */
+            refresh left drawer with places tree
+         */
     private void refreshDrawer() {
 
         AsyncTask<Void, Void, List<NodoAlbero>> task = new AsyncTask<Void, Void, List<NodoAlbero>>(){
@@ -246,9 +255,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         load task from DB and Api
      */
 
-    public void readTasks(NodoAlbero item) {
+    public void readTaskDaVisualizzare(NodoAlbero item) {
         //close drawer
         this.mDrawer.closeDrawer(Gravity.LEFT);
+        this.mSelectedNodoAlbero = item;
 
         AsyncTask<Void, Void, List<AttivitaElenco>> task = new AsyncTask<Void, Void, List<AttivitaElenco>>(){
 
@@ -322,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
 
             //clean last arrow
-            this.places.setText(places.substring(0,places.length()-3));
+            this.mUbicazioniText.setText(places.substring(0,places.length()-3));
         }
     }
 
@@ -419,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         mTextViewDate.setText(df.format(mSelectedDate));
 
         //download task
-        readTasks(nodoAlbero);
+        readTaskDaVisualizzare(nodoAlbero);
     }
 
 
@@ -435,6 +445,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     Barcode bc = intent.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         Settings.getInstance().save(getApplicationContext(), bc.displayValue);
+                        initDrawerText();
                     }
 
                 } else {

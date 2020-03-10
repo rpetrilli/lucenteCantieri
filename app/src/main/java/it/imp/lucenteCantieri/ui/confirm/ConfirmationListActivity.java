@@ -3,10 +3,6 @@ package it.imp.lucenteCantieri.ui.confirm;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.work.Constraints;
-import androidx.work.Data;
-import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
 
 import android.content.Intent;
 import android.nfc.NdefMessage;
@@ -31,7 +27,6 @@ import it.imp.lucenteCantieri.servizi.AttivitaElenco;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.UbicazioneCantiere;
 import it.imp.lucenteCantieri.utils.Constants;
-import it.imp.lucenteCantieri.workers.UploadWorker;
 
 
 public class ConfirmationListActivity extends AppCompatActivity {
@@ -60,6 +55,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
 
     }
 
+
     private void initView() {
         //init UI
         taskRecyclerView = findViewById(R.id.taskRecyclerView);
@@ -79,12 +75,12 @@ public class ConfirmationListActivity extends AppCompatActivity {
 
         //get list of filters
         mFiltersSelected = AppService.getInstance(this).descrizioniFiltro(mUbicazioneCantiere);
-        initPlaces();
+        leggiUbicazioni();
 
         //get nodo albero
         nodoAlbero = new NodoAlbero(mUbicazioneCantiere);
 
-        readTasks(nodoAlbero);
+
 
         //init Utils
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -95,15 +91,19 @@ public class ConfirmationListActivity extends AppCompatActivity {
         }
     }
 
-    private void initPlaces() {
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        readTasks(nodoAlbero);
+    }
+
+    private void leggiUbicazioni() {
         if(mFiltersSelected.size() > 0){
             StringBuilder places = new StringBuilder();
-
             for (String place: mFiltersSelected){
                 places.append(place).append(" > ");
             }
-
-            //clean last arrow
+            //remove last arrow
             this.places.setText(places.substring(0,places.length()-3));
         }
     }
@@ -135,6 +135,8 @@ public class ConfirmationListActivity extends AppCompatActivity {
                 taskRecyclerView.setAdapter(taskCantiereAdapter);
 
                 taskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
+
+                taskCantiereAdapter.notifyDataSetChanged();
             }
         };
 

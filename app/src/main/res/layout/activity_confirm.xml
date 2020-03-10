@@ -44,8 +44,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/side_nav_bar"
         android:weightSum="2">
@@ -69,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
-            android:text="Nessun luogo selezionato"
+            android:text="Nessuna ubicazione selezionata"
             android:textSize="18sp"
             android:padding="6dp"
             android:layout_marginStart="8dp"
