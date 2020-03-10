@@ -43,7 +43,7 @@
                         android:id="@+id/writeTagNFC"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_mode_edit_black_24dp"
+                        android:src="@drawable/ic_segnalazione"
                         android:layout_marginEnd="12dp"/>
 
 

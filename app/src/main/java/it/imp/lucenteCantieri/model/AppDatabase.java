@@ -8,7 +8,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {ClienteGerarchiaEntity.class, ClienteValoreLivelloEntity.class, TaskCantiereEntity.class, TaskCantiereImg.class}, version = 1)
+@Database(entities =
+        {ClienteGerarchiaEntity.class, ClienteValoreLivelloEntity.class,
+                TaskCantiereEntity.class, TaskCantiereImg.class, SegnalazioneEntity.class},
+        version = 1)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "AppDatabase.db";
@@ -18,6 +21,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ClienteLivelliDao clienteLivelloDao();
     public abstract ClienteGerarchiaDao clienteGerarchiaDao();
     public abstract TaskCantiereDao taskCantiereDao();
+    public abstract SegnalazioniDao segnalazioniDao();
 
     public abstract TaskCantiereImgDao taskCantiereImgDao();
 

@@ -51,7 +51,7 @@ import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
 import it.imp.lucenteCantieri.servizi.UbicazioneCantiere;
 import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
-import it.imp.lucenteCantieri.ui.comunication.ComunicationActivity;
+import it.imp.lucenteCantieri.ui.comunication.SegnalazioneActivity;
 import it.imp.lucenteCantieri.ui.nfc.NFCWriterActivity;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncElencoAttivitaTask;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         mWriteTagNFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent comunication = new Intent(MainActivity.this, ComunicationActivity.class);
+                Intent comunication = new Intent(MainActivity.this, SegnalazioneActivity.class);
                 comunication.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(comunication);
             }

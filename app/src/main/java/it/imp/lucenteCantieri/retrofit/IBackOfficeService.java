@@ -3,6 +3,7 @@ package it.imp.lucenteCantieri.retrofit;
 import java.util.Date;
 import java.util.List;
 
+import it.imp.lucenteCantieri.model.SegnalazioneEntity;
 import it.imp.lucenteCantieri.model.TaskCantiereEntity;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -34,5 +35,9 @@ public interface IBackOfficeService {
             @Path("idTaskCantiere") long idTaskCantiere,
             @Part MultipartBody.Part file
     );
+
+    @POST("/api/mobile/inviaSegnalazioni/{idClienteSquadra}/{passwd}")
+    Call<List<SegnalazioneEntity>> inviaSegnalazione(@Path("idClienteSquadra") long idClienteSquadra, @Path("passwd") String passwd,
+            @Body List<SegnalazioneEntity> tasks);
 
 }

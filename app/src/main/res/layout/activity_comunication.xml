@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.comunication.ComunicationActivity">
+    tools:context=".ui.comunication.SegnalazioneActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -42,13 +42,13 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <MultiAutoCompleteTextView
-        android:id="@+id/txtNote"
+        android:id="@+id/txtSegnalazione"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:paddingStart="16dp"
         android:lines="4"
-        android:hint="Inserisci note"/>
+        android:hint="Segnalazione"/>
 
 
     <RelativeLayout
@@ -56,12 +56,12 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/confirm_button"
+            android:id="@+id/btn_invia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/colorPrimary"
-            android:text="Conferma"
+            android:text="Invia"
             android:textColor="@color/white"/>
 
     </RelativeLayout>

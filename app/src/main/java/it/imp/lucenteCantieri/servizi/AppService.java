@@ -27,6 +27,8 @@ import it.imp.lucenteCantieri.model.ClienteGerarchiaDao;
 import it.imp.lucenteCantieri.model.ClienteLivelliDao;
 import it.imp.lucenteCantieri.model.ClienteGerarchiaEntity;
 import it.imp.lucenteCantieri.model.ClienteValoreLivelloEntity;
+import it.imp.lucenteCantieri.model.SegnalazioneEntity;
+import it.imp.lucenteCantieri.model.SegnalazioniDao;
 import it.imp.lucenteCantieri.model.TaskCantiereDao;
 import it.imp.lucenteCantieri.model.TaskCantiereEntity;
 import it.imp.lucenteCantieri.model.TaskCantiereImg;
@@ -235,6 +237,32 @@ public class AppService implements  SettingsChangeListener {
     }
 
 
+    public List<ClienteGerarchiaEntity> leggiGerachiaPerNodoAlbero(NodoAlbero nodoAlbero){
+        if (gerarchia == null){
+            ClienteGerarchiaDao clienteGerachiaDao = mDb.clienteGerarchiaDao();
+            gerarchia = clienteGerachiaDao.getAll();
+        }
+
+        List<ClienteGerarchiaEntity> ret = new ArrayList<>();
+
+        for(ClienteGerarchiaEntity nodo: gerarchia){
+            boolean skip = (nodoAlbero.idLivello1 !=null && nodoAlbero.idLivello1!= nodo.idLivello1)
+                    || (nodoAlbero.idLivello2 !=null && nodoAlbero.idLivello2!= nodo.idLivello2)
+                    || (nodoAlbero.idLivello3 !=null && nodoAlbero.idLivello3!= nodo.idLivello3)
+                    || (nodoAlbero.idLivello4 !=null && nodoAlbero.idLivello4!= nodo.idLivello4)
+                    || (nodoAlbero.idLivello5 !=null && nodoAlbero.idLivello5!= nodo.idLivello5)
+                    || (nodoAlbero.idLivello6 !=null && nodoAlbero.idLivello6!= nodo.idLivello6);
+            if (skip)
+                continue;
+
+            ret.add(nodo);
+
+        }
+        return ret;
+
+    }
+
+
     /**
      * Legge se ci sono le descrizioni dei singoli livello
      * @return
@@ -278,6 +306,7 @@ public class AppService implements  SettingsChangeListener {
     public ArrayList<String> descrizioniFiltro(UbicazioneCantiere ubicazioneCantiere){
         return descrizioniFiltro(new NodoAlbero(ubicazioneCantiere));
     }
+
 
     public void closeAttivita(Long idTaskCantiere) {
         TaskCantiereDao taskCantiereDto = mDb.taskCantiereDao();
@@ -359,6 +388,24 @@ public class AppService implements  SettingsChangeListener {
 
     }
 
+    public void sendSegnalazione(Long idSegnalazione) throws IOException {
+        SegnalazioniDao segnalazioniDao = mDb.segnalazioniDao();
+        SegnalazioneEntity segnalazione = segnalazioniDao.getById(idSegnalazione);
+
+        List<SegnalazioneEntity> segnalazioni = new ArrayList<>();
+        segnalazioni.add(segnalazione);
+
+        Response<List<SegnalazioneEntity>> response = mBackOfficeService
+                .inviaSegnalazione(settings.idClienteSquadra, settings.passwd, segnalazioni)
+                .execute();
+        if (!response.isSuccessful()){
+            throw new IOException("Comunicazione con il server non possibile");
+        }
+        segnalazioniDao.deleteById(idSegnalazione);
+
+
+    }
+
 
     public TaskCantiereImg salvaImmagine(Long idTaskCantiere, String imageFilePath) {
         TaskCantiereImg taskCantiereImg = new TaskCantiereImg();
@@ -374,6 +421,10 @@ public class AppService implements  SettingsChangeListener {
         return mDb.taskCantiereImgDao().getImgByIdTaskCantiere(idTaskCantiere);
     }
 
+    public SegnalazioneEntity salvaSegnalazione(SegnalazioneEntity segnalazione) {
+        segnalazione.idSegnalazione =  mDb.segnalazioniDao().insert(segnalazione);
+        return segnalazione;
+    }
 
 
     private boolean leggiLivello(List<NodoAlbero> albero,

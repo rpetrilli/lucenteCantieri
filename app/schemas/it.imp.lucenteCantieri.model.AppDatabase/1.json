@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4d2f2fc61784f229257ae0407ae36e32",
+    "identityHash": "9b7e6aa333c32d2d27414bda76158077",
     "entities": [
       {
         "tableName": "clienti_gerachia",
@@ -254,12 +254,62 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "segnalazione",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_segnalazione` INTEGER PRIMARY KEY AUTOINCREMENT, `id_cliente` INTEGER, `descrizione` TEXT, `id_cliente_squadra` INTEGER, `data_creazione` INTEGER, `id_cliente_gerachia` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "idSegnalazione",
+            "columnName": "id_segnalazione",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idCliente",
+            "columnName": "id_cliente",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "descrizione",
+            "columnName": "descrizione",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idClienteSquadra",
+            "columnName": "id_cliente_squadra",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dataCreazione",
+            "columnName": "data_creazione",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idClienteGerachia",
+            "columnName": "id_cliente_gerachia",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_segnalazione"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4d2f2fc61784f229257ae0407ae36e32')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9b7e6aa333c32d2d27414bda76158077')"
     ]
   }
 }
