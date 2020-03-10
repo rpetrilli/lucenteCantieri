@@ -20,15 +20,17 @@ public class UploadWorker extends Worker {
     @Override
     public Result doWork() {
         Long idTaskCantiere = getInputData().getLong(Constants.ID_TASK_CANTIERE , -1L);
+        String note = getInputData().getString(Constants.NOTE);
+
         AppService service = AppService.getInstance(getApplicationContext());
 
         try {
-            service.sendTaskCantiere(idTaskCantiere);
+            service.sendTaskCantiere(idTaskCantiere, note);
         } catch (IOException e) {
-            e.printStackTrace();
+            return Result.retry();
         }
 
 
-        return null;
+        return Result.success();
     }
 }

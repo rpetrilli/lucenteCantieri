@@ -21,6 +21,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import com.google.gson.Gson;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import androidx.core.view.MenuCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,13 +62,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     ActionBarDrawerToggle mDrawerToggle;
     TextView navTitleText;
     TextView navSubtitleText;
-    TextView date;
+    TextView mTextViewDate;
     TextView places;
-    TextView title;
-    ImageView nfc;
+    TextView mTextViewTitle;
+    ImageView mNfcImgView;
     RecyclerView levelRecycleView;
     RecyclerView taskRecyclerView;
-    DrawerLayout drawer;
+    DrawerLayout mDrawer;
+    FloatingActionButton mFabChangeDate;
     Toolbar toolbar;
 
     LinearLayout errorLayout;
@@ -107,25 +109,25 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        date = findViewById(R.id.date);
+        mTextViewDate = findViewById(R.id.date);
         places = findViewById(R.id.places);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        drawer = findViewById(R.id.drawer_layout);
+        mFabChangeDate = findViewById(R.id.fab);
+        mDrawer = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
-                drawer,
+                mDrawer,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
         //drawer title
-        navTitleText = drawer.findViewById(R.id.navTitleText);
-        navSubtitleText = drawer.findViewById(R.id.navSubtitleText);
+        navTitleText = mDrawer.findViewById(R.id.navTitleText);
+        navSubtitleText = mDrawer.findViewById(R.id.navSubtitleText);
         initDrawerText();
 
         //toolbar
-        title = toolbar.findViewById(R.id.title);
-        nfc = toolbar.findViewById(R.id.nfc);
-        title.setText("Tasks");
+        mTextViewTitle = toolbar.findViewById(R.id.title);
+        mNfcImgView = toolbar.findViewById(R.id.nfc);
+        mTextViewTitle.setText("Tasks");
 
         //recycler view
         levelRecycleView = findViewById(R.id.levelListView);
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         //calendar init
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        date.setText(df.format(mSelectedDate));
+        mTextViewDate.setText(df.format(mSelectedDate));
 
         //hamburger menu
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         refreshDrawer();
 
         //observables
-        nfc.setOnClickListener(new View.OnClickListener() {
+        mNfcImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(nodoAlbero != null) {
@@ -171,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
 
         //observables
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFabChangeDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 datePickerDialog = DatePickerDialog.newInstance(MainActivity.this, Year, Month, Day);
@@ -198,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawer.openDrawer(Gravity.LEFT);
+                mDrawer.openDrawer(Gravity.LEFT);
             }
         });
 
@@ -250,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     public void readTasks(NodoAlbero item) {
         //close drawer
-        this.drawer.closeDrawer(Gravity.LEFT);
+        this.mDrawer.closeDrawer(Gravity.LEFT);
 
         AsyncTask<Void, Void, List<AttivitaElenco>> task = new AsyncTask<Void, Void, List<AttivitaElenco>>(){
 
@@ -362,6 +364,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        MenuCompat.setGroupDividerEnabled(menu, true);
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -417,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         //refresh UI
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        date.setText(df.format(mSelectedDate));
+        mTextViewDate.setText(df.format(mSelectedDate));
 
         //download task
         readTasks(nodoAlbero);

@@ -82,12 +82,16 @@
     </LinearLayout>
 
     <MultiAutoCompleteTextView
+        android:id="@+id/txtNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:paddingStart="16dp"
         android:lines="4"
         android:hint="Annotazioni"/>
+
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"

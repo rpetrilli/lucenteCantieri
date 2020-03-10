@@ -29,7 +29,7 @@ public interface ClienteLivelliDao {
     @Query("SELECT * FROM clienti_valori_livello WHERE id_cliente_livello = :id")
     ClienteValoreLivelloEntity getById(int id);
 
-    @Query("SELECT * FROM clienti_valori_livello ORDER BY ordinamento DESC")
+    @Query("SELECT * FROM clienti_valori_livello ORDER BY ordinamento ASC")
     List<ClienteValoreLivelloEntity> getAll();
 
     @Query("SELECT COUNT(*) FROM clienti_valori_livello")

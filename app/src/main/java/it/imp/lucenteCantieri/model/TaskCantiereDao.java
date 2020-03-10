@@ -30,7 +30,7 @@ public interface TaskCantiereDao {
     void deleteNote(TaskCantiereEntity noteEntity);
 
     @Query("SELECT * FROM task_cantiere WHERE id_task_cantiere = :id")
-    TaskCantiereEntity getNoteById(long id);
+    TaskCantiereEntity getById(long id);
 
     @Query("SELECT * FROM task_cantiere ORDER BY data_prestazione DESC")
     LiveData<List<TaskCantiereEntity>> getAll();

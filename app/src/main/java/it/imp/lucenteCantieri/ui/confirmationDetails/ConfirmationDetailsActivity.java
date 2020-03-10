@@ -3,6 +3,11 @@ package it.imp.lucenteCantieri.ui.confirmationDetails;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import android.Manifest;
 import android.app.Activity;
@@ -14,7 +19,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +40,7 @@ import it.imp.lucenteCantieri.model.TaskCantiereImg;
 import it.imp.lucenteCantieri.servizi.AppService;
 import it.imp.lucenteCantieri.servizi.AttivitaElenco;
 import it.imp.lucenteCantieri.utils.Constants;
+import it.imp.lucenteCantieri.workers.UploadWorker;
 
 public class ConfirmationDetailsActivity extends AppCompatActivity {
 
@@ -41,6 +49,8 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     TextView taskTitle;
     TextView taskDescription;
     ImageView camera;
+    Button mConfermaButton;
+    MultiAutoCompleteTextView mTxtNote;
 
     //utils;
     List<String> mFiltersSelected;
@@ -67,6 +77,8 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
         taskTitle = findViewById(R.id.taskTitle);
         taskDescription = findViewById(R.id.taskDescription);
         camera = findViewById(R.id.camera);
+        mTxtNote = findViewById(R.id.txtNote);
+
 
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,13 +130,75 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
         if (getIntent().getStringExtra(Constants.PLACES) != null){
             //TODO: .....
         }
+
+        mConfermaButton = findViewById(R.id.confirm_button);
+        mConfermaButton.setOnClickListener(
+                new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        regitraConfermaNelServer();
+                    }
+                }
+        );
+
         initTask();
 
     }
 
+    private void loadImgList() {
+        AsyncTask<Void, Void, List<TaskCantiereImg>> task = new AsyncTask<Void, Void, List<TaskCantiereImg>>(){
+
+            @Override
+            protected List<TaskCantiereImg> doInBackground(Void... inp) {
+                //get places tree from App Services
+                try {
+                    AppService appService = AppService.getInstance(ConfirmationDetailsActivity.this);
+                    return appService.leggiImmagini(mAttivitaElenco.idTaskCantiere);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            @Override
+            protected void onPostExecute(List<TaskCantiereImg> elenco) {
+                //TODO: popolare la lista a schermo
+            }
+        };
+
+        task.execute();
+
+    }
+
+    public void regitraConfermaNelServer(){
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        Data uploadData = new Data.Builder()
+                .putLong(Constants.ID_TASK_CANTIERE, mAttivitaElenco.idTaskCantiere)
+                .putString(Constants.NOTE, mTxtNote.getText().toString())
+                .build();
+
+        OneTimeWorkRequest uploadWork =
+                new OneTimeWorkRequest.Builder(UploadWorker.class)
+                        .setConstraints(constraints)
+                        .setInputData(uploadData)
+                        .build();
+
+
+        WorkManager.getInstance(this).enqueue(uploadWork);
+
+        finish();
+
+    }
+
+
+
     private void initTask() {
         taskTitle.setText(this.mAttivitaElenco.descLivello);
         taskDescription.setText(this.mAttivitaElenco.descrizione);
+
+        loadImgList();
     }
 
 

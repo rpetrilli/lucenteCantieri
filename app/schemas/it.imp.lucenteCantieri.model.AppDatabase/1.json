@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6349a27e4af272b90687ca04223918a1",
+    "identityHash": "4d2f2fc61784f229257ae0407ae36e32",
     "entities": [
       {
         "tableName": "clienti_gerachia",
@@ -243,14 +243,23 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_task_cantiere_img_id_task_cantiere",
+            "unique": false,
+            "columnNames": [
+              "id_task_cantiere"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_task_cantiere_img_id_task_cantiere` ON `${TABLE_NAME}` (`id_task_cantiere`)"
+          }
+        ],
         "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6349a27e4af272b90687ca04223918a1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4d2f2fc61784f229257ae0407ae36e32')"
     ]
   }
 }

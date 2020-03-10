@@ -171,25 +171,6 @@ public class ConfirmationListActivity extends AppCompatActivity {
     }
 
 
-    public void sendActivity(){
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-
-        Data uploadData = new Data.Builder()
-                .putLong(Constants.ID_TASK_CANTIERE, 20L)
-                .build();
-
-        OneTimeWorkRequest uploadWork =
-                new OneTimeWorkRequest.Builder(UploadWorker.class)
-                        .setConstraints(constraints)
-                        .setInputData(uploadData)
-                        .build();
-
-
-
-
-    }
 
 
 

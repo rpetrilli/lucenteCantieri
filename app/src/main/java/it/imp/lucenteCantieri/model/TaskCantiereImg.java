@@ -2,9 +2,10 @@ package it.imp.lucenteCantieri.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "task_cantiere_img")
+@Entity(tableName = "task_cantiere_img", indices = {@Index("id_task_cantiere")})
 public class TaskCantiereImg {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_task_cantiere_img")
