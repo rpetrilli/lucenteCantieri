@@ -279,6 +279,12 @@ public class AppService implements  SettingsChangeListener {
         return descrizioniFiltro(new NodoAlbero(ubicazioneCantiere));
     }
 
+    public void closeAttivita(Long idTaskCantiere) {
+        TaskCantiereDao taskCantiereDto = mDb.taskCantiereDao();
+        TaskCantiereEntity  item = taskCantiereDto.getById(idTaskCantiere);
+        item.eseguita = true;
+        taskCantiereDto.insert(item);
+    }
 
     public UbicazioneCantiere ubicazionecantiere(NodoAlbero nodoAlbero){
         if (valori == null){
@@ -461,7 +467,6 @@ public class AppService implements  SettingsChangeListener {
 
         }
     }
-
 
 
 }
