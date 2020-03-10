@@ -172,6 +172,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                 photoRecyclerView.setAdapter(photoAdapter);
 
                 photoRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
+                photoRecyclerView.setNestedScrollingEnabled(false);
             }
         };
 

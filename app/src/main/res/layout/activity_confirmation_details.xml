@@ -49,70 +49,80 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/side_nav_bar"
-        android:weightSum="2">
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="06/03/2020"
-            android:textAlignment="textStart"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:padding="6dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/white"/>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp">
-
-        <include layout="@layout/taskcantiere_card"/>
-
-    </LinearLayout>
-
-    <MultiAutoCompleteTextView
-        android:id="@+id/txtNote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:paddingStart="16dp"
-        android:lines="4"
-        android:hint="Annotazioni"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/photoList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"/>
-
-
-
-
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/confirm_button"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary"
-            android:text="Conferma"
-            android:textColor="@color/white"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/side_nav_bar"
+                android:weightSum="2">
 
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="06/03/2020"
+                    android:textAlignment="textStart"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:padding="6dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/white"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <include layout="@layout/taskcantiere_card"/>
+
+            </LinearLayout>
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/txtNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingStart="16dp"
+                android:lines="4"
+                android:hint="Annotazioni"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/photoList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"/>
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/confirm_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/colorPrimary"
+                    android:text="Conferma"
+                    android:textColor="@color/white"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

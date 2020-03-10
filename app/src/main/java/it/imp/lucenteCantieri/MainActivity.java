@@ -51,6 +51,7 @@ import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
 import it.imp.lucenteCantieri.servizi.UbicazioneCantiere;
 import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
+import it.imp.lucenteCantieri.ui.comunication.ComunicationActivity;
 import it.imp.lucenteCantieri.ui.nfc.NFCWriterActivity;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncElencoAttivitaTask;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     TextView mUbicazioniText;
     TextView mTextViewTitle;
     ImageView mNfcImgView;
+    ImageView mWriteTagNFC;
     RecyclerView levelRecycleView;
     RecyclerView taskRecyclerView;
     DrawerLayout mDrawer;
@@ -124,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         //toolbar
         mTextViewTitle = toolbar.findViewById(R.id.title);
         mNfcImgView = toolbar.findViewById(R.id.nfc);
+        mWriteTagNFC = toolbar.findViewById(R.id.writeTagNFC);
         mTextViewTitle.setText("Tasks");
 
         //recycler view
@@ -166,6 +169,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 }else{
                     showErrorMessage(getString(R.string.info), getString(R.string.NO_UBICAZIONE));
                 }
+            }
+        });
+
+        mWriteTagNFC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent comunication = new Intent(MainActivity.this, ComunicationActivity.class);
+                comunication.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(comunication);
             }
         });
 
