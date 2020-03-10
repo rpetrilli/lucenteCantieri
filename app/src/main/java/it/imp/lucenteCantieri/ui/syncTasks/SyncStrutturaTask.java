@@ -54,7 +54,7 @@ public class SyncStrutturaTask extends AsyncTask<String, Integer, String> {
         mProgress.dismiss();
         if (StringUtils.isNotEmpty(errorMessage)) {
             if (mContext instanceof MainActivity) {
-                ((MainActivity) mContext).showErrorMessage(errorMessage);
+                ((MainActivity) mContext).showErrorMessage(mContext.getString(R.string.errore), errorMessage);
             }
         }
     }

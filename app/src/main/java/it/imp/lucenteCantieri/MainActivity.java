@@ -89,17 +89,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setTheme(R.style.AppTheme);
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initView();
 
         ButterKnife.bind(this);
-
     }
 
     void initView(){
@@ -167,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     nfc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(nfc);
                 }else{
-                    showErrorMessage(getString(R.string.NO_UBICAZIONE));
+                    showErrorMessage(getString(R.string.info), getString(R.string.NO_UBICAZIONE));
                 }
             }
         });
@@ -227,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             protected void onPostExecute(List<NodoAlbero> elenco) {
                 if (elenco == null){
-                    showErrorMessage("Errore di sincronizzazione dei luoghi");
+                    showErrorMessage(getString(R.string.info), getString(R.string.NO_UBICAZIONE));
                     return;
                 }
 
@@ -457,10 +453,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     /*
         public method to show error message
      */
-    public void showErrorMessage(String errorMessage){
+    public void showErrorMessage(String titolo, String errorMessage){
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
         dialog.setMessage(errorMessage);
-        dialog.setTitle(R.string.errore);
+        dialog.setTitle(titolo);
         dialog.setCancelable(true);
         dialog.show();
     }
