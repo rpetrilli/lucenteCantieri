@@ -446,6 +446,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         Settings.getInstance().save(getApplicationContext(), bc.displayValue);
                         initDrawerText();
+                        refreshDrawer();
                     }
 
                 } else {

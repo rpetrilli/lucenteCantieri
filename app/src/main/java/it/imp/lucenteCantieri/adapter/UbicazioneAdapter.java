@@ -46,9 +46,8 @@ UbicazioneAdapter extends RecyclerView.Adapter<UbicazioneViewHolder> {
 
         holder.ubicazioneTitle.setText(ubicazione);
 
-        if(mUbicazioniList.size() == 1 || position == mUbicazioniList.size()-1){
-            holder.arrow.setVisibility(View.INVISIBLE);
-            holder.arrow.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+        if(mUbicazioniList.size() != 1 && position != mUbicazioniList.size()-1){
+            holder.ubicatoCard.setPadding(8 * position,0,0,0);
         }
 
     }

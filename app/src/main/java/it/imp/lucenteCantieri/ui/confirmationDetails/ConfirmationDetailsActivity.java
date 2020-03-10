@@ -3,6 +3,8 @@ package it.imp.lucenteCantieri.ui.confirmationDetails;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
@@ -36,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 
 import it.imp.lucenteCantieri.R;
+import it.imp.lucenteCantieri.adapter.PhotoAdapter;
 import it.imp.lucenteCantieri.model.TaskCantiereImg;
 import it.imp.lucenteCantieri.servizi.AppService;
 import it.imp.lucenteCantieri.servizi.AttivitaElenco;
@@ -51,6 +54,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     ImageView camera;
     Button mConfermaButton;
     MultiAutoCompleteTextView mTxtNote;
+    RecyclerView photoRecyclerView;
 
     //utils;
     List<String> mFiltersSelected;
@@ -61,6 +65,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int REQUEST_CAPTURE_IMAGE = 100;
     String imageFilePath;
+    PhotoAdapter photoAdapter;
 
 
 
@@ -78,6 +83,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
         taskDescription = findViewById(R.id.taskDescription);
         camera = findViewById(R.id.camera);
         mTxtNote = findViewById(R.id.txtNote);
+        photoRecyclerView = findViewById(R.id.photoList);
 
 
         camera.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +167,11 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(List<TaskCantiereImg> elenco) {
-                //TODO: popolare la lista a schermo
+                //Set taskCantiereAdapter for listview
+                photoAdapter = new PhotoAdapter(ConfirmationDetailsActivity.this, elenco);
+                photoRecyclerView.setAdapter(photoAdapter);
+
+                photoRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
             }
         };
 
@@ -237,7 +247,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                         // Error occurred while creating the File
                     }
                     if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(this,                                                                                                    "com.example.android.provider", photoFile);
+                        Uri photoURI = FileProvider.getUriForFile(this,"it.imp.lucenteCantieri.provider", photoFile);
                         pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                                 photoURI);
                         startActivityForResult(pictureIntent,
@@ -273,6 +283,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                 }
                 @Override
                 protected void onPostExecute(TaskCantiereImg elenco) {
+                    loadImgList();
                 }
             };
 

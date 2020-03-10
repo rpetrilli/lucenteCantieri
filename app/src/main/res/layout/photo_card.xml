@@ -15,52 +15,50 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.05"
-                android:background="@color/colorPrimaryDark"/>
 
             <LinearLayout
                 android:id="@+id/level"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.95"
                 android:orientation="horizontal"
                 android:layout_margin="8dp">
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_business"/>
+                    android:id="@+id/image"
+                    android:layout_width="128dp"
+                    android:layout_height="86dp"/>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/ubicazioneTitle"
+                        android:id="@+id/imageTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Fabbricato 1"
+                        android:text="Titolo"
                         android:textSize="18sp"
                         android:textColor="#222"
+                        android:padding="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_centerVertical="true"/>
 
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/imagePath"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Path"
+                        android:textSize="18sp"
+                        android:textColor="#222"
+                        android:layout_marginStart="8dp"
+                        android:padding="8dp"
+                        android:layout_centerVertical="true"/>
+
+                </LinearLayout>
 
 
             </LinearLayout>
-
-
-        </LinearLayout>
 
     </LinearLayout>
 

@@ -90,6 +90,12 @@
         android:lines="4"
         android:hint="Annotazioni"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/photoList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"/>
+
 
 
 
