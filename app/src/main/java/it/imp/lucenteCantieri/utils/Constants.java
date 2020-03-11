@@ -8,4 +8,6 @@ public class Constants {
     public static final String ID_SEGNALAZIONE = "idSegnalazione";
 
     public static final String NOTE = "Note";
+    public static final String FINE = "fine";
+    public static final String INIZIO = "inizio";
 }

@@ -353,10 +353,16 @@ public class AppService implements  SettingsChangeListener {
     }
 
 
-    public void sendTaskCantiere(Long idTaskCantiere, String note) throws IOException {
+    public void sendTaskCantiere(Long idTaskCantiere, String note, Long inizio, Long fine) throws IOException {
         TaskCantiereDao daoTaskCantiere = mDb.taskCantiereDao();
         TaskCantiereEntity task = daoTaskCantiere.getById(idTaskCantiere);
         task.note = note;
+        if (inizio > 0){
+            task.inizio = inizio;
+        }
+        if (fine > 0){
+            task.fine = fine;
+        }
 
         task.dataPrestazione = new Date();
         List<TaskCantiereEntity> tasksDaConfermare = new ArrayList<>();

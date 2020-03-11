@@ -73,6 +73,8 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     PhotoAdapter photoAdapter;
     private Executor executor = Executors.newSingleThreadExecutor();
 
+    Date mInizio = new Date();
+
 
 
     @Override
@@ -224,6 +226,8 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                         Data uploadData = new Data.Builder()
                                 .putLong(Constants.ID_TASK_CANTIERE, mAttivitaElenco.idTaskCantiere)
                                 .putString(Constants.NOTE, mTxtNote.getText().toString())
+                                .putLong(Constants.INIZIO, dateToLong(mInizio))
+                                .putLong(Constants.FINE, dateToLong(new Date()))
                                 .build();
 
                         OneTimeWorkRequest uploadWork =
@@ -241,6 +245,11 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
 
     }
 
+    private long dateToLong(Date dt) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+        return cal.get(Calendar.SECOND) + cal.get(Calendar.MINUTE) * 60 +  cal.get(Calendar.HOUR_OF_DAY) * 3600;
+    }
 
 
     private void initTask() {
