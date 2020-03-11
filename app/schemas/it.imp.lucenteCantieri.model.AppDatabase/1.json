@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9b7e6aa333c32d2d27414bda76158077",
+    "identityHash": "82b8f312a3eb20d5f17d189191255ba5",
     "entities": [
       {
         "tableName": "clienti_gerachia",
@@ -130,7 +130,7 @@
       },
       {
         "tableName": "task_cantiere",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_task_cantiere` INTEGER PRIMARY KEY AUTOINCREMENT, `id_cliente_geranchia` INTEGER, `descrizione` TEXT, `note` TEXT, `stato` TEXT, `id_tipo_servizio` TEXT, `id_attivita_soggetto` INTEGER, `data_prestazione` INTEGER, `eseguita` INTEGER, `id_contratto_oggetto` INTEGER, `id_contratto` INTEGER, `id_ticket` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_task_cantiere` INTEGER PRIMARY KEY AUTOINCREMENT, `id_cliente_geranchia` INTEGER, `descrizione` TEXT, `note` TEXT, `stato` TEXT, `id_tipo_servizio` TEXT, `id_attivita_soggetto` INTEGER, `data_prestazione` INTEGER, `eseguita` INTEGER, `id_contratto_oggetto` INTEGER, `id_contratto` INTEGER, `id_ticket` INTEGER, `inizio` INTEGER, `fine` INTEGER)",
         "fields": [
           {
             "fieldPath": "idTaskCantiere",
@@ -201,6 +201,18 @@
           {
             "fieldPath": "idTicket",
             "columnName": "id_ticket",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "inizio",
+            "columnName": "inizio",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fine",
+            "columnName": "fine",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -309,7 +321,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9b7e6aa333c32d2d27414bda76158077')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '82b8f312a3eb20d5f17d189191255ba5')"
     ]
   }
 }

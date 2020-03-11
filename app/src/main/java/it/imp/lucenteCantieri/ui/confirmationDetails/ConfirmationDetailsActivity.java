@@ -33,13 +33,18 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.adapter.PhotoAdapter;
@@ -56,6 +61,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     TextView taskTitle;
     TextView places;
     TextView taskDescription;
+    TextView timer;
     ImageView camera;
     Button mConfermaButton;
     MultiAutoCompleteTextView mTxtNote;
@@ -72,7 +78,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     String imageFilePath;
     PhotoAdapter photoAdapter;
     private Executor executor = Executors.newSingleThreadExecutor();
-
+    Timer T;
     Date mInizio = new Date();
 
 
@@ -86,6 +92,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        timer = findViewById(R.id.timer);
         date = findViewById(R.id.date);
         places = findViewById(R.id.places);
         taskTitle = findViewById(R.id.taskTitle);
@@ -161,7 +168,32 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
 
         initTask();
 
+        initTimer();
+
     }
+
+    private void initTimer() {
+        T=new Timer();
+        T.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        long diff = new Date().getTime() - mInizio.getTime();
+                        long seconds = diff / 1000;
+                        long minutes = seconds / 60;
+                        long hours = minutes / 60;
+
+                        timer.setText(hours + " : " + minutes + " : " + seconds);
+                    }
+                });
+            }
+        }, 1000, 1000);
+    }
+
 
     private void initPlaces() {
         if(mFiltersSelected.size() > 0){
@@ -219,6 +251,10 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
+
+                        //stop timer
+                        T.cancel();
+
                         Constraints constraints = new Constraints.Builder()
                                 .setRequiredNetworkType(NetworkType.CONNECTED)
                                 .build();
