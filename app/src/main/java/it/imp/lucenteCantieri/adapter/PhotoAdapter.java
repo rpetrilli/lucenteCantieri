@@ -58,27 +58,13 @@ PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(mContext)
-                        .setTitle("Attenzione")
-                        .setMessage("Sicuro di voler cancellare la foto?")
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                //delete photo from database
+                AppService.getInstance(mContext).deletePhoto(photo);
 
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                executor.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //delete photo from database
-                                        AppService.getInstance(mContext).deletePhoto(photo);
+                //delete from recycle view
+                mPhotoList.remove(position);
 
-                                        //delete from recycle view
-                                        mPhotoList.remove(position);
-
-                                        notifyItemChanged(position);
-                                    }
-                                });
-                            }})
-                        .setNegativeButton(android.R.string.no, null).show();
+                notifyItemChanged(position);
             }
         });
 

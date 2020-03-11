@@ -138,6 +138,12 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
             mAttivitaElenco = gson.fromJson(json, AttivitaElenco.class);
         }
 
+        if(getIntent().getStringArrayListExtra(Constants.PLACES) != null){
+            mFiltersSelected = getIntent().getStringArrayListExtra(Constants.PLACES);
+
+            initPlaces();
+        }
+
         mConfermaButton = findViewById(R.id.confirm_button);
         mConfermaButton.setOnClickListener(
                 new View.OnClickListener(){

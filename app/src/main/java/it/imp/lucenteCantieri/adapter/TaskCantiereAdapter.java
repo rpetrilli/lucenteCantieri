@@ -61,15 +61,13 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
             @Override
             public void onClick(View view) {
                 if(confirmation){
-                    if (mContext instanceof ConfirmationDetailsActivity){
-                        ((ConfirmationDetailsActivity) mContext).mFiltersSelected = mFiltersSelected;
-                    }
                     //convert object to json
                     Gson gson = new Gson();
                     String json = gson.toJson(mAttivitaList.get(position));
 
                     Intent confirmationActivity = new Intent(mContext, ConfirmationDetailsActivity.class);
                     confirmationActivity.putExtra(Constants.ID_TASK_CANTIERE, json);
+                    confirmationActivity.putStringArrayListExtra(Constants.PLACES, (ArrayList<String>) mFiltersSelected);
                     confirmationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(confirmationActivity);
                 }
