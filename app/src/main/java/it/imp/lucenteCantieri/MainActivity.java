@@ -51,7 +51,7 @@ import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
 import it.imp.lucenteCantieri.servizi.UbicazioneCantiere;
 import it.imp.lucenteCantieri.ui.barcode.BarcodeCaptureActivity;
-import it.imp.lucenteCantieri.ui.comunication.SegnalazioneActivity;
+import it.imp.lucenteCantieri.ui.reporting.SegnalazioneActivity;
 import it.imp.lucenteCantieri.ui.nfc.NFCWriterActivity;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncElencoAttivitaTask;
 import it.imp.lucenteCantieri.ui.syncTasks.SyncStrutturaTask;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         setSupportActionBar(toolbar);
 
         mTextViewDate = findViewById(R.id.date);
-        mUbicazioniText = findViewById(R.id.places);
+        mUbicazioniText = findViewById(R.id.customers);
         mFabChangeDate = findViewById(R.id.fab);
         mDrawer = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -150,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         mDrawerToggle.syncState();
 
+        //refresh drawer tree
+        (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
+        refreshDrawer();
+
+        //download tasks
+        (new SyncElencoAttivitaTask(MainActivity.this)).execute(new String[]{""});
 
 
         //observables
@@ -175,9 +181,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         mWriteTagNFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent comunication = new Intent(MainActivity.this, SegnalazioneActivity.class);
-                comunication.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(comunication);
+                if(nodoAlbero != null) {
+                    Gson gson = new Gson();
+                    String nodo = gson.toJson(nodoAlbero);
+
+                    Intent comunication = new Intent(MainActivity.this, SegnalazioneActivity.class);
+                    comunication.putStringArrayListExtra(Constants.PLACES, mFilterSelected);
+                    comunication.putExtra(Constants.NODO, nodo);
+                    comunication.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(comunication);
+
+                }else{
+
+                    showErrorMessage(getString(R.string.info), getString(R.string.NO_UBICAZIONE));
+                }
+
             }
         });
 
@@ -241,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     return null;
                 }
             }
+
             @Override
             protected void onPostExecute(List<NodoAlbero> elenco) {
                 if (elenco == null){

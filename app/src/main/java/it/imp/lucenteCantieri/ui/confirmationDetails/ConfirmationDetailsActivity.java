@@ -13,6 +13,8 @@ import androidx.work.WorkManager;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -186,25 +188,34 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     }
 
     public void regitraConfermaNelServer(){
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
+        new AlertDialog.Builder(this)
+                .setTitle("Attenzione")
+                .setMessage("Confermare l'attività? ")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-        Data uploadData = new Data.Builder()
-                .putLong(Constants.ID_TASK_CANTIERE, mAttivitaElenco.idTaskCantiere)
-                .putString(Constants.NOTE, mTxtNote.getText().toString())
-                .build();
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Constraints constraints = new Constraints.Builder()
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .build();
 
-        OneTimeWorkRequest uploadWork =
-                new OneTimeWorkRequest.Builder(UploadWorker.class)
-                        .setConstraints(constraints)
-                        .setInputData(uploadData)
-                        .build();
+                        Data uploadData = new Data.Builder()
+                                .putLong(Constants.ID_TASK_CANTIERE, mAttivitaElenco.idTaskCantiere)
+                                .putString(Constants.NOTE, mTxtNote.getText().toString())
+                                .build();
+
+                        OneTimeWorkRequest uploadWork =
+                                new OneTimeWorkRequest.Builder(UploadWorker.class)
+                                        .setConstraints(constraints)
+                                        .setInputData(uploadData)
+                                        .build();
 
 
-        WorkManager.getInstance(this).enqueue(uploadWork);
+                        WorkManager.getInstance(ConfirmationDetailsActivity.this).enqueue(uploadWork);
 
-        finish();
+                        finish();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
 
     }
 
@@ -294,11 +305,6 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
             };
 
             task.execute();
-
-
-
-
-
 
         }else if(resultCode == Activity.RESULT_CANCELED) {
             Toast.makeText(this, "Acquisizione immagine interrotta", Toast.LENGTH_LONG).show();

@@ -60,7 +60,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
         //init UI
         taskRecyclerView = findViewById(R.id.taskRecyclerView);
         date = findViewById(R.id.date);
-        places = findViewById(R.id.places);
+        places = findViewById(R.id.customers);
 
 
         //init tools
