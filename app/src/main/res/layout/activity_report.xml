@@ -81,8 +81,7 @@
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Seleziona Cliente"
-        android:layout_margin="16dp"/>
+        android:layout_margin="8dp"/>
 
     <MultiAutoCompleteTextView
         android:id="@+id/txtSegnalazione"

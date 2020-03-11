@@ -106,6 +106,10 @@ public class SegnalazioneActivity extends AppCompatActivity {
     private void leggiUbicazioniCollegate() {
         this.mClientiGerarchia = AppService.getInstance(this).leggiGerachiaPerNodoAlbero(nodoAlbero);
 
+        //add initial hint
+        this.clienti.add("ID cliente gerarchia");
+
+
         for (ClienteGerarchiaEntity cliente: this.mClientiGerarchia) {
             this.clienti.add(cliente.descLivello);
         }
@@ -115,12 +119,19 @@ public class SegnalazioneActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                //search cliente
-                for (ClienteGerarchiaEntity cliente: mClientiGerarchia) {
-                    if(cliente.descLivello.equals(item)){
-                        idClienteSelected = cliente.idClienteGerachia;
-                        Snackbar.make(view, "ID CLIENTE " + idClienteSelected, Snackbar.LENGTH_LONG).show();
+
+                if(!item.equals("ID cliente gerarchia")) {
+                    //search cliente
+                    for (ClienteGerarchiaEntity cliente : mClientiGerarchia) {
+                        if (cliente.descLivello.equals(item)) {
+                            idClienteSelected = cliente.idClienteGerachia;
+                            Snackbar.make(view, "ID CLIENTE " + idClienteSelected, Snackbar.LENGTH_LONG).show();
+                        }
                     }
+                }else{
+                    idClienteSelected = null;
+                    Snackbar.make(view, "ID CLIENTE " + null, Snackbar.LENGTH_LONG).show();
+
                 }
             }
         });
