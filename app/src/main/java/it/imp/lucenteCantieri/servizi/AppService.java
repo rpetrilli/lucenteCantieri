@@ -373,10 +373,10 @@ public class AppService implements  SettingsChangeListener {
         List<TaskCantiereImg> immagini = taskCantiereImgDao.getImgByIdTaskCantiere(idTaskCantiere);
         for(TaskCantiereImg img: immagini ){
 
-            File file = new File(img.nomeImmagine);
-            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), img.nomeImmagine);
+            File file =new File(img.nomeImmagine);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
-            MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("file",file.getName(),requestFile);
+            MultipartBody.Part multipartBody =MultipartBody.Part.createFormData("file",file.getName(),requestFile);
 
             mBackOfficeService.uploadAllegato(settings.idClienteSquadra, settings.passwd, idTaskCantiere, multipartBody).execute();
         }
@@ -473,6 +473,12 @@ public class AppService implements  SettingsChangeListener {
         return hasFigli;
 
 
+    }
+
+    public void deletePhoto(TaskCantiereImg photo) {
+        File file = new File(photo.nomeImmagine);
+        boolean deleted = file.delete();
+        mDb.taskCantiereImgDao().deleteById(photo.idTaskCantiereImg);
     }
 
     private Long getLongValue(ClienteGerarchiaEntity nodo, int idx) {
