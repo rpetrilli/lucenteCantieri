@@ -419,7 +419,6 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
 
         new AlertDialog.Builder(this)
                 .setTitle("Attenzione")
@@ -434,9 +433,9 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                                 AppService appService = AppService.getInstance(ConfirmationDetailsActivity.this);
                                 appService.deleteAllPhotos(mAttivitaElenco.idTaskCantiere);
 
+                                finish();
                             }
                         });
-                        finish();
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
 
