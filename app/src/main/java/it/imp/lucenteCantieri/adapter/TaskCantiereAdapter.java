@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import it.imp.lucenteCantieri.MainActivity;
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.servizi.AttivitaElenco;
 import it.imp.lucenteCantieri.ui.confirmationDetails.ConfirmationDetailsActivity;
@@ -25,12 +27,14 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
     private Context mContext;
     private List<AttivitaElenco> mAttivitaList;
     Boolean confirmation;
+    List<String> mFiltersSelected;
 
 
-    public TaskCantiereAdapter(Context mContext, List<AttivitaElenco> mLevelList, Boolean confirmation) {
+    public TaskCantiereAdapter(Context mContext, List<AttivitaElenco> mLevelList, Boolean confirmation, List<String> mFiltersSelected) {
         this.mContext = mContext;
         this.mAttivitaList = mLevelList;
         this.confirmation = confirmation;
+        this.mFiltersSelected = mFiltersSelected;
     }
 
 
@@ -57,6 +61,9 @@ TaskCantiereAdapter extends RecyclerView.Adapter<TaskCantiereViewHolder> {
             @Override
             public void onClick(View view) {
                 if(confirmation){
+                    if (mContext instanceof ConfirmationDetailsActivity){
+                        ((ConfirmationDetailsActivity) mContext).mFiltersSelected = mFiltersSelected;
+                    }
                     //convert object to json
                     Gson gson = new Gson();
                     String json = gson.toJson(mAttivitaList.get(position));

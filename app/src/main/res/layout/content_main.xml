@@ -33,7 +33,7 @@
 
 
         <TextView
-            android:id="@+id/customers"
+            android:id="@+id/places"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"

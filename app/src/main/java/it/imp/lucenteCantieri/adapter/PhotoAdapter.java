@@ -68,7 +68,13 @@ PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder> {
                                 executor.execute(new Runnable() {
                                     @Override
                                     public void run() {
+                                        //delete photo from database
                                         AppService.getInstance(mContext).deletePhoto(photo);
+
+                                        //delete from recycle view
+                                        mPhotoList.remove(position);
+
+                                        notifyItemChanged(position);
                                     }
                                 });
                             }})
