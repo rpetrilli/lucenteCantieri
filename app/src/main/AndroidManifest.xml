@@ -22,8 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.reporting.SegnalazioneActivity"></activity>
-        <activity android:name=".ui.confirmationDetails.ConfirmationDetailsActivity"></activity>
+
+        <activity android:name=".ui.reporting.SegnalazioneActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".ui.confirmationDetails.ConfirmationDetailsActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".ui.confirm.ConfirmationListActivity"
             android:screenOrientation="portrait">
