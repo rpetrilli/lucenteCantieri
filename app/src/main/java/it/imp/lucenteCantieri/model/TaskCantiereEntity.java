@@ -47,8 +47,16 @@ public class TaskCantiereEntity {
 	@ColumnInfo(name="id_ticket")
 	public Long idTicket;
 
+	@ColumnInfo(name="inizio")
+	public Long inizio;
 
-	public TaskCantiereEntity(Long idTaskCantiere, Long idClienteGeranchia, String descrizione, String note, String stato, String idTipoServizio, Long idAttivitaSoggetto, Date dataPrestazione, Boolean eseguita, Long idContrattoOggetto, Long idContratto, Long idTicket) {
+	@ColumnInfo(name="fine")
+	public Long fine;
+
+
+	public TaskCantiereEntity(Long idTaskCantiere, Long idClienteGeranchia, String descrizione, String note, String stato, String idTipoServizio,
+							  Long idAttivitaSoggetto, Date dataPrestazione, Boolean eseguita, Long idContrattoOggetto, Long idContratto, Long idTicket,
+	                          Long inizio, Long fine) {
 		this.idTaskCantiere = idTaskCantiere;
 		this.idClienteGeranchia = idClienteGeranchia;
 		this.descrizione = descrizione;
@@ -61,6 +69,8 @@ public class TaskCantiereEntity {
 		this.idContrattoOggetto = idContrattoOggetto;
 		this.idContratto = idContratto;
 		this.idTicket = idTicket;
+		this.inizio = inizio;
+		this.fine = fine;
 	}
 
 	public Long getIdTaskCantiere() {
@@ -157,5 +167,21 @@ public class TaskCantiereEntity {
 
 	public void setIdTicket(Long idTicket) {
 		this.idTicket = idTicket;
+	}
+
+	public Long getInizio() {
+		return inizio;
+	}
+
+	public void setInizio(Long inizio) {
+		this.inizio = inizio;
+	}
+
+	public Long getFine() {
+		return fine;
+	}
+
+	public void setFine(Long fine) {
+		this.fine = fine;
 	}
 }
