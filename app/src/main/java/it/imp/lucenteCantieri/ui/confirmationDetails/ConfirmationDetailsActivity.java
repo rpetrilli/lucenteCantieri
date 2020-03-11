@@ -322,4 +322,21 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
             Toast.makeText(this, "Acquisizione immagine interrotta", Toast.LENGTH_LONG).show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        new AlertDialog.Builder(this)
+                .setTitle("Attenzione")
+                .setMessage("Uscendo perderai i dati che hai inserito")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        finish();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+
+    }
 }
