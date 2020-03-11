@@ -38,6 +38,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.adapter.PhotoAdapter;
@@ -69,6 +71,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     private static final int REQUEST_CAPTURE_IMAGE = 100;
     String imageFilePath;
     PhotoAdapter photoAdapter;
+    private Executor executor = Executors.newSingleThreadExecutor();
 
 
 
@@ -341,6 +344,14 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        executor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                AppService appService = AppService.getInstance(ConfirmationDetailsActivity.this);
+                                appService.deleteAllPhotos(mAttivitaElenco.idTaskCantiere);
+
+                            }
+                        });
                         finish();
                     }})
                 .setNegativeButton(android.R.string.no, null).show();

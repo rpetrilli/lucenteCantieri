@@ -427,6 +427,7 @@ public class AppService implements  SettingsChangeListener {
     }
 
 
+
     private boolean leggiLivello(List<NodoAlbero> albero,
                               int nrLivelli, int livello,
                               List<Long> filtri, BeanUtilsBean beanUtils) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
@@ -480,6 +481,14 @@ public class AppService implements  SettingsChangeListener {
         boolean deleted = file.delete();
         mDb.taskCantiereImgDao().deleteById(photo.idTaskCantiereImg);
     }
+
+
+    public void deleteAllPhotos(Long idTaskCantiere) {
+        for(TaskCantiereImg item: mDb.taskCantiereImgDao().getImgByIdTaskCantiere(idTaskCantiere)){
+            deletePhoto(item);
+        }
+    }
+
 
     private Long getLongValue(ClienteGerarchiaEntity nodo, int idx) {
         switch (idx){
