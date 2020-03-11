@@ -80,6 +80,9 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     private Executor executor = Executors.newSingleThreadExecutor();
     Timer T;
     Date mInizio = new Date();
+    long seconds = 0;
+    long minutes = 0;
+    long hours = 0;
 
 
 
@@ -182,16 +185,39 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        long diff = new Date().getTime() - mInizio.getTime();
-                        long seconds = diff / 1000;
-                        long minutes = seconds / 60;
-                        long hours = minutes / 60;
-
-                        timer.setText(hours + " : " + minutes + " : " + seconds);
+                        timer.setText(setTimerString());
                     }
                 });
             }
         }, 1000, 1000);
+    }
+
+    private String setTimerString() {
+
+        //vaue check
+        if(seconds == 60){
+            seconds = 0;
+            minutes+=1;
+
+            if(minutes == 60){
+                minutes = 0;
+                hours+=1;
+            }
+
+        }else{
+            seconds += 1;
+        }
+
+        //print check
+        if(hours == 0){
+            if(minutes == 0){
+                return Long.toString(seconds);
+            }else {
+                return minutes + ":" + seconds;
+            }
+        }else{
+            return hours + ":" + minutes + ":" + seconds;
+        }
     }
 
 
