@@ -14,16 +14,20 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.model.TaskCantiereImg;
+import it.imp.lucenteCantieri.servizi.AppService;
+import it.imp.lucenteCantieri.ui.confirmationDetails.ConfirmationDetailsActivity;
 
 public class
 PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder> {
 
     private Context mContext;
     private List<TaskCantiereImg> mPhotoList;
-
+    private Executor executor = Executors.newSingleThreadExecutor();
 
 
     public PhotoAdapter(Context mContext, List<TaskCantiereImg> mPhotoList) {
@@ -61,7 +65,12 @@ PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder> {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                //TODO delete action
+                                executor.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AppService.getInstance(mContext).deletePhoto(photo);
+                                    }
+                                });
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
             }
