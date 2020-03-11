@@ -61,7 +61,8 @@ PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder> {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                //TODO delete action
+
+
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
             }

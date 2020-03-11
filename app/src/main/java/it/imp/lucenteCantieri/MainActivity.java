@@ -36,8 +36,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -111,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         setSupportActionBar(toolbar);
 
         mTextViewDate = findViewById(R.id.date);
-        mUbicazioniText = findViewById(R.id.customers);
+        mUbicazioniText = findViewById(R.id.places);
         mFabChangeDate = findViewById(R.id.fab);
         mDrawer = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -154,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         //read drawer
         refreshDrawer();
-
 
         //observables
         mNfcImgView.setOnClickListener(new View.OnClickListener() {
@@ -317,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 }
 
                 //Set taskCantiereAdapter for listview
-                taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco, false);
+                taskCantiereAdapter = new TaskCantiereAdapter(MainActivity.this, elenco, false, mFilterSelected);
                 taskRecyclerView.setAdapter(taskCantiereAdapter);
 
                 taskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));

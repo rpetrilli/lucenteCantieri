@@ -52,6 +52,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     //UI
     TextView date;
     TextView taskTitle;
+    TextView places;
     TextView taskDescription;
     ImageView camera;
     Button mConfermaButton;
@@ -59,7 +60,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     RecyclerView photoRecyclerView;
 
     //utils;
-    List<String> mFiltersSelected;
+    public List<String> mFiltersSelected;
     Calendar calendar ;
     int Year, Month, Day ;
     Date mSelectedDate = new Date();
@@ -81,6 +82,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
 
     private void initView() {
         date = findViewById(R.id.date);
+        places = findViewById(R.id.places);
         taskTitle = findViewById(R.id.taskTitle);
         taskDescription = findViewById(R.id.taskDescription);
         camera = findViewById(R.id.camera);
@@ -135,9 +137,6 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
             Gson gson = new Gson();
             mAttivitaElenco = gson.fromJson(json, AttivitaElenco.class);
         }
-        if (getIntent().getStringExtra(Constants.PLACES) != null){
-            //TODO: .....
-        }
 
         mConfermaButton = findViewById(R.id.confirm_button);
         mConfermaButton.setOnClickListener(
@@ -151,6 +150,19 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
 
         initTask();
 
+    }
+
+    private void initPlaces() {
+        if(mFiltersSelected.size() > 0){
+            StringBuilder places = new StringBuilder();
+
+            for (String place: mFiltersSelected){
+                places.append(place).append(" > ");
+            }
+
+            //clean last arrow
+            this.places.setText(places.substring(0,places.length()-3));
+        }
     }
 
     private void loadImgList() {

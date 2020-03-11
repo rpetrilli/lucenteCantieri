@@ -60,7 +60,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
         //init UI
         taskRecyclerView = findViewById(R.id.taskRecyclerView);
         date = findViewById(R.id.date);
-        places = findViewById(R.id.customers);
+        places = findViewById(R.id.places);
 
 
         //init tools
@@ -80,7 +80,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
         //get nodo albero
         nodoAlbero = new NodoAlbero(mUbicazioneCantiere);
 
-
+        readTasks(nodoAlbero);
 
         //init Utils
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -131,7 +131,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
             protected void onPostExecute(List<AttivitaElenco> elenco) {
 
                 //Set taskCantiereAdapter for listview
-                taskCantiereAdapter = new TaskCantiereAdapter(ConfirmationListActivity.this, elenco, true);
+                taskCantiereAdapter = new TaskCantiereAdapter(ConfirmationListActivity.this, elenco, true, mFiltersSelected);
                 taskRecyclerView.setAdapter(taskCantiereAdapter);
 
                 taskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1,GridLayoutManager.VERTICAL, false));
