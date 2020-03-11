@@ -65,7 +65,11 @@ public class AppService implements  SettingsChangeListener {
     Context mContext = null;
 
     public AppService(Context context) {
+        init(context);
+    }
 
+
+    public void init(Context context){
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")
                 .create();

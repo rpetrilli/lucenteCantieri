@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Time;
@@ -193,7 +195,6 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     }
 
     private String setTimerString() {
-
         //vaue check
         if(seconds == 60){
             seconds = 0;
@@ -203,22 +204,20 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                 minutes = 0;
                 hours+=1;
             }
-
         }else{
             seconds += 1;
         }
 
-        //print check
-        if(hours == 0){
-            if(minutes == 0){
-                return Long.toString(seconds);
-            }else {
-                return minutes + ":" + seconds;
-            }
-        }else{
-            return hours + ":" + minutes + ":" + seconds;
+        String ret = StringUtils.leftPad(""+ minutes,2, "0") + ":"+
+            StringUtils.leftPad(""+ seconds,2, "0");
+
+        if (hours > 0){
+            ret = StringUtils.leftPad(""+ hours,2, "0") + ":" + ret;
         }
+        return ret;
+
     }
+
 
 
     private void initPlaces() {
@@ -268,8 +267,8 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     }
 
     public void regitraConfermaNelServer(){
-        AppService appService = AppService.getInstance(ConfirmationDetailsActivity.this);
-        appService.closeAttivita(mAttivitaElenco.idTaskCantiere);
+
+
         new AlertDialog.Builder(this)
                 .setTitle("Attenzione")
                 .setMessage("Confermare l'attività? ")
@@ -277,34 +276,48 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-
-                        //stop timer
-                        T.cancel();
-
-                        Constraints constraints = new Constraints.Builder()
-                                .setRequiredNetworkType(NetworkType.CONNECTED)
-                                .build();
-
-                        Data uploadData = new Data.Builder()
-                                .putLong(Constants.ID_TASK_CANTIERE, mAttivitaElenco.idTaskCantiere)
-                                .putString(Constants.NOTE, mTxtNote.getText().toString())
-                                .putLong(Constants.INIZIO, dateToLong(mInizio))
-                                .putLong(Constants.FINE, dateToLong(new Date()))
-                                .build();
-
-                        OneTimeWorkRequest uploadWork =
-                                new OneTimeWorkRequest.Builder(UploadWorker.class)
-                                        .setConstraints(constraints)
-                                        .setInputData(uploadData)
-                                        .build();
-
-
-                        WorkManager.getInstance(ConfirmationDetailsActivity.this).enqueue(uploadWork);
-
-                        finish();
+                        registraConfermaNelServerAsync();
                     }})
+
                 .setNegativeButton(android.R.string.no, null).show();
 
+    }
+
+    private void registraConfermaNelServerAsync() {
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                AppService appService = AppService.getInstance(ConfirmationDetailsActivity.this);
+                appService.closeAttivita(mAttivitaElenco.idTaskCantiere);
+
+                //stop timer
+                T.cancel();
+
+                Constraints constraints = new Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build();
+
+                Data uploadData = new Data.Builder()
+                        .putLong(Constants.ID_TASK_CANTIERE, mAttivitaElenco.idTaskCantiere)
+                        .putString(Constants.NOTE, mTxtNote.getText().toString())
+                        .putLong(Constants.INIZIO, dateToLong(mInizio))
+                        .putLong(Constants.FINE, dateToLong(new Date()))
+                        .build();
+
+                OneTimeWorkRequest uploadWork =
+                        new OneTimeWorkRequest.Builder(UploadWorker.class)
+                                .setConstraints(constraints)
+                                .setInputData(uploadData)
+                                .build();
+
+
+                WorkManager.getInstance(ConfirmationDetailsActivity.this).enqueue(uploadWork);
+
+                finish();
+
+            }
+        });
     }
 
     private long dateToLong(Date dt) {

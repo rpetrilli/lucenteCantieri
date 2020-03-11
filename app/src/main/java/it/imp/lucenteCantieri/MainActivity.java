@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import it.imp.lucenteCantieri.adapter.MenuLevelAdapter;
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     NodoAlbero nodoAlbero;
     NodoAlbero mSelectedNodoAlbero;
-
+    private Executor executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -472,7 +474,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         Settings.getInstance().save(getApplicationContext(), bc.displayValue);
                         initDrawerText();
-                        refreshDrawer();
+
+                        executor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                AppService.getInstance(MainActivity.this).init(MainActivity.this);
+                                refreshDrawer();
+                            }
+                        });
+
                     }
 
                 } else {
