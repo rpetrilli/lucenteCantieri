@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "423250572002",
+    "firebase_url": "https://lucente-cantieri.firebaseio.com",
+    "project_id": "lucente-cantieri",
+    "storage_bucket": "lucente-cantieri.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423250572002:android:d48c40fd36ebed567324bb",
+        "android_client_info": {
+          "package_name": "it.imp.lucenteCantieri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423250572002-s4thttb15ivdp01q4tnlb181lkcvh04v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3JN9K4JctCWwpk3UQF9_d36tupmoXAZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423250572002-s4thttb15ivdp01q4tnlb181lkcvh04v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

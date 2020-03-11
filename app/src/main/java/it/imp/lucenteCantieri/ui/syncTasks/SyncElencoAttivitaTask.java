@@ -53,9 +53,9 @@ public class SyncElencoAttivitaTask extends AsyncTask<String, Integer, String> {
         try {
             AppService.getInstance(mContext).scaricaTaskCantiere();
             return null;
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e("SyncElencoAttivitaTask", e.getMessage() );
-            return e.getMessage();
+            return "Associa il dispositivo ad un QR! " + e.getMessage();
         }
     }
 }
