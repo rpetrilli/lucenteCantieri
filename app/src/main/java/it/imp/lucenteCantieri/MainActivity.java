@@ -150,13 +150,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         mDrawerToggle.syncState();
 
-        //refresh drawer tree
-        (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
-        refreshDrawer();
-
-        //download tasks
-        (new SyncElencoAttivitaTask(MainActivity.this)).execute(new String[]{""});
-
 
         //observables
         mNfcImgView.setOnClickListener(new View.OnClickListener() {
