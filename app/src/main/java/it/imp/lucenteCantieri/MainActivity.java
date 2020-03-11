@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         mDrawerToggle.syncState();
 
         //read drawer
-        refreshDrawer();
+        refreshDrawer(true);
 
         //observables
         mNfcImgView.setOnClickListener(new View.OnClickListener() {
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     /*
             refresh left drawer with places tree
          */
-    private void refreshDrawer() {
+    private void refreshDrawer(boolean init) {
 
         AsyncTask<Void, Void, List<NodoAlbero>> task = new AsyncTask<Void, Void, List<NodoAlbero>>(){
 
@@ -260,8 +260,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             protected void onPostExecute(List<NodoAlbero> elenco) {
                 if (elenco == null){
-                    showErrorMessage(getString(R.string.info), getString(R.string.NO_UBICAZIONE));
-                    return;
+                    if(init == false) {
+                        showErrorMessage(getString(R.string.info), getString(R.string.NO_UBICAZIONE));
+                        return;
+                    }else{
+                        return;
+                    }
                 }
 
                 //set adapter for places list view
@@ -430,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
             case R.id.action_get_struttura:
                 (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
-                refreshDrawer();
+                refreshDrawer(false);
 
                 return true;
 
@@ -479,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                             @Override
                             public void run() {
                                 AppService.getInstance(MainActivity.this).init(MainActivity.this);
-                                refreshDrawer();
+                                refreshDrawer(false);
                             }
                         });
 
