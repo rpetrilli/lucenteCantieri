@@ -82,11 +82,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
         }
 
 
-        // Check to see that the Activity started due to an Android Beam
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-            handleIntent(getIntent());
-            getIntent().setAction(null);
-        }else if( getIntent().getStringExtra(Constants.UBICAZIONE_CANTIERE) != null){
+        if( getIntent().getStringExtra(Constants.UBICAZIONE_CANTIERE) != null){
             String json = getIntent().getStringExtra(Constants.UBICAZIONE_CANTIERE);
             Gson gson = new Gson();
             mUbicazioneCantiere = gson.fromJson(json, UbicazioneCantiere.class );
