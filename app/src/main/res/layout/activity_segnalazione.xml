@@ -102,8 +102,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorDisabled"
             android:text="Invia"
+            android:enabled="false"
             android:textColor="@color/white"/>
 
     </RelativeLayout>

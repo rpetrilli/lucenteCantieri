@@ -34,7 +34,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
 
     //UI
     TextView date;
-    TextView places;
+    TextView mTxtUbicazioni;
     RecyclerView taskRecyclerView;
 
     //utils
@@ -60,7 +60,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
         //init UI
         taskRecyclerView = findViewById(R.id.taskRecyclerView);
         date = findViewById(R.id.date);
-        places = findViewById(R.id.places);
+        mTxtUbicazioni = findViewById(R.id.places);
 
 
         //init tools
@@ -104,7 +104,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
                 places.append(place).append(" > ");
             }
             //remove last arrow
-            this.places.setText(places.substring(0,places.length()-3));
+            this.mTxtUbicazioni.setText(places.substring(0,places.length()-3));
         }
     }
 

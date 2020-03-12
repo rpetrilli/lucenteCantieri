@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -100,14 +101,18 @@ public class AppService implements  SettingsChangeListener {
         ClienteLivelliDao clienteDao = mDb.clienteLivelloDao();
 
         TaskCantiereDao taskCantienreDao = mDb.taskCantiereDao();
+        ClienteGerarchiaDao clienteGerachiaDao = mDb.clienteGerarchiaDao();
+
         taskCantienreDao.deleteAll();
+
+        clienteDao.deleteAll();
+        clienteGerachiaDao.deleteAll();
 
         for(ClienteLivello valore: cliente.valoriLivelli){
             ClienteValoreLivelloEntity entity = new ClienteValoreLivelloEntity(valore);
             clienteDao.insert(entity);
         }
 
-        ClienteGerarchiaDao clienteGerachiaDao = mDb.clienteGerarchiaDao();
         for(ClienteGerarchia valore: cliente.gerarchia){
             ClienteGerarchiaEntity entity = new ClienteGerarchiaEntity(valore);
             clienteGerachiaDao.insert(entity);
@@ -280,12 +285,12 @@ public class AppService implements  SettingsChangeListener {
 
         Map<Long, String> mDesc = new HashMap<Long, String>();
         for(ClienteValoreLivelloEntity val: valori){
-            if ((nodoAlbero.idLivello1 !=null && val.idClienteLivello == nodoAlbero.idLivello1)
-                || (nodoAlbero.idLivello2 !=null && val.idClienteLivello == nodoAlbero.idLivello2)
-                    || (nodoAlbero.idLivello3 !=null && val.idClienteLivello == nodoAlbero.idLivello3)
-                    || (nodoAlbero.idLivello4 !=null && val.idClienteLivello == nodoAlbero.idLivello4)
-                    || (nodoAlbero.idLivello5 !=null && val.idClienteLivello == nodoAlbero.idLivello5)
-                    || (nodoAlbero.idLivello6 !=null && val.idClienteLivello == nodoAlbero.idLivello6))
+            if ((nodoAlbero.idLivello1 !=null && Objects.equals(val.idClienteLivello,nodoAlbero.idLivello1) )
+                || (nodoAlbero.idLivello2 !=null && Objects.equals(val.idClienteLivello,nodoAlbero.idLivello2) )
+                    || (nodoAlbero.idLivello3 !=null && Objects.equals(val.idClienteLivello,nodoAlbero.idLivello3) )
+                    || (nodoAlbero.idLivello4 !=null && Objects.equals(val.idClienteLivello,nodoAlbero.idLivello4) )
+                    || (nodoAlbero.idLivello5 !=null && Objects.equals(val.idClienteLivello,nodoAlbero.idLivello5) )
+                    || (nodoAlbero.idLivello6 !=null && Objects.equals(val.idClienteLivello,nodoAlbero.idLivello6) ))
             {
                 mDesc.put(val.idClienteLivello, val.descVoceLivello);
             }

@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -25,11 +24,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import it.imp.lucenteCantieri.R;
 import it.imp.lucenteCantieri.model.ClienteGerarchiaEntity;
 import it.imp.lucenteCantieri.model.SegnalazioneEntity;
 import it.imp.lucenteCantieri.servizi.AppService;
-import it.imp.lucenteCantieri.servizi.AttivitaElenco;
 import it.imp.lucenteCantieri.servizi.NodoAlbero;
 import it.imp.lucenteCantieri.servizi.Settings;
 import it.imp.lucenteCantieri.utils.Constants;
@@ -60,7 +59,7 @@ public class SegnalazioneActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+        setContentView(R.layout.activity_segnalazione);
 
         ButterKnife.bind(this);
 
@@ -186,4 +185,18 @@ public class SegnalazioneActivity extends AppCompatActivity {
         task.execute(segnalazione);
 
     }
+
+    @OnTextChanged(R.id.txtSegnalazione)
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(s.toString().trim().length()==0){
+            mBtnInvia.setEnabled(false);
+            mBtnInvia.setBackgroundResource(R.color.colorDisabled);
+        } else {
+            mBtnInvia.setEnabled(true);
+            mBtnInvia.setBackgroundResource(R.color.colorPrimary);
+
+        }
+    }
+
+
 }
