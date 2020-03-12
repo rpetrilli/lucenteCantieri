@@ -1,14 +1,19 @@
 package it.imp.lucenteCantieri.ui.reporting;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
@@ -41,7 +46,7 @@ public class SegnalazioneActivity extends AppCompatActivity {
     @BindView(R.id.btn_invia)
     Button mBtnInvia;
     @BindView(R.id.txtSegnalazione)
-    MultiAutoCompleteTextView mTxtSegnalazione;
+    AutoCompleteTextView mTxtSegnalazione;
     @BindView(R.id.date)
     TextView date;
     @BindView(R.id.places)
@@ -69,6 +74,39 @@ public class SegnalazioneActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
+        //toolbar with back arrow
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        //focus
+        mTxtSegnalazione.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        mTxtSegnalazione.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(v);
+            }
+        });
+
+
         //set date
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         date.setText(df.format(mSelectedDate));
@@ -185,5 +223,13 @@ public class SegnalazioneActivity extends AppCompatActivity {
 
         task.execute(segnalazione);
 
+    }
+
+    /*
+    hyde keyboard function
+ */
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

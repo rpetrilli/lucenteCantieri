@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 datePickerDialog.setThemeDark(false);
                 datePickerDialog.showYearPickerFirst(false);
                 datePickerDialog.setTitle("Seleziona data tasks");
+                datePickerDialog.setMinDate(calendar);
 
 
                 datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -434,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
             case R.id.action_get_struttura:
                 (new SyncStrutturaTask(MainActivity.this)).execute(new String[]{""});
-                refreshDrawer(false);
+                refreshDrawer(true);
 
                 return true;
 

@@ -2,6 +2,7 @@ package it.imp.lucenteCantieri.ui.nfc;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +59,20 @@ public class NFCWriterActivity extends AppCompatActivity implements NfcAdapter.C
     }
 
     private void initView() {
+
+        //toolbar with back arrow
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         //init UI
         ubicazioniRecyclerView = findViewById(R.id.ubicazioniRecyclerView);
