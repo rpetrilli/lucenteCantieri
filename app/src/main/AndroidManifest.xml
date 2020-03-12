@@ -35,10 +35,9 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="application/vnd.it.imp.lalucente" />
+                <data
+                    android:mimeType="application/vnd.it.imp.lalucente" />
             </intent-filter>
         </activity>
         <activity

@@ -128,15 +128,15 @@ public class ConfirmationListActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         date.setText(df.format(mSelectedDate));
 
-        //get list of filters
-        mFiltersSelected = AppService.getInstance(this).descrizioniFiltro(mUbicazioneCantiere);
-        leggiUbicazioni();
-
-
-        //get nodo albero
-        nodoAlbero = new NodoAlbero(mUbicazioneCantiere);
-
-        readTasks(nodoAlbero);
+//        try {
+//            //get list of filters
+//            mFiltersSelected = AppService.getInstance(this).descrizioniFiltro(mUbicazioneCantiere);
+//            leggiUbicazioni();
+//            //get nodo albero
+//            nodoAlbero = new NodoAlbero(mUbicazioneCantiere);
+//
+//            readTasks(nodoAlbero);
+//        } catch (Exception ex){}
 
     }
 
@@ -192,7 +192,24 @@ public class ConfirmationListActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        setupForegroundDispatch(ConfirmationListActivity.this, mNfcAdapter);
+        // Check to see that the Activity started due to an Android Beam
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+            processIntent(getIntent());
+            getIntent().setAction(null);
+        }
+
+        try {
+            //get list of filters
+            mFiltersSelected = AppService.getInstance(this).descrizioniFiltro(mUbicazioneCantiere);
+            leggiUbicazioni();
+            //get nodo albero
+            nodoAlbero = new NodoAlbero(mUbicazioneCantiere);
+
+            readTasks(nodoAlbero);
+        } catch (Exception ex){}
+
+
+        //setupForegroundDispatch(ConfirmationListActivity.this, mNfcAdapter);
 
     }
 
@@ -210,7 +227,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
         handleIntent(intent);
     }
 
-    /*void processIntent(Intent intent) {
+    void processIntent(Intent intent) {
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
                 NfcAdapter.EXTRA_NDEF_MESSAGES);
         // only one message sent during the beam
@@ -221,7 +238,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
         Gson gson = new Gson();
         mUbicazioneCantiere = gson.fromJson(json, UbicazioneCantiere.class );
 
-    }*/
+    }
 
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
