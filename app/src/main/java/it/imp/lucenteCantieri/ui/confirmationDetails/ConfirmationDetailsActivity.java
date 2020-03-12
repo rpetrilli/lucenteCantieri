@@ -2,6 +2,7 @@ package it.imp.lucenteCantieri.ui.confirmationDetails;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import androidx.work.WorkManager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +25,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
@@ -66,7 +70,7 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     TextView timer;
     ImageView camera;
     Button mConfermaButton;
-    MultiAutoCompleteTextView mTxtNote;
+    AutoCompleteTextView mTxtNote;
     RecyclerView photoRecyclerView;
 
     //utils;
@@ -97,6 +101,22 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        //toolbar with back arrow
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
+
         timer = findViewById(R.id.timer);
         date = findViewById(R.id.date);
         places = findViewById(R.id.places);
@@ -106,6 +126,22 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
         mTxtNote = findViewById(R.id.txtNote);
         photoRecyclerView = findViewById(R.id.photoList);
 
+        //focus
+        mTxtNote.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        mTxtNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(v);
+            }
+        });
 
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -416,6 +452,15 @@ public class ConfirmationDetailsActivity extends AppCompatActivity {
             Toast.makeText(this, "Acquisizione immagine interrotta", Toast.LENGTH_LONG).show();
         }
     }
+
+    /*
+        hyde keyboard function
+     */
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 
     @Override
     public void onBackPressed() {

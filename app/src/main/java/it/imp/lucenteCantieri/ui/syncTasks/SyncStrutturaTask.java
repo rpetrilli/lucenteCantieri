@@ -45,7 +45,7 @@ public class SyncStrutturaTask extends AsyncTask<String, Integer, String> {
             return null;
         } catch (Exception e) {
             Log.e("SyncStrutturaTask", e.getMessage() );
-            return "Associa il dispositivo ad un QR! " + e.getMessage();
+            return "Associa il dispositivo ad un QR! " + "Errore: " + e.getMessage();
         }
     }
 
