@@ -46,7 +46,7 @@ public class SegnalazioneActivity extends AppCompatActivity {
     @BindView(R.id.btn_invia)
     Button mBtnInvia;
     @BindView(R.id.txtSegnalazione)
-    MultiAutoCompleteTextView mTxtSegnalazione;
+    AutoCompleteTextView mTxtSegnalazione;
     @BindView(R.id.date)
     TextView date;
     @BindView(R.id.places)

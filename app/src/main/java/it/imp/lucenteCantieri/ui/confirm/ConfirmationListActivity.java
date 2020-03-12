@@ -67,6 +67,13 @@ public class ConfirmationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
+        if(getIntent().getStringExtra(Constants.UBICAZIONE_CANTIERE) != null){
+            String json = getIntent().getStringExtra(Constants.UBICAZIONE_CANTIERE);
+            Gson gson = new Gson();
+            mUbicazioneCantiere = gson.fromJson(json, UbicazioneCantiere.class );
+        }
+
+
         initView();
 
         //init Utils
@@ -81,12 +88,6 @@ public class ConfirmationListActivity extends AppCompatActivity {
             Toast.makeText(this, "Abilita gli NFC", Toast.LENGTH_SHORT).show();
         }
 
-
-        if( getIntent().getStringExtra(Constants.UBICAZIONE_CANTIERE) != null){
-            String json = getIntent().getStringExtra(Constants.UBICAZIONE_CANTIERE);
-            Gson gson = new Gson();
-            mUbicazioneCantiere = gson.fromJson(json, UbicazioneCantiere.class );
-        }
 
 
         handleIntent(getIntent());
