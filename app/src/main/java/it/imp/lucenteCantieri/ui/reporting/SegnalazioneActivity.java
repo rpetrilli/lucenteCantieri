@@ -1,6 +1,7 @@
 package it.imp.lucenteCantieri.ui.reporting;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
@@ -64,7 +65,7 @@ public class SegnalazioneActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+        setContentView(R.layout.activity_segnalazione);
 
         ButterKnife.bind(this);
 
