@@ -60,7 +60,7 @@ public class ConfirmationListActivity extends AppCompatActivity {
     NodoAlbero nodoAlbero;
 
     public static final String MIME_TEXT_PLAIN = "application/vnd.it.imp.lalucente";
-    public static final String TAG = "NfcDemo";
+    public static final String TAG = "NFCLucenteCantieri";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
