@@ -92,16 +92,6 @@ public class ConfirmationListActivity extends AppCompatActivity {
             mUbicazioneCantiere = gson.fromJson(json, UbicazioneCantiere.class );
         }
 
-        //get list of filters
-        mFiltersSelected = AppService.getInstance(this).descrizioniFiltro(mUbicazioneCantiere);
-        leggiUbicazioni();
-
-
-        //get nodo albero
-        nodoAlbero = new NodoAlbero(mUbicazioneCantiere);
-
-        readTasks(nodoAlbero);
-
 
         handleIntent(getIntent());
 
@@ -140,6 +130,16 @@ public class ConfirmationListActivity extends AppCompatActivity {
         //calendar init
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         date.setText(df.format(mSelectedDate));
+
+        //get list of filters
+        mFiltersSelected = AppService.getInstance(this).descrizioniFiltro(mUbicazioneCantiere);
+        leggiUbicazioni();
+
+
+        //get nodo albero
+        nodoAlbero = new NodoAlbero(mUbicazioneCantiere);
+
+        readTasks(nodoAlbero);
 
     }
 
