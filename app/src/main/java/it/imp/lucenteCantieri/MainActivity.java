@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     TextView mTextViewTitle;
     ImageView mNfcImgView;
     ImageView mWriteTagNFC;
+    ImageView logo;
     RecyclerView levelRecycleView;
     RecyclerView taskRecyclerView;
     DrawerLayout mDrawer;
@@ -105,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     void initView(){
         //init UI
+        logo = findViewById(R.id.logo);
+
+
         errorLayout = findViewById(R.id.errorLayout);
 
         toolbar = findViewById(R.id.toolbar);
@@ -156,6 +160,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         refreshDrawer(true);
 
         //observables
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    //reset
+                    mFilterSelected.clear();
+                    mUbicazioniText.setText("Nessuna ubicazione selezionata");
+
+                    nodoAlbero = null;
+
+                    Toast.makeText(MainActivity.this, "Reset filtri eseguito", Toast.LENGTH_LONG).show();
+
+                }
+        });
+
+
         mNfcImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
